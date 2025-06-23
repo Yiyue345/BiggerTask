@@ -1,7 +1,9 @@
 import 'package:biggertask/routes/homepage_base_route.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
-void main() {
+Future<void> main() async {
+  await dotenv.load(fileName: '.env'); // 加载环境变量
   runApp(const MyApp());
 }
 
