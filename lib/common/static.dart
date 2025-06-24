@@ -15,5 +15,4 @@ class Global {
 
   static bool isLogin = false;
 
-  // Add more global variables as needed
 }
