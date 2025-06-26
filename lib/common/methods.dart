@@ -1,7 +1,7 @@
 import 'package:dio/dio.dart';
 
 class Methods {
-  static Future<Map<String, dynamic>?> getUserInfo(String token) async {
+  static Future<Map<String, dynamic>?> getUserInfo(String? token) async {
     // 第三发请求，获取用户信息
 
     try {

@@ -3,15 +3,16 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:webview_flutter/webview_flutter.dart';
+import 'package:webview_flutter_android/webview_flutter_android.dart';
 
 class GitHubLogin extends StatefulWidget {
   final Function(String token, Map<String, dynamic> userInfo) onLoginSuccess;
   final Function(String error) onLoginError;
   const GitHubLogin({
-    Key? key,
+    super.key,
     required this.onLoginSuccess,
     required this.onLoginError,
-  }) : super(key: key);
+  });
 
   @override
   _GitHubLoginState createState() => _GitHubLoginState();
@@ -23,12 +24,25 @@ class _GitHubLoginState extends State<GitHubLogin> {
   final String clientId = dotenv.env['GITHUB_CLIENT_ID']!;
   final String clientSecret = dotenv.env['GITHUB_CLIENT_SECRET']!;
   final String redirectUrl = 'http://127.0.0.1:4567/callback';
+  late final WebViewCookieManager _cookieManager;
   bool _isLoading = true;
 
   @override
   void initState() {
     super.initState();
+    _cookieManager = WebViewCookieManager();
+    _clearBrowserData();
     _setupWebViewController();
+  }
+
+  Future<void> _clearBrowserData() async {
+    await _cookieManager.clearCookies();
+
+    if (WebViewPlatform.instance is AndroidWebViewPlatform) {
+      final androidController = _controller.platform as AndroidWebViewController;
+      await androidController.clearCache();
+      await androidController.clearLocalStorage();
+    }
   }
 
   void _setupWebViewController() {

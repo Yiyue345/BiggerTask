@@ -16,16 +16,17 @@ class _SettingsRouteState extends State<SettingsRoute> {
       appBar: AppBar(
         title: Text('设置'),
       ),
-      body: Scrollbar(
-          child: SingleChildScrollView(
-            child: Column(
-              children: [
-                ListTile(
-                  title: Text('ciallo'),
-                )
-              ],
-            ),
+      body: ListView(
+        children: [
+          ListTile(
+            leading: Icon(Icons.language),
+            title: Text('语言'),
+          ),
+          ListTile(
+            leading: Icon(Icons.color_lens),
+            title: Text('主题'),
           )
+        ],
       ),
     );
   }

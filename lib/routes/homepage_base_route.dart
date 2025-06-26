@@ -2,10 +2,12 @@ import 'dart:convert';
 
 import 'package:biggertask/common/static.dart';
 import 'package:biggertask/routes/explore_route.dart';
+import 'package:biggertask/routes/search_page.dart';
 import 'package:biggertask/routes/settings_route.dart';
 import 'package:biggertask/routes/user_info_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:get/get.dart';
 import 'package:icons_plus/icons_plus.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -63,9 +65,15 @@ class _HomepageBaseRouteState extends State<HomepageBaseRoute> {
       appBar: AppBar(
         title: Text('首页'),
         actions: [
+          if (_selectedIndex == 0) IconButton(
+              onPressed: () {
+                Get.to(SearchPage());
+              },
+              icon: Icon(Icons.search)
+          ),
           if (_selectedIndex == 1) IconButton(
               onPressed: () {
-                Navigator.pushNamed(context, 'settings');
+                Get.toNamed('settings');
               }, 
               icon: Icon(Icons.settings)
           )
@@ -106,5 +114,7 @@ class _HomepageBaseRouteState extends State<HomepageBaseRoute> {
       _selectedIndex = index;
     });
   }
+
+
 
 }
