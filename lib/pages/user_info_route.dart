@@ -9,6 +9,7 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:icons_plus/icons_plus.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:get/get.dart';
 
 import '../common/methods.dart';
 
@@ -71,7 +72,7 @@ class _UserInfoRouteState extends State<UserInfoRoute> {
                     leading: Icon(OctIcons.repo),
                     title: Text('仓库'),
                     onTap: () {
-
+                      Get.toNamed('my_repos');
                     },
                   ),
 
@@ -157,13 +158,9 @@ class _UserInfoRouteState extends State<UserInfoRoute> {
         )
       );
 
-
-
     } catch (e) {
       Fluttertoast.showToast(msg: '登录过程出错: $e');
     }
-
-
 
   }
 

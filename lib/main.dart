@@ -1,4 +1,5 @@
 import 'package:biggertask/routes/homepage_base_route.dart';
+import 'package:biggertask/routes/repos_route.dart';
 import 'package:biggertask/routes/settings_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
@@ -24,6 +25,7 @@ class MyApp extends StatelessWidget {
       routes: {
         'homepage': (context) => HomepageBaseRoute(),
         'settings': (context) => SettingsRoute(),
+        'my_repos': (context) => RepositoriesRoute()
 
       },
     );

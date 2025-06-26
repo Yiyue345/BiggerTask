@@ -1,10 +1,10 @@
 import 'dart:convert';
 
 import 'package:biggertask/common/static.dart';
-import 'package:biggertask/routes/explore_route.dart';
+import 'package:biggertask/pages/explore_route.dart';
 import 'package:biggertask/routes/search_page.dart';
 import 'package:biggertask/routes/settings_route.dart';
-import 'package:biggertask/routes/user_info_route.dart';
+import 'package:biggertask/pages/user_info_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:get/get.dart';
