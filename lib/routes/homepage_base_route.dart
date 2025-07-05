@@ -67,7 +67,7 @@ class _HomepageBaseRouteState extends State<HomepageBaseRoute> {
         actions: [
           if (_selectedIndex == 0) IconButton(
               onPressed: () {
-                Get.to(SearchPage());
+                Get.to(() => SearchPage());
               },
               icon: Icon(Icons.search)
           ),

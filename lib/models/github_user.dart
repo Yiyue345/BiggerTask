@@ -2,40 +2,75 @@ import 'package:json_annotation/json_annotation.dart';
 
 part 'github_user.g.dart';
 
+
 @JsonSerializable()
-class GitHubUser {
-  final String login;
-  final int id;
-  @JsonKey(name: 'node_id')
-  final String nodeId;
+class SimpleGitHubUser {
   @JsonKey(name: 'avatar_url')
   final String avatarUrl;
-  @JsonKey(name: 'gravatar_id')
-  final String gravatarId;
-  final String url;
-  @JsonKey(name: 'html_url')
-  final String htmlUrl;
+  @JsonKey(name: 'events_url')
+  final String eventsUrl;
   @JsonKey(name: 'followers_url')
   final String followersUrl;
   @JsonKey(name: 'following_url')
   final String followingUrl;
   @JsonKey(name: 'gists_url')
   final String gistsUrl;
+  @JsonKey(name: 'gravatar_id')
+  final String gravatarId;
+  @JsonKey(name: 'html_url')
+  final String htmlUrl;
+  final int id;
+  final String login;
+  @JsonKey(name: 'node_id')
+  final String nodeId;
+  @JsonKey(name: 'organizations_url')
+  final String organizationsUrl;
+  @JsonKey(name: 'received_events_url')
+  final String receivedEventsUrl;
+  @JsonKey(name: 'repos_url')
+  final String reposUrl;
+  @JsonKey(name: 'site_admin')
+  final bool siteAdmin;
   @JsonKey(name: 'starred_url')
   final String starredUrl;
   @JsonKey(name: 'subscriptions_url')
   final String subscriptionsUrl;
-  @JsonKey(name: 'organizations_url')
-  final String organizationsUrl;
-  @JsonKey(name: 'repos_url')
-  final String reposUrl;
-  @JsonKey(name: 'events_url')
-  final String eventsUrl;
-  @JsonKey(name: 'received_events_url')
-  final String receivedEventsUrl;
   final String type;
-  @JsonKey(name: 'site_admin')
-  final bool siteAdmin;
+  final String url;
+  @JsonKey(name: 'starred_at')
+  final String? starredAt;
+
+  SimpleGitHubUser({
+    required this.avatarUrl,
+    required this.eventsUrl,
+    required this.followersUrl,
+    required this.followingUrl,
+    required this.gistsUrl,
+    required this.gravatarId,
+    required this.htmlUrl,
+    required this.id,
+    required this.login,
+    required this.nodeId,
+    required this.organizationsUrl,
+    required this.receivedEventsUrl,
+    required this.reposUrl,
+    required this.siteAdmin,
+    required this.starredUrl,
+    required this.subscriptionsUrl,
+    required this.type,
+    required this.url,
+    this.starredAt,
+  });
+
+  factory SimpleGitHubUser.fromJson(Map<String, dynamic> json) =>
+      _$SimpleGitHubUserFromJson(json);
+
+  Map<String, dynamic> toJson() => _$SimpleGitHubUserToJson(this);
+}
+
+
+@JsonSerializable()
+class GitHubUser extends SimpleGitHubUser {
   final String? name;
   final String? company;
   final String? blog;
@@ -55,38 +90,27 @@ class GitHubUser {
   final String createdAt;
   @JsonKey(name: 'updated_at')
   final String updatedAt;
-  @JsonKey(name: 'private_gists')
-  final int privateGists;
-  @JsonKey(name: 'total_private_repos')
-  final int totalPrivateRepos;
-  @JsonKey(name: 'owned_private_repos')
-  final int ownedPrivateRepos;
-  @JsonKey(name: 'disk_usage')
-  final int diskUsage;
-  final int collaborators;
-  @JsonKey(name: 'two_factor_authentication')
-  final bool twoFactorAuthentication;
-  final GithubPlan? plan;
 
   GitHubUser({
-    required this.login,
-    required this.id,
-    required this.nodeId,
-    required this.avatarUrl,
-    required this.gravatarId,
-    required this.url,
-    required this.htmlUrl,
-    required this.followersUrl,
-    required this.followingUrl,
-    required this.gistsUrl,
-    required this.starredUrl,
-    required this.subscriptionsUrl,
-    required this.organizationsUrl,
-    required this.reposUrl,
-    required this.eventsUrl,
-    required this.receivedEventsUrl,
-    required this.type,
-    required this.siteAdmin,
+    required super.avatarUrl,
+    required super.eventsUrl,
+    required super.followersUrl,
+    required super.followingUrl,
+    required super.gistsUrl,
+    required super.gravatarId,
+    required super.htmlUrl,
+    required super.id,
+    required super.login,
+    required super.nodeId,
+    required super.organizationsUrl,
+    required super.receivedEventsUrl,
+    required super.reposUrl,
+    required super.siteAdmin,
+    required super.starredUrl,
+    required super.subscriptionsUrl,
+    required super.type,
+    required super.url,
+    super.starredAt,
     this.name,
     this.company,
     this.blog,
@@ -101,16 +125,12 @@ class GitHubUser {
     required this.following,
     required this.createdAt,
     required this.updatedAt,
-    required this.privateGists,
-    required this.totalPrivateRepos,
-    required this.ownedPrivateRepos,
-    required this.diskUsage,
-    required this.collaborators,
-    required this.twoFactorAuthentication,
-    this.plan,
   });
 
-  factory GitHubUser.fromJson(Map<String, dynamic> json) => _$GitHubUserFromJson(json);
+  factory GitHubUser.fromJson(Map<String, dynamic> json) =>
+      _$GitHubUserFromJson(json);
+
+  @override
   Map<String, dynamic> toJson() => _$GitHubUserToJson(this);
 }
 
@@ -129,6 +149,8 @@ class GithubPlan {
     required this.collaborators,
   });
 
-  factory GithubPlan.fromJson(Map<String, dynamic> json) => _$GithubPlanFromJson(json);
+  factory GithubPlan.fromJson(Map<String, dynamic> json) =>
+      _$GithubPlanFromJson(json);
+
   Map<String, dynamic> toJson() => _$GithubPlanToJson(this);
 }

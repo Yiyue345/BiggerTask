@@ -1,4 +1,6 @@
+import 'package:biggertask/routes/change_theme_route.dart';
 import 'package:biggertask/routes/homepage_base_route.dart';
+import 'package:biggertask/routes/language_route.dart';
 import 'package:biggertask/routes/repos_route.dart';
 import 'package:biggertask/routes/settings_route.dart';
 import 'package:flutter/material.dart';
@@ -25,8 +27,9 @@ class MyApp extends StatelessWidget {
       routes: {
         'homepage': (context) => HomepageBaseRoute(),
         'settings': (context) => SettingsRoute(),
-        'my_repos': (context) => RepositoriesRoute()
-
+        'my_repos': (context) => RepositoriesRoute(),
+        'language': (context) => LanguageRoute(),
+        'theme': (context) => ThemeRoute(),
       },
     );
   }

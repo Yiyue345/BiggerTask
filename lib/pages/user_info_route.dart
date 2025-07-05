@@ -187,7 +187,11 @@ class _UserInfoRouteState extends State<UserInfoRoute> {
   }
 
   Future<void> _onRefresh() async {
-    await Methods.getUserInfo(Global.token);
+    final userInfo = await Methods.getMyInfo(Global.token);
+    if (userInfo != null) {
+      Global.gitHubUser = GitHubUser.fromJson(userInfo);
+    }
+
     setState(() {
 
     });

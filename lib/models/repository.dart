@@ -102,7 +102,7 @@ class Repository {
   @JsonKey(name: 'forks_count')
   final int forksCount;
   @JsonKey(name: 'stargazers_count')
-  final int stargazersCount;
+  int stargazersCount;
   @JsonKey(name: 'watchers_count')
   final int watchersCount;
   final int size;

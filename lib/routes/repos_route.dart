@@ -1,6 +1,6 @@
 
 import 'package:biggertask/models/repository.dart';
-import 'package:biggertask/routes/Repository_route.dart';
+import 'package:biggertask/routes/repository_route.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -32,7 +32,7 @@ class _RepositoriesRouteState extends State<RepositoriesRoute> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-                Global.gitHubUser!.login,
+                '${Global.gitHubUser!.login} 的',
                 style: TextStyle(fontSize: 12)
             ),
             Text('仓库列表', style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold)),
@@ -91,7 +91,7 @@ class _RepositoriesRouteState extends State<RepositoriesRoute> {
                             ],
                           ),
                           onTap: () {
-                            Get.to(RepositoryRoute(repository: repo));
+                            Get.to(() => RepositoryRoute(repository: repo));
                           }
                         );
                       }
