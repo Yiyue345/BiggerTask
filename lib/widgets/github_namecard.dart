@@ -1,7 +1,8 @@
 import 'package:biggertask/common/methods.dart';
 import 'package:biggertask/common/static.dart';
 import 'package:biggertask/models/github_user.dart';
-import 'package:biggertask/routes/followers_route.dart';
+import 'package:biggertask/routes/follow_route.dart';
+import 'package:biggertask/routes/user_info_route.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:icons_plus/icons_plus.dart';
@@ -68,8 +69,8 @@ class GitHubNameCard extends StatelessWidget {
                 TextButton(
                   onPressed: () {
                     Get.to(() => FollowersRoute(
-                        login: Global.gitHubUser!.login,
-                        followersCount: Global.gitHubUser!.followers)
+                        login: user!.login,
+                        followersCount: user!.followers)
                     );
                   },
                   style: ButtonStyle(
@@ -91,12 +92,32 @@ class GitHubNameCard extends StatelessWidget {
                     ),
                   ),
                   ),
-                Text(
-                    ' | ${user?.following ?? 0} 关注',
-                    style: TextStyle(
+                Text(' | ', style: TextStyle(color: Colors.grey, fontSize: 14),),
+                TextButton(
+                  onPressed: () {
+                    Get.to(() => FollowingRoute(
+                        login: user!.login,
+                        followingCount: user!.following)
+                    );
+                  },
+                  style: ButtonStyle(
+                    minimumSize: WidgetStateProperty.all(Size.zero),
+                    padding: WidgetStateProperty.all(EdgeInsets.zero),
+                    tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                    overlayColor: WidgetStateProperty.all(Colors.transparent), // 移除点击高亮
+                    splashFactory: NoSplash.splashFactory,
+                    visualDensity: VisualDensity.compact,
+                    shape: WidgetStateProperty.all(RoundedRectangleBorder(
+                      borderRadius: BorderRadius.zero, // 移除圆角
+                    )),
+                  ),
+                    child: Text(
+                        '${user?.following ?? 0} 关注',
+                      style: TextStyle(
                         color: Colors.grey,
                         fontSize: 14
-                    )
+                      ),
+                    ),
                 ),
               ],
             )
@@ -108,46 +129,67 @@ class GitHubNameCard extends StatelessWidget {
   }
 }
 
-class GitHubUserTile extends StatelessWidget {
+class GitHubUserTile extends StatefulWidget{
   final SimpleGitHubUser? user;
-
 
   GitHubUserTile({super.key, required this.user});
 
   @override
-  Widget build(BuildContext context) {
+  State<StatefulWidget> createState() => _GitHubUserTileState();
+}
 
+class _GitHubUserTileState extends State<GitHubUserTile> with AutomaticKeepAliveClientMixin {
+  late SimpleGitHubUser? user;
+
+  @override
+  bool get wantKeepAlive => true;
+
+  @override
+  void initState() {
+    super.initState();
+    user = widget.user;
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    super.build(context);
     return FutureBuilder(
         future: Methods.getUserInfo(user!.login, Global.token),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return ListTile(
-              leading: CircleAvatar(
-                radius: 20,
-                backgroundImage: user?.avatarUrl != null
-                    ? NetworkImage(user!.avatarUrl)
-                    : null,
-                child: user?.avatarUrl == null
-                    ? Icon(Icons.account_circle, size: 40)
-                    : null,
-              ),
-              title: Text(user!.login),
-              subtitle: Text('加载中...'),
+                leading: CircleAvatar(
+                  radius: 20,
+                  backgroundImage: user?.avatarUrl != null
+                      ? NetworkImage(user!.avatarUrl)
+                      : null,
+                  child: user?.avatarUrl == null
+                      ? Icon(Icons.account_circle, size: 40)
+                      : null,
+                ),
+                title: Text(user!.login),
+                subtitle: Text('加载中...'),
+                onTap: () {
+                  Get.to(() => UserInfoRoute(username: user!.login,));
+                }
             );
           }
           else if (snapshot.hasError) {
             return ListTile(
-              leading: CircleAvatar(
-                radius: 20,
-                backgroundImage: user?.avatarUrl != null
-                    ? NetworkImage(user!.avatarUrl)
-                    : null,
-                child: user?.avatarUrl == null
-                    ? Icon(Icons.account_circle, size: 40)
-                    : null,
-              ),
-              title: Text(user!.login),
-              subtitle: Text('加载失败'),
+                leading: CircleAvatar(
+                  radius: 20,
+                  backgroundImage: user?.avatarUrl != null
+                      ? NetworkImage(user!.avatarUrl)
+                      : null,
+                  child: user?.avatarUrl == null
+                      ? Icon(Icons.account_circle, size: 40)
+                      : null,
+                ),
+                title: Text(user!.login),
+                subtitle: Text('加载失败'),
+                onTap: () {
+                  Get.to(() => UserInfoRoute(username: user!.login,));
+                }
             );
           }
           else {
@@ -168,23 +210,26 @@ class GitHubUserTile extends StatelessWidget {
                     ),
                     SizedBox(width: 4),
                     Text(
-                        gitHubUser.login,
+                      gitHubUser.login,
                       style: TextStyle(
-                        color: Colors.grey
+                          color: Colors.grey
                       ),
                     )
                   ],
-
-
                 ],
               ),
               subtitle: Text(
-                  gitHubUser.bio ?? '无简介',
+                gitHubUser.bio ?? '无简介',
                 maxLines: 2,
               ),
+              onTap: () {
+                Get.to(() => UserInfoRoute(username: user!.login,));
+              },
             );
           }
         }
     );
   }
+
+
 }

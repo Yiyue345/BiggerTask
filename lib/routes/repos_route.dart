@@ -1,4 +1,5 @@
 
+import 'package:biggertask/models/github_user.dart';
 import 'package:biggertask/models/repository.dart';
 import 'package:biggertask/routes/repository_route.dart';
 import 'package:dio/dio.dart';
@@ -10,6 +11,11 @@ import 'package:get/get.dart';
 import '../common/static.dart';
 
 class RepositoriesRoute extends StatefulWidget {
+
+  const RepositoriesRoute({super.key, required this.user});
+
+  final GitHubUser user;
+
   @override
   State<StatefulWidget> createState() => _RepositoriesRouteState();
 }
@@ -17,10 +23,12 @@ class RepositoriesRoute extends StatefulWidget {
 class _RepositoriesRouteState extends State<RepositoriesRoute> {
   Dio dio = Dio();
   List<Repository> repositories = [];
+  late GitHubUser _user;
 
   @override
   void initState() {
     super.initState();
+    _user = widget.user;
   }
 
   @override
@@ -32,7 +40,7 @@ class _RepositoriesRouteState extends State<RepositoriesRoute> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-                '${Global.gitHubUser!.login} 的',
+                '${_user.login} 的',
                 style: TextStyle(fontSize: 12)
             ),
             Text('仓库列表', style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold)),
@@ -44,7 +52,9 @@ class _RepositoriesRouteState extends State<RepositoriesRoute> {
             await _initRepositories();
           },
           child: FutureBuilder<List<Repository>>(
-              future: _getOwnRepositories(),
+              future: _user.login == Global.gitHubUser?.login // 如果是登录用户的仓库
+                  ? _getOwnRepositories()
+                  : _getRepositories(),
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
                   return Center(
@@ -130,9 +140,39 @@ class _RepositoriesRouteState extends State<RepositoriesRoute> {
     }
   }
 
+  Future<List<Repository>> _getRepositories() async {
+    Dio dio = Dio();
+    try {
+      final response = await dio.get(
+          'https://api.github.com/users/${_user.login}/repos',
+          options: Options(
+              headers: {
+                'Authorization' : 'Bearer ${Global.token}',
+              }
+          )
+      );
+
+      if (response.statusCode == 200) {
+        final List<dynamic> jsonList = response.data; // 已经是 List<dynamic> 了
+        // print(response.data);
+        return jsonList.map((json) => Repository.fromJson(json)).toList();
+      }
+      else {
+        throw Exception('Failed to load repositories: ${response.statusCode}');
+      }
+    } catch (e) {
+      Fluttertoast.showToast(msg: 'Error fetching repositories: $e');
+      print('Error fetching repositories: $e');
+      return [];
+    }
+  }
+
+
   Future<void> _initRepositories() async {
     try {
-      repositories = await _getOwnRepositories();
+      repositories = _user.login == Global.gitHubUser?.login
+          ? await _getOwnRepositories()
+          : await _getRepositories();
       setState(() {});
     } catch (e) {
       Fluttertoast.showToast(msg: 'Error initializing repositories: $e');

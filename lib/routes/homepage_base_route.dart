@@ -3,12 +3,10 @@ import 'dart:convert';
 import 'package:biggertask/common/static.dart';
 import 'package:biggertask/pages/explore_route.dart';
 import 'package:biggertask/routes/search_page.dart';
-import 'package:biggertask/routes/settings_route.dart';
-import 'package:biggertask/pages/user_info_route.dart';
+import 'package:biggertask/pages/my_info_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:get/get.dart';
-import 'package:icons_plus/icons_plus.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../models/github_user.dart';
@@ -24,7 +22,7 @@ class _HomepageBaseRouteState extends State<HomepageBaseRoute> {
 
   final List<Widget> _pages = [
     ExploreRoute(),
-    UserInfoRoute()
+    MyInfoRoute()
   ];
 
   late PageController _pageController;

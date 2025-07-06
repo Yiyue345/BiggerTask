@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:biggertask/common/static.dart';
 import 'package:biggertask/models/github_user.dart';
+import 'package:biggertask/routes/repos_route.dart';
 import 'package:biggertask/widgets/github_login.dart';
 import 'package:biggertask/widgets/github_namecard.dart';
 import 'package:flutter/material.dart';
@@ -13,14 +14,14 @@ import 'package:get/get.dart';
 
 import '../common/methods.dart';
 
-class UserInfoRoute extends StatefulWidget {
-  const UserInfoRoute({super.key});
+class MyInfoRoute extends StatefulWidget {
+  const MyInfoRoute({super.key});
 
   @override
-  State<UserInfoRoute> createState() => _UserInfoRouteState();
+  State<MyInfoRoute> createState() => _MyInfoRouteState();
 }
 
-class _UserInfoRouteState extends State<UserInfoRoute> {
+class _MyInfoRouteState extends State<MyInfoRoute> {
 
 
   @override
@@ -72,7 +73,7 @@ class _UserInfoRouteState extends State<UserInfoRoute> {
                     leading: Icon(OctIcons.repo),
                     title: Text('仓库'),
                     onTap: () {
-                      Get.toNamed('my_repos');
+                      Get.to(() => RepositoriesRoute(user: Global.gitHubUser!));
                     },
                   ),
 

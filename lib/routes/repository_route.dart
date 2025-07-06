@@ -20,11 +20,13 @@ class RepositoryRoute extends StatefulWidget {
 class _RepositoryRouteState extends State<RepositoryRoute> {
 
   bool? _isStarred;
+  late final Future<RepositoryReadme?> _readmeFuture;
 
   @override
   void initState() {
     super.initState();
     _checkStarredStatus();
+    _readmeFuture = _getReadme(); // 防止 futureBuilder 重复调用
   }
 
   @override
@@ -146,7 +148,7 @@ class _RepositoryRouteState extends State<RepositoryRoute> {
 
 
               FutureBuilder(
-                  future: _getReadme(),
+                  future: _readmeFuture,
                   builder: (context, snapshot) {
                     if (snapshot.connectionState == ConnectionState.waiting) {
                       return Center(
