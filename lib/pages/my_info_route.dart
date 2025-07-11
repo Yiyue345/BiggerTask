@@ -75,6 +75,9 @@ class _MyInfoRouteState extends State<MyInfoRoute> {
                     onTap: () {
                       Get.to(() => RepositoriesRoute(user: Global.gitHubUser!));
                     },
+                      trailing: Text(
+                        (Global.gitHubUser!.publicRepos + (Global.gitHubUser!.privateRepos == null ? 0 : Global.gitHubUser!.privateRepos!)).toString(),
+                      )
                   ),
 
                   ListTile(

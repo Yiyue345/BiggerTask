@@ -80,6 +80,7 @@ GitHubUser _$GitHubUserFromJson(Map<String, dynamic> json) => GitHubUser(
   hireable: json['hireable'] as bool?,
   bio: json['bio'] as String?,
   twitterUsername: json['twitter_username'] as String?,
+  privateRepos: (json['owned_private_repos'] as num?)?.toInt(),
   publicRepos: (json['public_repos'] as num).toInt(),
   publicGists: (json['public_gists'] as num).toInt(),
   followers: (json['followers'] as num).toInt(),
@@ -123,6 +124,7 @@ Map<String, dynamic> _$GitHubUserToJson(GitHubUser instance) =>
       'following': instance.following,
       'created_at': instance.createdAt,
       'updated_at': instance.updatedAt,
+      'owned_private_repos': instance.privateRepos,
     };
 
 GithubPlan _$GithubPlanFromJson(Map<String, dynamic> json) => GithubPlan(

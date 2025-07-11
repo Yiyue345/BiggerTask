@@ -90,6 +90,8 @@ class GitHubUser extends SimpleGitHubUser {
   final String createdAt;
   @JsonKey(name: 'updated_at')
   final String updatedAt;
+  @JsonKey(name: 'owned_private_repos')
+  final int? privateRepos;
 
   GitHubUser({
     required super.avatarUrl,
@@ -119,6 +121,7 @@ class GitHubUser extends SimpleGitHubUser {
     this.hireable,
     this.bio,
     this.twitterUsername,
+    this.privateRepos,
     required this.publicRepos,
     required this.publicGists,
     required this.followers,

@@ -1,7 +1,9 @@
 
+import 'package:biggertask/common/methods.dart';
 import 'package:biggertask/models/github_user.dart';
 import 'package:biggertask/models/repository.dart';
 import 'package:biggertask/routes/repository_route.dart';
+import 'package:biggertask/widgets/keep_alive_wrapper.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -24,11 +26,15 @@ class _RepositoriesRouteState extends State<RepositoriesRoute> {
   Dio dio = Dio();
   List<Repository> repositories = [];
   late GitHubUser _user;
+  late Future<List<Repository>> _repositoriesFuture;
 
   @override
   void initState() {
     super.initState();
     _user = widget.user;
+    _repositoriesFuture = _user.login == Global.gitHubUser?.login // 如果是登录用户的仓库
+        ? _getOwnRepositories()
+        : _getRepositories();
   }
 
   @override
@@ -52,9 +58,7 @@ class _RepositoriesRouteState extends State<RepositoriesRoute> {
             await _initRepositories();
           },
           child: FutureBuilder<List<Repository>>(
-              future: _user.login == Global.gitHubUser?.login // 如果是登录用户的仓库
-                  ? _getOwnRepositories()
-                  : _getRepositories(),
+              future: _repositoriesFuture,
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
                   return Center(
@@ -86,24 +90,52 @@ class _RepositoriesRouteState extends State<RepositoriesRoute> {
                   );
                 }
                 else {
+
                   return ListView.builder(
                     itemCount: snapshot.data!.length,
                       itemBuilder: (context, index) {
                         final repo = snapshot.data![index];
-                        return ListTile(
-                          title: Text(repo.name),
-                          subtitle: Text(repo.description ?? '无描述'),
-                          trailing: Row(
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              Icon(OctIcons.star, size: 16,),
-                              Text(' ${repo.stargazersCount}'),
-                            ],
-                          ),
-                          onTap: () {
-                            Get.to(() => RepositoryRoute(repository: repo));
-                          }
+                        return KeepAliveWrapper(
+                            child: ListTile(
+                            title: Text(repo.name),
+                            subtitle: Text(repo.description ?? '无描述'),
+                            trailing: FutureBuilder(
+                                future: Methods.isStarred(repo.fullName, Global.token),
+                                builder: (context, starSnapshot) {
+                                  if (starSnapshot.connectionState == ConnectionState.done) {
+                                    bool isStarred = starSnapshot.data ?? false;
+                                    return Row(
+                                      mainAxisSize: MainAxisSize.min,
+                                      children: [
+                                        Icon(OctIcons.star, size: 16, color: isStarred ? Colors.amber : null),
+                                        Text(' ${repo.stargazersCount}',
+                                            style: TextStyle(
+                                              color: isStarred ? Colors.amber : null,
+                                            )
+                                        ),
+
+                                      ],
+                                    );
+                                  }
+                                  else {
+                                    return Row(
+                                      mainAxisSize: MainAxisSize.min,
+                                      children: [
+                                        Icon(OctIcons.star, size: 16,),
+                                        Text(' ${repo.stargazersCount}'),
+
+                                      ],
+                                    );
+                                  }
+                                }
+                            ),
+                            onTap: () {
+                              Get.to(() => RepositoryRoute(repository: repo));
+                            }
+                        )
                         );
+
+
                       }
                   );
                 }
@@ -160,7 +192,8 @@ class _RepositoriesRouteState extends State<RepositoriesRoute> {
       else {
         throw Exception('Failed to load repositories: ${response.statusCode}');
       }
-    } catch (e) {
+    }
+    catch (e) {
       Fluttertoast.showToast(msg: 'Error fetching repositories: $e');
       print('Error fetching repositories: $e');
       return [];
@@ -180,4 +213,8 @@ class _RepositoriesRouteState extends State<RepositoriesRoute> {
     }
   }
 
+}
+
+extension on Repository {
+  void operator [](int other) {}
 }

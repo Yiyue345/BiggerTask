@@ -86,6 +86,9 @@ class _UserInfoRouteState extends State<UserInfoRoute> {
                       onTap: () {
                         Get.to(() => RepositoriesRoute(user: _user!));
                       },
+                      trailing: Text(
+                          (_user!.publicRepos + (_user!.privateRepos == null ? 0 : _user!.privateRepos!)).toString(),
+                      ),
                     ),
                   ],
                 ),
