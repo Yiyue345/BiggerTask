@@ -76,7 +76,7 @@ class _MyInfoRouteState extends State<MyInfoRoute> {
                       Get.to(() => RepositoriesRoute(user: Global.gitHubUser!));
                     },
                       trailing: Text(
-                        (Global.gitHubUser!.publicRepos + (Global.gitHubUser!.privateRepos == null ? 0 : Global.gitHubUser!.privateRepos!)).toString(),
+                        (Global.gitHubUser!.publicRepos + (Global.gitHubUser!.privateRepos == null ? 0 : Global.gitHubUser!.privateRepos! + 1)).toString(),
                       )
                   ),
 

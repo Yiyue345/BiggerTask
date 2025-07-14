@@ -215,6 +215,3 @@ class _RepositoriesRouteState extends State<RepositoriesRoute> {
 
 }
 
-extension on Repository {
-  void operator [](int other) {}
-}
