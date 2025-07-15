@@ -47,13 +47,12 @@ class _MyInfoRouteState extends State<MyInfoRoute> {
                   ),
                   if (Global.gitHubUser?.bio != null)...[
                     Divider(
-                      color: Colors.grey[300],
+                      color: Theme.of(context).colorScheme.primary,
                       height: 0,
                     ),
                     ListTile(
                       leading: Icon(
                           Icons.info_outline,
-                        color: Colors.grey[700],
                         size: 22,
                       ),
                       title: Text(
@@ -65,12 +64,12 @@ class _MyInfoRouteState extends State<MyInfoRoute> {
                       // tileColor: Colors.grey[200],
                     ),
                     Divider(
-                      color: Colors.grey[300],
+                      color: Theme.of(context).colorScheme.primary,
                       height: 0,
                     ),
                   ],
                   ListTile(
-                    leading: Icon(OctIcons.repo),
+                    leading: Icon(OctIcons.repo,),
                     title: Text('仓库'),
                     onTap: () {
                       Get.to(() => RepositoriesRoute(user: Global.gitHubUser!));
@@ -81,7 +80,7 @@ class _MyInfoRouteState extends State<MyInfoRoute> {
                   ),
 
                   ListTile(
-                    leading: Icon(Icons.exit_to_app),
+                    leading: Icon(Icons.exit_to_app,),
                     title: Text('退出'),
                     onTap: () async {
                       bool? exit = await showDialog(

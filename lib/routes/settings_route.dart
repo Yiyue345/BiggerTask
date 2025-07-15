@@ -32,7 +32,7 @@ class _SettingsRouteState extends State<SettingsRoute> {
             onTap: () {
               Get.toNamed('theme');
             },
-          )
+          ),
         ],
       ),
     );

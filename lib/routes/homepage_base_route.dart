@@ -4,6 +4,7 @@ import 'package:biggertask/common/static.dart';
 import 'package:biggertask/pages/explore_route.dart';
 import 'package:biggertask/routes/search_page.dart';
 import 'package:biggertask/pages/my_info_route.dart';
+import 'package:biggertask/routes/settings_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:get/get.dart';
@@ -71,7 +72,7 @@ class _HomepageBaseRouteState extends State<HomepageBaseRoute> {
           ),
           if (_selectedIndex == 1) IconButton(
               onPressed: () {
-                Get.toNamed('settings');
+                Get.to(() => SettingsRoute());
               }, 
               icon: Icon(Icons.settings)
           )

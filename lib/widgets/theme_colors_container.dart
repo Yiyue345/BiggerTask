@@ -4,25 +4,35 @@ import 'package:flutter/material.dart';
 class ThemeColorsContainer extends StatelessWidget {
   final Color primaryColor;
   final Color secondaryColor;
-  final Color onSurfaceColor;
   final Color surfaceColor;
+  final Color errorColor;
 
   // 一堆用来回调(比如 setState)的函数
   final Function(Color color)? onPrimaryColorChanged;
   final Function(Color color)? onSecondaryColorChanged;
-  final Function(Color color)? onOnSurfaceColorChanged;
   final Function(Color color)? onSurfaceColorChanged;
+  final Function(Color color)? onErrorColorChanged;
+
+  final String primaryColorTitle;
+  final String secondaryColorTitle;
+  final String surfaceColorTitle;
+  final String errorColorTitle;
+
 
   const ThemeColorsContainer({
     super.key,
     required this.primaryColor,
     required this.secondaryColor,
-    required this.onSurfaceColor,
+    required this.errorColor,
     required this.surfaceColor,
     this.onPrimaryColorChanged,
     this.onSecondaryColorChanged,
-    this.onOnSurfaceColorChanged,
+    this.onErrorColorChanged,
     this.onSurfaceColorChanged,
+    this.primaryColorTitle = '选择主色',
+    this.secondaryColorTitle = '选择强调色',
+    this.surfaceColorTitle = '选择背景色',
+    this.errorColorTitle = '选择错误提示颜色',
   });
 
   @override
@@ -50,6 +60,7 @@ class ThemeColorsContainer extends StatelessWidget {
             flex: 580, // 对黄金分割的拙劣模仿
               child: Row(
                 children: [
+                  // 主色选择
                   Expanded(
                     flex: 580,
                       child: Container(
@@ -61,7 +72,7 @@ class ThemeColorsContainer extends StatelessWidget {
                           onTap: () async {
                             await ColorPicker(
                               color: primaryColor,
-                              title: Text('选择主色'),
+                              title: Text(primaryColorTitle),
                               // heading: Text('heading'),
                               subheading: Text('渐变色'),
                               opacitySubheading: Text('透明度'),
@@ -98,6 +109,7 @@ class ThemeColorsContainer extends StatelessWidget {
                   Spacer(
                     flex: 67,
                   ),
+                  // 强调色选择
                   Expanded(
                     flex: 345,
                       child: Container(
@@ -109,7 +121,7 @@ class ThemeColorsContainer extends StatelessWidget {
                           onTap: () async {
                             await ColorPicker(
                               color: secondaryColor,
-                              title: Text('选择强调色'),
+                              title: Text(secondaryColorTitle),
                               // heading: Text('heading'),
                               subheading: Text('渐变色'),
                               opacitySubheading: Text('透明度'),
@@ -152,24 +164,25 @@ class ThemeColorsContainer extends StatelessWidget {
               flex: 345,
               child: Row(
                 children: [
+                  // 背景色选择
                   Expanded(
                     flex: 580,
                     child: Container(
                       decoration: BoxDecoration(
-                          color: onSurfaceColor,
+                          color: surfaceColor,
                           borderRadius: BorderRadius.only(bottomLeft: Radius.circular(8))
                       ),
                       child: InkWell(
                         onTap: () async {
                           await ColorPicker(
-                            color: onSurfaceColor,
-                            title: Text('选择文字颜色'),
+                            color: surfaceColor,
+                            title: Text(surfaceColorTitle),
                             // heading: Text('heading'),
                             subheading: Text('渐变色'),
                             opacitySubheading: Text('透明度'),
                             onColorChanged: (color) {
-                              if (onOnSurfaceColorChanged != null) {
-                                onOnSurfaceColorChanged!(color);
+                              if (onSurfaceColorChanged != null) {
+                                onSurfaceColorChanged!(color);
                               }
                             },
                             pickersEnabled: const <ColorPickerType, bool>{
@@ -199,24 +212,25 @@ class ThemeColorsContainer extends StatelessWidget {
                   Spacer(
                     flex: 67,
                   ),
+                  // 错误状态颜色选择
                   Expanded(
                       flex: 345,
                       child: Container(
                         decoration: BoxDecoration(
-                            color: surfaceColor,
+                            color: errorColor,
                             borderRadius: BorderRadius.only(bottomRight: Radius.circular(8))
                         ),
                         child: InkWell(
                           onTap: () async {
                             await ColorPicker(
-                              color: surfaceColor,
-                              title: Text('选择背景色'),
+                              color: errorColor,
+                              title: Text(errorColorTitle),
                               // heading: Text('heading'),
                               subheading: Text('渐变色'),
                               opacitySubheading: Text('透明度'),
                               onColorChanged: (color) {
-                                if (onSurfaceColorChanged != null) {
-                                  onSurfaceColorChanged!(color);
+                                if (onErrorColorChanged != null) {
+                                  onErrorColorChanged!(color);
                                 }
                               },
                               pickersEnabled: const <ColorPickerType, bool>{

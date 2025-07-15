@@ -58,13 +58,13 @@ class _UserInfoRouteState extends State<UserInfoRoute> {
                     ),
                     if (_user?.bio != null)...[
                       Divider(
-                        color: Colors.grey[300],
+                        color: Theme.of(context).colorScheme.primary,
                         height: 0,
                       ),
                       ListTile(
                         leading: Icon(
                           Icons.info_outline,
-                          color: Colors.grey[700],
+                          color: Theme.of(context).colorScheme.secondary,
                           size: 22,
                         ),
                         title: Text(
@@ -76,12 +76,15 @@ class _UserInfoRouteState extends State<UserInfoRoute> {
                         // tileColor: Colors.grey[200],
                       ),
                       Divider(
-                        color: Colors.grey[300],
+                        color: Theme.of(context).colorScheme.primary,
                         height: 0,
                       ),
                     ],
                     ListTile(
-                      leading: Icon(OctIcons.repo),
+                      leading: Icon(
+                          OctIcons.repo,
+                        color: Theme.of(context).colorScheme.secondary,
+                      ),
                       title: Text('仓库'),
                       onTap: () {
                         Get.to(() => RepositoriesRoute(user: _user!));
