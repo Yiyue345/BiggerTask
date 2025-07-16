@@ -276,3 +276,62 @@ class ThemeColorsContainer extends StatelessWidget {
   }
 
 }
+
+class SmallThemeColorsContainer extends StatelessWidget {
+  final Color primaryColor;
+  final Color? secondaryColor;
+  final Color? surfaceColor;
+  final Color? errorColor;
+  final Color? onPrimaryColor;
+
+  final bool lightModeActive;
+  final bool darkModeActive;
+
+  final bool selected;
+
+  final Function()? onTap;
+
+  SmallThemeColorsContainer({
+    super.key,
+    required this.primaryColor,
+    this.secondaryColor,
+    this.errorColor,
+    this.surfaceColor,
+    this.onPrimaryColor,
+    this.lightModeActive = false,
+    this.darkModeActive = false,
+    this.selected = false,
+    this.onTap
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+        padding: EdgeInsets.symmetric(horizontal: 4),
+      child: Container(
+        width: 24,
+        height: 24,
+        decoration: BoxDecoration(
+          color: primaryColor,
+          borderRadius: BorderRadius.circular(8.0),
+          border: Border.all(
+            color: (lightModeActive || darkModeActive)
+                ? lightModeActive
+                ? Colors.white : Colors.black
+                : Colors.transparent,
+            width: 1.0,
+          ),
+        ),
+        child: GestureDetector(
+          onTap: onTap,
+          child: selected
+              ? Icon(
+            Icons.edit,
+            color: onPrimaryColor,
+            size: 16,
+          ) : null,
+        ),
+      ),
+    );
+  }
+}

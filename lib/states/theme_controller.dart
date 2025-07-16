@@ -2,6 +2,7 @@ import 'package:biggertask/common/static.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:biggertask/common/static.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 
 class ThemeController extends GetxController {
@@ -14,8 +15,38 @@ class ThemeController extends GetxController {
   var surface = Global.colorScheme.surface.obs;
   var onSurface = Global.colorScheme.onSurface.obs;
 
+  var autoSelectColor = true.obs; // 使用 fromSeed 自动生成
   var autoSelectTextColor = true.obs;
   var advancedTheme = false.obs;
+
+  var selectedThemeIndex = 0.obs;
+  var selectedTheme = ColorScheme.fromSeed(seedColor: Colors.deepPurple).obs;
+
+  List<ColorScheme> colorSchemes = [];
+
+  Future<void> _initTheme() async {
+    final pref = await SharedPreferences.getInstance();
+
+    primary.value = Color(pref.getInt('primary') ?? Global.colorScheme.primary.toARGB32());
+    onPrimary.value = Color(pref.getInt('onPrimary') ?? Global.colorScheme.onPrimary.toARGB32());
+    secondary.value = Color(pref.getInt('secondary') ?? Global.colorScheme.secondary.toARGB32());
+    onSecondary.value = Color(pref.getInt('onSecondary') ?? Global.colorScheme.onSecondary.toARGB32());
+    surface.value = Color(pref.getInt('surface') ?? Global.colorScheme.surface.toARGB32());
+    onSurface.value = Color(pref.getInt('onSurface') ?? Global.colorScheme.onSurface.toARGB32());
+    error.value = Color(pref.getInt('error') ?? Global.colorScheme.error.toARGB32());
+    onError.value = Color(pref.getInt('onError') ?? Global.colorScheme.onError.toARGB32());
+
+    advancedTheme.value = pref.getBool('advancedTheme') ?? false;
+    autoSelectColor.value = pref.getBool('autoSelectColor') ?? true;
+    autoSelectTextColor.value = pref.getBool('autoSelectTextColor') ?? true;
+
+  }
+
+  @override
+  void onInit() async {
+    super.onInit();
+   _initTheme();
+  }
 
   ColorScheme get colorScheme => ColorScheme.fromSeed(
     seedColor: primary.value,
