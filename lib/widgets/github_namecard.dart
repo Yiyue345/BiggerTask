@@ -206,20 +206,28 @@ class _GitHubUserTileState extends State<GitHubUserTile> with AutomaticKeepAlive
                   if (gitHubUser.name != null) ...[
                     Text(
                       gitHubUser.name!,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
                       style: TextStyle(fontWeight: FontWeight.bold),
                     ),
                     SizedBox(width: 4),
-                    Text(
-                      gitHubUser.login,
-                      style: TextStyle(
-                          color: Colors.grey
-                      ),
+                    Flexible(
+                        child: Text(
+                          gitHubUser.login,
+                          overflow: TextOverflow.ellipsis,
+                          maxLines: 1,
+                          style: TextStyle(
+                              color: Colors.grey
+                          ),
+                        )
                     )
+
                   ],
                 ],
               ),
               subtitle: Text(
                 gitHubUser.bio ?? '无简介',
+                overflow: TextOverflow.ellipsis,
                 maxLines: 2,
               ),
               onTap: () {

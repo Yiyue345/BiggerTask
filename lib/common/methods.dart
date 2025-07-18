@@ -1,6 +1,9 @@
 import 'dart:async';
 
+import 'package:biggertask/common/static.dart';
+import 'package:biggertask/models/event.dart';
 import 'package:biggertask/models/github_user.dart';
+import 'package:biggertask/models/repository.dart';
 import 'package:dio/dio.dart';
 
 class Methods {
@@ -130,6 +133,63 @@ class Methods {
     } catch (e) {
       print('Error unstarring repository: $e');
       return false; // 如果发生错误，默认返回失败状态
+    }
+  }
+
+  static Future<List<Event>> getMyEvents(String? token, {int page = 1, int perPage = 30}) async {
+    if (token == null || token.isEmpty || Global.gitHubUser == null) {
+      return [];
+    }
+
+    Dio dio = Dio();
+    try {
+      final response = await dio.get(
+        'https://api.github.com/users/${Global.gitHubUser?.login}/received_events',
+        queryParameters: {
+          'page': page,
+          'per_page': perPage,
+        },
+        options: Options(
+          headers: {
+            'Authorization': 'Bearer $token',
+            'Accept': 'application/vnd.github.v3+json',
+          },
+        ),
+      );
+
+      if (response.statusCode == 200) {
+        List<dynamic> data = response.data;
+        return data.map((item) => Event.fromJson(item)).toList();
+      } else {
+        throw Exception('Failed to load events: ${response.statusCode}');
+      }
+    } catch (e) {
+      print('Error fetching events: $e');
+      return [];
+    }
+  }
+
+  static Future<Repository?> getRepository(String fullName, String? token) async {
+    Dio dio = Dio();
+    try {
+      final response = await dio.get(
+        'https://api.github.com/repos/$fullName',
+        options: Options(
+          headers: {
+            'Authorization': 'Bearer $token',
+            'Accept': 'application/vnd.github.v3+json',
+          },
+        ),
+      );
+
+      if (response.statusCode == 200) {
+        return Repository.fromJson(response.data);
+      } else {
+        throw Exception('Failed to load repository: ${response.statusCode}');
+      }
+    } catch (e) {
+      print('Error fetching repository: $e');
+      return null; // 返回一个空的 Repository 实例
     }
   }
 }

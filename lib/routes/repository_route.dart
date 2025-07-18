@@ -65,21 +65,21 @@ class _RepositoryRouteState extends State<RepositoryRoute> {
                       children: [
                         SizedBox(width: 4,),
                         if (widget.repository.private)...[
-                          Icon(OctIcons.lock, color: Colors.grey, size: 16),
+                          Icon(OctIcons.lock, size: 17,),
                           SizedBox(width: 4),
-                          Text('Private', style: TextStyle(color: Colors.grey)),
+                          Text('Private', style: TextStyle(color: Theme.of(context).colorScheme.secondary)),
                         ]
                         else...[
-                          Icon(OctIcons.repo, color: Colors.grey, size: 16),
+                          Icon(OctIcons.repo, size: 17,),
                           SizedBox(width: 4),
-                          Text('Public', style: TextStyle(color: Colors.grey)),
+                          Text('Public', style: TextStyle(color: Theme.of(context).colorScheme.secondary)),
                         ],
                         SizedBox(width: 8,),
-                        Icon(OctIcons.repo_forked, color: Colors.grey, size: 16,),
+                        Icon(OctIcons.repo_forked, size: 17,),
                         SizedBox(width: 4,),
                         Text(
                           widget.repository.forksCount.toString(),
-                          style: TextStyle(color: Colors.grey),
+                          style: TextStyle(color: Theme.of(context).colorScheme.secondary),
                         ),
 
                       ],

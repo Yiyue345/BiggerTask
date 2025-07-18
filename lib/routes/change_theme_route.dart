@@ -33,6 +33,7 @@ class _ThemeRouteState extends State<ThemeRoute> {
 
   late Database themeDatabase;
   late final SharedPreferences prefs;
+  bool _isEdited = false;
 
   Future<void> _initThemeDatabase() async {
     var databasesPath = await getDatabasesPath();
@@ -99,6 +100,8 @@ class _ThemeRouteState extends State<ThemeRoute> {
               onSurface: Color(int.parse(theme['onSurfaceColor']))
             );
           }).toList();
+
+          _colorSchemes = themeController.colorSchemes;
         }
 
         setState(() {
@@ -139,7 +142,6 @@ class _ThemeRouteState extends State<ThemeRoute> {
     surface = Theme.of(context).colorScheme.surface;
     onSurface = Theme.of(context).colorScheme.onSurface;
 
-    // todo 写个临时列表来避免索引为 -1 的情况
     if (themeController.colorSchemes.isNotEmpty) {
       themeController.selectedThemeIndex.value = themeController.colorSchemes.indexWhere((colorScheme) =>
       colorScheme.primary == themeController.primary.value &&
@@ -151,6 +153,7 @@ class _ThemeRouteState extends State<ThemeRoute> {
           colorScheme.error == themeController.error.value &&
           colorScheme.onError == themeController.onError.value
       );
+      _colorSchemes = themeController.colorSchemes;
     }
   }
 
@@ -186,277 +189,327 @@ class _ThemeRouteState extends State<ThemeRoute> {
         ),
       ),
 
-      child: Scaffold(
-        appBar: AppBar(
-          title: Text('主题'),
-        ),
-        body: SingleChildScrollView(
-          child: Center(
-            child: Column(
-              children: [
-                SizedBox(
-                  height: 24,
-                  child: themeController.colorSchemes.isEmpty ? null :
-                  ListView.builder(
-                      scrollDirection: Axis.horizontal,
-                      itemCount: themeController.colorSchemes.length + 2,
-                      itemBuilder: (context, index) {
-                        if (index == 0) {
-                          return SizedBox(width: 8,);
-                        }
-                        if (index == themeController.colorSchemes.length + 1) {
-                          return Padding(
-                              padding: EdgeInsets.only(left: 4),
-                            child: Container(
-                              width: 24,
-                              height: 24,
-                              decoration: BoxDecoration(
-                                  border: Border.all(
-                                      color: Colors.grey,
-                                    width: 1.6
-                                  ),
-                                  borderRadius: BorderRadius.all(Radius.circular(8))
-                              ),
-                              child: GestureDetector(
-                                onTap: () {
-                                  print('ciallo~');
-                                },
-                                child: Icon(
-                                  Icons.add,
-                                  color: Colors.grey,
-                                  size: 16,
-                                ),
-                              ),
-                            ),
-                          );
-                        }
-                        int actualIndex = index - 1;
-                        return SmallThemeColorsContainer(
-                          primaryColor: themeController.colorSchemes[actualIndex].primary,
-                          onPrimaryColor: themeController.colorSchemes[actualIndex].onPrimary,
-                          selected: themeController.selectedThemeIndex.value == actualIndex,
-                          onTap: () {
-                            setState(() {
-                              themeController.selectedThemeIndex.value = actualIndex;
-                              themeController.selectedTheme.value = themeController.colorSchemes[actualIndex];
-                              primary = themeController.colorSchemes[actualIndex].primary;
-                              onPrimary = themeController.colorSchemes[actualIndex].onPrimary;
-                              secondary = themeController.colorSchemes[actualIndex].secondary;
-                              onSecondary = themeController.colorSchemes[actualIndex].onSecondary;
-                              surface = themeController.colorSchemes[actualIndex].surface;
-                              onSurface = themeController.colorSchemes[actualIndex].onSurface;
-                              error = themeController.colorSchemes[actualIndex].error;
-                              onError = themeController.colorSchemes[actualIndex].onError;
-                              print('selected $actualIndex');
-                            });
-                          },
-                        );
-                      }
-                  ),
-                ),
-                SizedBox(height: 4,),
-                ListTile(
-                  leading: Icon(Icons.save),
-                  title: Text('保存对当前主题的修改'),
-                  onTap: () async {
-                    await _saveChanges();
-                  },
-                ),
-                ListTile(
-                  leading: Icon(Icons.settings_suggest),
-                  title: Text('高级主题设置'),
-                  trailing: Switch(
-                      value: themeController.advancedTheme.value,
-                      onChanged: (v) async {
-                        setState(() {
-                          themeController.advancedTheme.value = v;
-                        });
-                        await prefs.setBool('advancedTheme', v);
-                      }
-                  ),
-                ),
-                AnimatedSize(
-                  duration: Duration(milliseconds: 300),
-                  curve: Curves.easeInOutQuart,
-                  child: themeController.advancedTheme.value
-                      ? Column(
-                    children: [
-                      ListTile(
-                        title: Text('自动设置次要颜色'),
-                        trailing: Switch(
-                            value: themeController.autoSelectColor.value,
-                            onChanged: (v) async {
-                              setState(() {
-                                themeController.autoSelectColor.value = v;
-                              });
-                              await prefs.setBool('autoSelectColor', v);
-                            }
-                        ),
+      child: PopScope(
+        canPop: !_isEdited,
+          onPopInvokedWithResult: (didPop, result) async {
+            if (didPop) {
+
+            }
+            else{
+              bool shouldPop = await showDialog(
+                  context: context,
+                  builder: (context) => AlertDialog(
+                    title: Text('更改未保存'),
+                    content: Text('您有未保存的更改，确定要直接退出吗？'),
+                    actions: [
+                      TextButton(
+                        onPressed: () {
+                          Get.back<bool>(result: true);
+                        },
+                        child: Text('确定'),
                       ),
-
-                      ListTile(
-                        title: Text('自动设置文字颜色'),
-                        trailing: Switch(
-                            value: themeController.autoSelectTextColor.value,
-                            onChanged: (v) async {
-                              setState(() {
-                                themeController.autoSelectTextColor.value = v;
-                              });
-                              await prefs.setBool('autoSelectTextColor', v);
-                            }
-                        ),
-                      ),
-                      AnimatedSize(
-                          duration: Duration(milliseconds: 300),
-                        curve: Curves.easeInOutQuart,
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: [
-                            // todo 还没做
-                            // 选择 secondary, surface 和 error 的颜色
-                            if (!themeController.autoSelectColor.value)
-                              ThemeColorsContainer(
-                                primaryColor: primary,
-                                secondaryColor: secondary,
-                                surfaceColor: surface,
-                                errorColor: error,
-                                onPrimaryColorChanged: (color) {
-                                  setState(() {
-
-                                    primary = color;
-                                    if (themeController.autoSelectTextColor.value) {
-                                      onPrimary = primary.computeLuminance() > 0.5 ? Colors.black : Colors.white;
-                                    }
-                                    _syncThemeList(index: themeController.selectedThemeIndex.value, primary: color, onPrimary: onPrimary);
-
-                                  });
-                                },
-                                onSecondaryColorChanged: (color) {
-                                  setState(() {
-                                    secondary = color;
-                                    if (themeController.autoSelectTextColor.value) {
-                                      onSecondary = secondary.computeLuminance() > 0.5 ? Colors.black : Colors.white;
-                                    }
-                                    _syncThemeList(index: themeController.selectedThemeIndex.value, secondary: color, onSecondary: onSecondary);
-
-                                  });
-                                },
-                                onSurfaceColorChanged: (color) {
-                                  setState(() {
-                                    surface = color;
-                                    if (themeController.autoSelectTextColor.value) {
-                                      onSurface = surface.computeLuminance() > 0.5 ? Colors.black : Colors.white;
-                                    }
-                                    _syncThemeList(index: themeController.selectedThemeIndex.value, surface: color, onSurface: onSurface);
-
-                                  });
-                                },
-                                onErrorColorChanged: (color) {
-                                  setState(() {
-                                    error = color;
-                                    if (themeController.autoSelectTextColor.value) {
-                                      onError = error.computeLuminance() > 0.5 ? Colors.black : Colors.white;
-                                    }
-                                    _syncThemeList(index: themeController.selectedThemeIndex.value, error: color, onError: onError);
-                                  });
-
-
-                                },
-                              ),
-
-                            // 选择 onPrimary, onSecondary, onSurface 和 onError 的颜色
-                            if (!themeController.autoSelectTextColor.value)
-                              ThemeColorsContainer(
-                                primaryColor: onPrimary,
-                                secondaryColor: onSecondary,
-                                errorColor: onError,
-                                surfaceColor: onSurface,
-
-                                primaryColorTitle: '主色之上的文字颜色',
-                                secondaryColorTitle: '强调色之上的文字颜色',
-                                surfaceColorTitle: '背景之上的文字颜色',
-                                errorColorTitle: '错误色之上的文字颜色',
-
-                                onPrimaryColorChanged: (color) {
-                                  setState(() {
-                                    onPrimary = color;
-                                    _syncThemeList(index: themeController.selectedThemeIndex.value, onPrimary: color);
-
-                                  });
-                                },
-                                onSecondaryColorChanged: (color) {
-                                  setState(() {
-                                    onSecondary = color;
-                                    _syncThemeList(index: themeController.selectedThemeIndex.value, onSecondary: color);
-                                  });
-                                },
-                                onSurfaceColorChanged: (color) {
-                                  setState(() {
-                                    onSurface = color;
-                                    _syncThemeList(index: themeController.selectedThemeIndex.value, onSurface: color);
-                                  });
-                                },
-                                onErrorColorChanged: (color) {
-                                  setState(() {
-                                    onError = color;
-                                    _syncThemeList(index: themeController.selectedThemeIndex.value, onError: color);
-                                  });
-                                },
-                              ),
-                          ],
-                        ),
-                      ),
-
-
+                      TextButton(
+                        onPressed: () {
+                          Get.back<bool>(result: false);
+                        },
+                        child: Text('取消'),
+                      )
                     ],
                   )
-                      : ColorPicker(
-                    color: primary,
-                      subheading: Text('渐变色'),
-                      showColorName: true,
-                      showColorCode: true,
-                      colorCodeHasColor: true,
-                    pickersEnabled: {
-                      ColorPickerType.primary: true,
-                      ColorPickerType.accent: false,
-                      ColorPickerType.wheel: true
-                    },
-                      pickerTypeLabels: {
-                        ColorPickerType.primary: '主色',
-                        ColorPickerType.accent: '强调色',
-                        ColorPickerType.both: '主色与强调色',
-                        ColorPickerType.custom: '自定义',
-                        ColorPickerType.wheel : '轮盘'
-                      },
+              );
 
-                      onColorChanged: (color) {
-                        setState(() {
-                          themeController.colorSchemes[themeController.selectedThemeIndex.value] =
-                              ColorScheme.fromSeed(seedColor: color);
-                          primary = themeController.colorSchemes[themeController.selectedThemeIndex.value].primary;
-                          onPrimary = themeController.colorSchemes[themeController.selectedThemeIndex.value].onPrimary;
-                          secondary = themeController.colorSchemes[themeController.selectedThemeIndex.value].secondary;
-                          onSecondary = themeController.colorSchemes[themeController.selectedThemeIndex.value].onSecondary;
-                          surface = themeController.colorSchemes[themeController.selectedThemeIndex.value].surface;
-                          onSurface = themeController.colorSchemes[themeController.selectedThemeIndex.value].onSurface;
-                          error = themeController.colorSchemes[themeController.selectedThemeIndex.value].error;
-                          onError = themeController.colorSchemes[themeController.selectedThemeIndex.value].onError;
-                        });
-                      }
-                  ),
-                ),
-
-
-              ],
-            ),
-          ),
-        ),
-        floatingActionButton: FloatingActionButton(
-          onPressed: () {
-            print('Primary Color: $primary');
+              if (shouldPop) {
+                Get.back();
+              }
+            }
           },
-          child: Icon(Icons.cached),
-        ),
+          child: Scaffold(
+            appBar: AppBar(
+              title: Text('主题'),
+            ),
+            body: SingleChildScrollView(
+              child: Center(
+                child: Column(
+                  children: [
+                    ListTile(
+                      title: Text('深色主题'),
+                      trailing: Switch(
+                          value: false,
+                          onChanged: (v) {
+
+                          }
+                      ),
+                    ),
+                    SizedBox(
+                      height: 24,
+                      child: _colorSchemes.isEmpty ? null :
+                      ListView.builder(
+                          scrollDirection: Axis.horizontal,
+                          itemCount: _colorSchemes.length + 2,
+                          itemBuilder: (context, index) {
+                            if (index == 0) {
+                              return SizedBox(width: 8,);
+                            }
+                            if (index == _colorSchemes.length + 1) {
+                              return Padding(
+                                padding: EdgeInsets.only(left: 4),
+                                child: Container(
+                                  width: 24,
+                                  height: 24,
+                                  decoration: BoxDecoration(
+                                      border: Border.all(
+                                          color: Colors.grey,
+                                          width: 1.6
+                                      ),
+                                      borderRadius: BorderRadius.all(Radius.circular(8))
+                                  ),
+                                  child: GestureDetector(
+                                    onTap: () {
+                                      setState(() {
+                                        _colorSchemes.add(ColorScheme.fromSeed(seedColor: Colors.blue));
+                                      });
+                                    },
+                                    child: Icon(
+                                      Icons.add,
+                                      color: Colors.grey,
+                                      size: 16,
+                                    ),
+                                  ),
+                                ),
+                              );
+                            }
+                            int actualIndex = index - 1;
+
+                            return SmallThemeColorsContainer(
+                              primaryColor: _colorSchemes[actualIndex].primary,
+                              onPrimaryColor: _colorSchemes[actualIndex].onPrimary,
+                              selected: themeController.selectedThemeIndex.value == actualIndex,
+                              onTap: () {
+                                setState(() {
+                                  themeController.selectedThemeIndex.value = actualIndex;
+                                  themeController.selectedTheme.value = _colorSchemes[actualIndex];
+                                  primary = _colorSchemes[actualIndex].primary;
+                                  onPrimary = _colorSchemes[actualIndex].onPrimary;
+                                  secondary = _colorSchemes[actualIndex].secondary;
+                                  onSecondary = _colorSchemes[actualIndex].onSecondary;
+                                  surface = _colorSchemes[actualIndex].surface;
+                                  onSurface = _colorSchemes[actualIndex].onSurface;
+                                  error = _colorSchemes[actualIndex].error;
+                                  onError = _colorSchemes[actualIndex].onError;
+                                  print('selected $actualIndex');
+                                  _isEdited = true;
+                                });
+                              },
+                            );
+                          }
+                      ),
+                    ),
+                    SizedBox(height: 4,),
+                    ListTile(
+                      leading: Icon(Icons.save),
+                      title: Text('保存对当前主题的修改'),
+                      onTap: () async {
+                        await _saveChanges();
+                      },
+                    ),
+                    ListTile(
+                      leading: Icon(Icons.settings_suggest),
+                      title: Text('高级主题设置'),
+                      trailing: Switch(
+                          value: themeController.advancedTheme.value,
+                          onChanged: (v) async {
+                            setState(() {
+                              themeController.advancedTheme.value = v;
+                            });
+                            await prefs.setBool('advancedTheme', v);
+                          }
+                      ),
+                    ),
+                    AnimatedSize(
+                      duration: Duration(milliseconds: 300),
+                      curve: Curves.easeInOutQuart,
+                      child: themeController.advancedTheme.value
+                          ? Column(
+                        children: [
+                          ListTile(
+                            title: Text('自动设置次要颜色'),
+                            trailing: Switch(
+                                value: themeController.autoSelectColor.value,
+                                onChanged: (v) async {
+                                  setState(() {
+                                    themeController.autoSelectColor.value = v;
+                                  });
+                                  await prefs.setBool('autoSelectColor', v);
+                                }
+                            ),
+                          ),
+
+                          ListTile(
+                            title: Text('自动设置文字颜色'),
+                            trailing: Switch(
+                                value: themeController.autoSelectTextColor.value,
+                                onChanged: (v) async {
+                                  setState(() {
+                                    themeController.autoSelectTextColor.value = v;
+                                  });
+                                  await prefs.setBool('autoSelectTextColor', v);
+                                }
+                            ),
+                          ),
+                          AnimatedSize(
+                            duration: Duration(milliseconds: 300),
+                            curve: Curves.easeInOutQuart,
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              children: [
+                                if (!themeController.autoSelectColor.value)
+                                  ThemeColorsContainer(
+                                    primaryColor: primary,
+                                    secondaryColor: secondary,
+                                    surfaceColor: surface,
+                                    errorColor: error,
+                                    onPrimaryColorChanged: (color) {
+                                      setState(() {
+
+                                        primary = color;
+                                        if (themeController.autoSelectTextColor.value) {
+                                          onPrimary = primary.computeLuminance() > 0.5 ? Colors.black : Colors.white;
+                                        }
+                                        _syncThemeList(index: themeController.selectedThemeIndex.value, primary: color, onPrimary: onPrimary);
+                                        _isEdited = true;
+                                      });
+                                    },
+                                    onSecondaryColorChanged: (color) {
+                                      setState(() {
+                                        secondary = color;
+                                        if (themeController.autoSelectTextColor.value) {
+                                          onSecondary = secondary.computeLuminance() > 0.5 ? Colors.black : Colors.white;
+                                        }
+                                        _syncThemeList(index: themeController.selectedThemeIndex.value, secondary: color, onSecondary: onSecondary);
+                                        _isEdited = true;
+                                      });
+                                    },
+                                    onSurfaceColorChanged: (color) {
+                                      setState(() {
+                                        surface = color;
+                                        if (themeController.autoSelectTextColor.value) {
+                                          onSurface = surface.computeLuminance() > 0.5 ? Colors.black : Colors.white;
+                                        }
+                                        _syncThemeList(index: themeController.selectedThemeIndex.value, surface: color, onSurface: onSurface);
+                                        _isEdited = true;
+                                      });
+                                    },
+                                    onErrorColorChanged: (color) {
+                                      setState(() {
+                                        error = color;
+                                        if (themeController.autoSelectTextColor.value) {
+                                          onError = error.computeLuminance() > 0.5 ? Colors.black : Colors.white;
+                                        }
+                                        _syncThemeList(index: themeController.selectedThemeIndex.value, error: color, onError: onError);
+                                      });
+                                      _isEdited = true;
+
+                                    },
+                                  ),
+
+                                // 选择 onPrimary, onSecondary, onSurface 和 onError 的颜色
+                                if (!themeController.autoSelectTextColor.value)
+                                  ThemeColorsContainer(
+                                    primaryColor: onPrimary,
+                                    secondaryColor: onSecondary,
+                                    errorColor: onError,
+                                    surfaceColor: onSurface,
+
+                                    primaryColorTitle: '主色之上的文字颜色',
+                                    secondaryColorTitle: '强调色之上的文字颜色',
+                                    surfaceColorTitle: '背景之上的文字颜色',
+                                    errorColorTitle: '错误色之上的文字颜色',
+
+                                    onPrimaryColorChanged: (color) {
+                                      setState(() {
+                                        onPrimary = color;
+                                        _syncThemeList(index: themeController.selectedThemeIndex.value, onPrimary: color);
+                                        _isEdited = true;
+                                      });
+                                    },
+                                    onSecondaryColorChanged: (color) {
+                                      setState(() {
+                                        onSecondary = color;
+                                        _syncThemeList(index: themeController.selectedThemeIndex.value, onSecondary: color);
+                                        _isEdited = true;
+                                      });
+                                    },
+                                    onSurfaceColorChanged: (color) {
+                                      setState(() {
+                                        onSurface = color;
+                                        _syncThemeList(index: themeController.selectedThemeIndex.value, onSurface: color);
+                                        _isEdited = true;
+                                      });
+                                    },
+                                    onErrorColorChanged: (color) {
+                                      setState(() {
+                                        onError = color;
+                                        _syncThemeList(index: themeController.selectedThemeIndex.value, onError: color);
+                                        _isEdited = true;
+                                      });
+                                    },
+                                  ),
+                              ],
+                            ),
+                          ),
+
+
+                        ],
+                      )
+                          : ColorPicker(
+                          color: primary,
+                          subheading: Text('渐变色'),
+                          showColorName: true,
+                          showColorCode: true,
+                          colorCodeHasColor: true,
+                          pickersEnabled: {
+                            ColorPickerType.primary: true,
+                            ColorPickerType.accent: false,
+                            ColorPickerType.wheel: true
+                          },
+                          pickerTypeLabels: {
+                            ColorPickerType.primary: '主色',
+                            ColorPickerType.accent: '强调色',
+                            ColorPickerType.both: '主色与强调色',
+                            ColorPickerType.custom: '自定义',
+                            ColorPickerType.wheel : '轮盘'
+                          },
+
+                          onColorChanged: (color) {
+                            setState(() {
+                              _colorSchemes[themeController.selectedThemeIndex.value] =
+                                  ColorScheme.fromSeed(seedColor: color);
+                              primary = _colorSchemes[themeController.selectedThemeIndex.value].primary;
+                              onPrimary = _colorSchemes[themeController.selectedThemeIndex.value].onPrimary;
+                              secondary = _colorSchemes[themeController.selectedThemeIndex.value].secondary;
+                              onSecondary = _colorSchemes[themeController.selectedThemeIndex.value].onSecondary;
+                              surface = _colorSchemes[themeController.selectedThemeIndex.value].surface;
+                              onSurface = _colorSchemes[themeController.selectedThemeIndex.value].onSurface;
+                              error = _colorSchemes[themeController.selectedThemeIndex.value].error;
+                              onError = _colorSchemes[themeController.selectedThemeIndex.value].onError;
+                            });
+                            _isEdited = true;
+                          }
+                      ),
+                    ),
+
+
+                  ],
+                ),
+              ),
+            ),
+            floatingActionButton: FloatingActionButton(
+              onPressed: () {
+                print('Primary Color: $primary');
+              },
+              child: Icon(Icons.cached),
+            ),
+          )
       ),
     ));
   }
@@ -483,18 +536,34 @@ class _ThemeRouteState extends State<ThemeRoute> {
         onSurface: onSurface
     );
 
-    await themeDatabase.execute('''
-                      UPDATE theme SET 
-                        primaryColor = '${primary.toARGB32()}',
-                        onPrimaryColor = '${onPrimary.toARGB32()}',
-                        secondaryColor = '${secondary.toARGB32()}',
-                        onSecondaryColor = '${onSecondary.toARGB32()}',
-                        errorColor = '${error.toARGB32()}',
-                        onErrorColor = '${onError.toARGB32()}',
-                        surfaceColor = '${surface.toARGB32()}',
-                        onSurfaceColor = '${onSurface.toARGB32()}'
-                      WHERE id = ${themeController.selectedThemeIndex.value + 1}
-                    ''');
+    themeController.colorSchemes = _colorSchemes;
+
+    for (int i = 0; i < _colorSchemes.length; i++) {
+      await themeDatabase.execute('''
+        INSERT OR REPLACE INTO theme (
+          id,
+          primaryColor,
+          onPrimaryColor,
+          secondaryColor,
+          onSecondaryColor,
+          errorColor,
+          onErrorColor,
+          surfaceColor,
+          onSurfaceColor
+        ) VALUES (
+          ${i + 1},
+          '${_colorSchemes[i].primary.toARGB32()}',
+          '${_colorSchemes[i].onPrimary.toARGB32()}',
+          '${_colorSchemes[i].secondary.toARGB32()}',
+          '${_colorSchemes[i].onSecondary.toARGB32()}',
+          '${_colorSchemes[i].error.toARGB32()}',
+          '${_colorSchemes[i].onError.toARGB32()}',
+          '${_colorSchemes[i].surface.toARGB32()}',
+          '${_colorSchemes[i].onSurface.toARGB32()}'
+        )
+      ''');
+    }
+
 
     await prefs.setInt('primary', primary.toARGB32());
     await prefs.setInt('onPrimary', onPrimary.toARGB32());
@@ -506,21 +575,25 @@ class _ThemeRouteState extends State<ThemeRoute> {
     await prefs.setInt('onError', onError.toARGB32());
 
     Fluttertoast.showToast(msg: '保存成功！');
+
+    _isEdited = false;
   }
 
   void _syncThemeList(
       {required int index, Brightness? brightness, Color? primary, Color? onPrimary, Color? secondary, Color? onSecondary, Color? surface, Color? onSurface, Color? error, Color? onError}) {
-    themeController.colorSchemes[index] = ColorScheme(
-      brightness: brightness ?? themeController.colorSchemes[index].brightness,
-      primary: primary ?? themeController.colorSchemes[index].primary,
-      onPrimary: onPrimary ?? themeController.colorSchemes[index].onPrimary,
-      secondary: secondary ?? themeController.colorSchemes[index].secondary,
-      onSecondary: onSecondary ?? themeController.colorSchemes[index].onSecondary,
-      surface: surface ?? themeController.colorSchemes[index].surface,
-      onSurface: onSurface ?? themeController.colorSchemes[index].onSurface,
-      error: error ?? themeController.colorSchemes[index].error,
-      onError: onError ?? themeController.colorSchemes[index].onError
+    _colorSchemes[index] = ColorScheme(
+      brightness: brightness ?? _colorSchemes[index].brightness,
+      primary: primary ?? _colorSchemes[index].primary,
+      onPrimary: onPrimary ?? _colorSchemes[index].onPrimary,
+      secondary: secondary ?? _colorSchemes[index].secondary,
+      onSecondary: onSecondary ?? _colorSchemes[index].onSecondary,
+      surface: surface ?? _colorSchemes[index].surface,
+      onSurface: onSurface ?? _colorSchemes[index].onSurface,
+      error: error ?? _colorSchemes[index].error,
+      onError: onError ?? _colorSchemes[index].onError
     );
   }
+
+  List<ColorScheme> _colorSchemes = [];
 
 }
