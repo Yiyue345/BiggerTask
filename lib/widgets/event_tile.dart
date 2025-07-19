@@ -6,6 +6,7 @@ import 'package:biggertask/routes/repository_route.dart';
 import 'package:biggertask/routes/user_info_route.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:icons_plus/icons_plus.dart';
 
 class EventTile extends StatelessWidget {
   final Event event;
@@ -39,76 +40,33 @@ class EventTile extends StatelessWidget {
     }
     // fork 仓库
     if (event.type! == 'ForkEvent') {
-      return Padding(
-          padding: EdgeInsets.symmetric(horizontal: 8),
-        child: Container(
-          decoration: BoxDecoration(
-            color: Theme.of(context).colorScheme.secondaryFixed,
-            // border: Border.all(
-            //     color: Theme.of(context).colorScheme.secondary
-            // ),
-            borderRadius: BorderRadius.all(Radius.circular(16))
-            // boxShadow: [
-            //   BoxShadow(
-            //     color: Colors.black26,
-            //     blurRadius: 4.0,
-            //     offset: Offset(2, 2),
-            //   )
-            // ]
-          ),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Padding(
-                  padding: EdgeInsets.only(left: 16, top: 8, right: 16, bottom: 8),
-                child: Row(
-                  children: [
-                    CircleAvatar(
-                      backgroundImage: NetworkImage(event.actor.avatarUrl),
-                      radius: 20,
-                      child: GestureDetector(
-                        onTap: () {
-                          Get.to(UserInfoRoute(username: event.actor.login));
-                        },
-                      ),
-                    ),
-                    SizedBox(width: 8,),
-                    GestureDetector(
-                      onTap: () {
-                        Get.to(UserInfoRoute(username: event.actor.login));
-                      },
-                      child: Text(
-                        event.actor.login,
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          color: Theme.of(context).colorScheme.onSecondaryFixed
-                        ),
-                      ),
-                    ),
-                    SizedBox(width: 8,),
-                    Text(
-                      '复刻了一个仓库',
-                      style: TextStyle(
-                          color: Theme.of(context).colorScheme.onSecondaryFixedVariant,
-                          fontSize: 12
-                      ),
-                    )
-                  ],
-                ),
-              ),
+      return CommonRepositoryEventTile(event: event, action: '复刻了一个仓库');
+    }
 
+    else if (event.type == 'WatchEvent') {
+      return CommonRepositoryEventTile(event: event, action: '标星了一个仓库');
+    }
 
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 8),
-                child: RepositoryEventTile(repoName: '${event.actor.login}/${event.payload.forkee!.name}')
-              ),
-            ],
-          ),
-        ),
-      );
-    };
+    else if (event.type == 'CreateEvent') {
+      if (event.payload.refType == 'repository') {
+        return CommonRepositoryEventTile(event: event, action: '创建了一个仓库');
+      }
+      else if (event.payload.refType == 'branch') {
+        return CommonRepositoryEventTile(event: event, action: '创建了一个分支');
+      }
+      else if (event.payload.refType == 'tag') {
+        return CommonRepositoryEventTile(event: event, action: '创建了一个标签');
+      }
+    }
+    else if (event.type == 'DeleteEvent') {
+      if (event.payload.refType == 'branch') {
+        return CommonRepositoryEventTile(
+            event: event, action: '删除了一个分支');
+      } else if (event.payload.refType == 'tag') {
+        return CommonRepositoryEventTile(
+            event: event, action: '删除了一个标签');
+      }
+    }
 
     return SizedBox();
   }
@@ -117,9 +75,18 @@ class EventTile extends StatelessWidget {
 class RepositoryEventTile extends StatelessWidget {
   final String repoName;
   late final Repository? repository;
+  final StarController starController = Get.put(StarController());
 
   Future<void> _fetchRepository() async {
     repository = await Methods.getRepository(repoName, Global.token);
+
+    if (repository != null) {
+      await  starController.initializeRepo(
+          repoName,
+          Global.token!,
+          repository!.stargazersCount
+      );
+    }
   }
 
   RepositoryEventTile({Key? key, required this.repoName}) : super(key: key);
@@ -143,29 +110,72 @@ class RepositoryEventTile extends StatelessWidget {
           if (snapshot.connectionState == ConnectionState.done) {
             if (repository == null) {
               return ListTile(
-                title: Text('仓库是空的'),
+                title: Text('仓库不存在或不可见'),
                 onTap: () async {
                   await _fetchRepository();
                 },
               );
             }
             return ListTile(
-              title: Text(
-                  repository!.fullName,
-                maxLines: 2,
-                overflow: TextOverflow.ellipsis,
-                style: TextStyle(
-                  color: Theme.of(context).colorScheme.onSecondaryFixedVariant,
-                  fontWeight: FontWeight.bold,
-                  fontSize: 16
-                ),
+              title: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Flexible(
+                      child: Text(
+                        repository!.fullName,
+                        maxLines: 2,
+                        overflow: TextOverflow.ellipsis,
+                        style: TextStyle(
+                            color: Theme.of(context).colorScheme.onSecondaryFixedVariant,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 16
+                        ),
+                      ),
+                  ),
+                  Obx(() => TextButton.icon(
+                      onPressed: () async {
+                        await starController.toggleStar(
+                            repository!.fullName,
+                            Global.token!,
+                            starController._starCounts[repository!.fullName] ?? 0
+                        );
+                        repository!.stargazersCount = starController.getStarCount(repository!.fullName);
+                      },
+                    label: Text(
+                        starController._starCounts[repository!.fullName].toString() ?? '0',
+                      style: TextStyle(
+                        color: starController.isStarred(repository!.fullName)
+                          ? Colors.amber
+                          : Theme.of(context).colorScheme.onSecondaryFixedVariant,
+                      ),
+                    ),
+                    icon: Icon(
+                        OctIcons.star,
+                        color: starController.isStarred(repository!.fullName)
+                          ? Colors.amber
+                          : Theme.of(context).colorScheme.onSecondaryFixedVariant,
+                    ),
+                      style: ButtonStyle(
+                          padding: WidgetStatePropertyAll(EdgeInsets.zero),
+                          // tapTargetSize: MaterialTapTargetSize.shrinkWrap, // 收缩点击区域
+                          minimumSize: WidgetStatePropertyAll(Size.zero), // 移除最小尺寸
+                          visualDensity: VisualDensity.compact, // 紧凑的视觉密度
+                          overlayColor: WidgetStatePropertyAll(Colors.transparent)
+                      )
+                  )
+                  ),
+
+                ],
               ),
-              subtitle: Text(
-                repository?.description ?? '无描述',
-                maxLines: 5,
-                overflow: TextOverflow.ellipsis,
-                style: TextStyle(
-                  color: Theme.of(context).colorScheme.onSecondaryFixedVariant,
+              subtitle: Padding(
+                  padding: EdgeInsets.symmetric(vertical: 4),
+                child: Text(
+                  repository?.description ?? '无描述',
+                  maxLines: 5,
+                  overflow: TextOverflow.ellipsis,
+                  style: TextStyle(
+                    color: Theme.of(context).colorScheme.onSecondaryFixedVariant,
+                  ),
                 ),
               ),
               onTap: () {
@@ -176,6 +186,109 @@ class RepositoryEventTile extends StatelessWidget {
 
           return SizedBox();
         }
+    );
+  }
+
+}
+
+class StarController extends GetxController {
+  final RxMap<String, bool> _starredRepos = <String, bool>{}.obs;
+  final RxMap<String, int> _starCounts = <String, int>{}.obs;
+
+  bool isStarred(String repoFullName) {
+    return _starredRepos[repoFullName] ?? false;
+  }
+  int getStarCount(String repoFullName) {
+    return _starCounts[repoFullName] ?? 0;
+  }
+
+  Future<void> toggleStar(String repoFullName, String token, int currentCount) async {
+    bool currentState = isStarred(repoFullName);
+
+    if (currentState) {
+      await Methods.unstarRepository(repoFullName, token);
+      _starredRepos[repoFullName] = false;
+      _starCounts[repoFullName] = currentCount - 1;
+    } else {
+      await Methods.starRepository(repoFullName, token);
+      _starredRepos[repoFullName] = true;
+      _starCounts[repoFullName] = currentCount + 1;
+    }
+  }
+
+  Future<void> initializeRepo(String repoFullName, String token, int starCount) async {
+    if (!_starredRepos.containsKey(repoFullName)) {
+      bool starred = await Methods.isStarred(repoFullName, token);
+      _starredRepos[repoFullName] = starred;
+      _starCounts[repoFullName] = starCount;
+    }
+  }
+}
+
+class CommonRepositoryEventTile extends StatelessWidget {
+  final Event event;
+  final String action;
+
+  const CommonRepositoryEventTile({Key? key, required this.event, required this.action}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+      child: Container(
+        decoration: BoxDecoration(
+            color: Theme.of(context).colorScheme.secondaryFixed,
+            borderRadius: BorderRadius.all(Radius.circular(16))
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Padding(
+              padding: EdgeInsets.only(left: 16, top: 8, right: 16),
+              child: Row(
+                children: [
+                  CircleAvatar(
+                    backgroundImage: NetworkImage(event.actor.avatarUrl),
+                    radius: 16,
+                    child: GestureDetector(
+                      onTap: () {
+                        Get.to(UserInfoRoute(username: event.actor.login));
+                      },
+                    ),
+                  ),
+                  SizedBox(width: 8,),
+                  GestureDetector(
+                    onTap: () {
+                      Get.to(UserInfoRoute(username: event.actor.login));
+                    },
+                    child: Text(
+                      event.actor.login,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          color: Theme.of(context).colorScheme.onSecondaryFixed
+                      ),
+                    ),
+                  ),
+                  SizedBox(width: 8,),
+                  Text(
+                    action,
+                    style: TextStyle(
+                        color: Theme.of(context).colorScheme.onSecondaryFixedVariant,
+                        fontSize: 12
+                    ),
+                  )
+                ],
+              ),
+            ),
+            Padding(
+                padding: const EdgeInsets.only(left: 8),
+                child: RepositoryEventTile(repoName: event.repo.name)
+            ),
+          ],
+        ),
+      ),
     );
   }
 

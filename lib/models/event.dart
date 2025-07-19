@@ -86,13 +86,26 @@ class Payload {
   final Issue? issue;
   final List<Page>? pages;
   final EventRepository? forkee;
+  final String? ref;
+  @JsonKey(name: 'ref_type')
+  final String? refType;
+  @JsonKey(name: 'master_branch')
+  final String? masterBranch;
+  final String? description;
+  @JsonKey(name: 'pusher_type')
+  final String? pusherType;
 
   Payload({
     this.action,
     this.comment,
     this.issue,
     this.pages,
-    this.forkee
+    this.forkee,
+    this.ref,
+    this.refType,
+    this.masterBranch,
+    this.description,
+    this.pusherType,
   });
 
   factory Payload.fromJson(Map<String, dynamic> json) => _$PayloadFromJson(json);

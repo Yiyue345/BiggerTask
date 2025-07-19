@@ -86,6 +86,11 @@ Payload _$PayloadFromJson(Map<String, dynamic> json) => Payload(
       json['forkee'] == null
           ? null
           : EventRepository.fromJson(json['forkee'] as Map<String, dynamic>),
+  ref: json['ref'] as String?,
+  refType: json['ref_type'] as String?,
+  masterBranch: json['master_branch'] as String?,
+  description: json['description'] as String?,
+  pusherType: json['pusher_type'] as String?,
 );
 
 Map<String, dynamic> _$PayloadToJson(Payload instance) => <String, dynamic>{
@@ -94,6 +99,11 @@ Map<String, dynamic> _$PayloadToJson(Payload instance) => <String, dynamic>{
   'issue': instance.issue,
   'pages': instance.pages,
   'forkee': instance.forkee,
+  'ref': instance.ref,
+  'ref_type': instance.refType,
+  'master_branch': instance.masterBranch,
+  'description': instance.description,
+  'pusher_type': instance.pusherType,
 };
 
 Comment _$CommentFromJson(Map<String, dynamic> json) => Comment(

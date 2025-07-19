@@ -4,6 +4,7 @@ import 'package:biggertask/common/methods.dart';
 import 'package:biggertask/common/static.dart';
 import 'package:biggertask/models/event.dart';
 import 'package:biggertask/widgets/event_tile.dart';
+import 'package:biggertask/widgets/keep_alive_wrapper.dart';
 import 'package:flutter/material.dart';
 
 class ExploreRoute extends StatefulWidget {
@@ -16,7 +17,7 @@ class _ExploreRouteState extends State<ExploreRoute> with AutomaticKeepAliveClie
   String rawJson = '';
 
   Future<void> _fetchData() async {
-    response = await Methods.getMyEvents(Global.token, page: 1, );
+    response = await Methods.getMyEvents(Global.token, page: 2, perPage: 30);
     rawJson = jsonEncode(response.map((e) => e.toJson()).toList());
     setState(() {
 
@@ -45,11 +46,14 @@ class _ExploreRouteState extends State<ExploreRoute> with AutomaticKeepAliveClie
               child: Text('点我')
           ),
         )
-        : ListView.builder(
+        :
+        ListView.builder(
           itemCount: response.length,
             itemBuilder: (context, index) {
               final event = response[index];
-              return EventTile(event: event);
+              return KeepAliveWrapper(
+                  child: EventTile(event: event)
+              );
             }
         )
 
@@ -91,6 +95,7 @@ class _ExploreRouteState extends State<ExploreRoute> with AutomaticKeepAliveClie
     //     ],
     //   ),
     // )
+
     );
   }
 

@@ -1,4 +1,5 @@
-
+import 'package:biggertask/routes/user_info_route.dart';
+import 'package:get/get.dart';
 import 'dart:convert';
 import 'package:biggertask/common/methods.dart';
 import 'package:biggertask/common/static.dart';
@@ -48,6 +49,9 @@ class _RepositoryRouteState extends State<RepositoryRoute> {
                     Text(widget.repository.owner.login)
                   ],
                 ),
+                onTap: () {
+                  Get.to(() => UserInfoRoute(username: widget.repository.owner.login));
+                },
               ),
               SizedBox(height: 8,),
               ListTile(
@@ -89,6 +93,7 @@ class _RepositoryRouteState extends State<RepositoryRoute> {
                 ),
 
               ),
+              // 标星按钮
               SizedBox(
                 height: 40,
                 child: Row(
@@ -104,8 +109,7 @@ class _RepositoryRouteState extends State<RepositoryRoute> {
                               setState(() {
 
                               });
-                            }
-                      ,
+                            },
                         icon: Icon(
                           OctIcons.star,
                           size: 16,

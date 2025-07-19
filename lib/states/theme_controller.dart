@@ -1,7 +1,6 @@
 import 'package:biggertask/common/static.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:biggertask/common/static.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 
