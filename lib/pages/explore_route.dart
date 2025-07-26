@@ -14,13 +14,17 @@ class ExploreRoute extends StatefulWidget {
 
 class _ExploreRouteState extends State<ExploreRoute> with AutomaticKeepAliveClientMixin {
   List<Event> response = [];
+  bool isLoaded = false;
   String rawJson = '';
 
   Future<void> _fetchData() async {
-    response = await Methods.getMyEvents(Global.token, page: 2, perPage: 30);
-    rawJson = jsonEncode(response.map((e) => e.toJson()).toList());
-    setState(() {
+    print('Fetching data...');
+    response = await Methods.getMyEvents(Global.token, page: 1, perPage: 30);
 
+    print('Data fetched: ${response.length} events');
+    setState(() {
+      isLoaded = true;
+      rawJson = jsonEncode(response.map((e) => e.toJson()).toList());
     });
   }
 
@@ -37,16 +41,30 @@ class _ExploreRouteState extends State<ExploreRoute> with AutomaticKeepAliveClie
   Widget build(BuildContext context) {
     super.build(context);
     return RefreshIndicator(onRefresh: _fetchData,
-        child: response.isEmpty
-        ? Center(
-          child: ElevatedButton(
-              onPressed: () async {
-                await _fetchData();
-              },
-              child: Text('点我')
-          ),
+        child: !isLoaded
+            ? Center(
+            child: CircularProgressIndicator()
         )
-        :
+            : response.isEmpty 
+            ? Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                TextButton(
+                    onPressed: () async {
+                      await _fetchData();
+                    },
+                    style: ButtonStyle(
+                      padding: WidgetStatePropertyAll(EdgeInsets.zero),
+                      minimumSize: WidgetStatePropertyAll(Size.zero), // 移除最小尺寸
+                      overlayColor: WidgetStatePropertyAll(Colors.transparent)
+                    ),
+                    child: Text('暂时还没有事件哦~')
+                )
+              ],
+            )
+        )
+            :
         ListView.builder(
           itemCount: response.length,
             itemBuilder: (context, index) {
@@ -57,44 +75,47 @@ class _ExploreRouteState extends State<ExploreRoute> with AutomaticKeepAliveClie
             }
         )
 
-    //     SingleChildScrollView(
-    //   padding: EdgeInsets.all(16.0),
-    //   child: Column(
-    //     crossAxisAlignment: CrossAxisAlignment.start,
-    //     children: [
-    //       Text(
-    //         '解析后的数据:',
-    //         style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-    //       ),
-    //       SizedBox(height: 8),
-    //       Text(
-    //         response.map((e) => '${e.actor.login ?? 'Unknown'} - ${e.type ?? 'Unknown'}').join('\n'),
-    //         style: TextStyle(fontSize: 14),
-    //       ),
-    //       SizedBox(height: 24),
-    //       Text(
-    //         '原始JSON数据:',
-    //         style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-    //       ),
-    //       SizedBox(height: 8),
-    //       Container(
-    //         padding: EdgeInsets.all(12),
-    //         decoration: BoxDecoration(
-    //           color: Colors.grey[100],
-    //           borderRadius: BorderRadius.circular(8),
-    //           border: Border.all(color: Colors.grey[300]!),
-    //         ),
-    //         child: SelectableText(
-    //           _formatJson(rawJson),
-    //           style: TextStyle(
-    //             fontFamily: 'monospace',
-    //             fontSize: 12,
-    //           ),
-    //         ),
-    //       ),
-    //     ],
-    //   ),
-    // )
+        // Scrollbar(
+        //     child: SingleChildScrollView(
+        //       padding: EdgeInsets.all(16.0),
+        //       child: Column(
+        //         crossAxisAlignment: CrossAxisAlignment.start,
+        //         children: [
+        //           Text(
+        //             '解析后的数据:',
+        //             style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+        //           ),
+        //           SizedBox(height: 8),
+        //           Text(
+        //             response.map((e) => '${e.actor.login ?? 'Unknown'} - ${e.type ?? 'Unknown'}').join('\n'),
+        //             style: TextStyle(fontSize: 14),
+        //           ),
+        //           SizedBox(height: 24),
+        //           Text(
+        //             '原始JSON数据:',
+        //             style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+        //           ),
+        //           SizedBox(height: 8),
+        //           Container(
+        //             padding: EdgeInsets.all(12),
+        //             decoration: BoxDecoration(
+        //               color: Colors.grey[100],
+        //               borderRadius: BorderRadius.circular(8),
+        //               border: Border.all(color: Colors.grey[300]!),
+        //             ),
+        //             child: SelectableText(
+        //               _formatJson(rawJson),
+        //               style: TextStyle(
+        //                 fontFamily: 'monospace',
+        //                 fontSize: 12,
+        //               ),
+        //             ),
+        //           ),
+        //         ],
+        //       ),
+        //     )
+        // )
+
 
     );
   }

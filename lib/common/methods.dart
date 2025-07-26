@@ -156,7 +156,7 @@ class Methods {
           },
         ),
       );
-
+      // print('Received events response: ${response.data}');
       if (response.statusCode == 200) {
         List<dynamic> data = response.data;
         return data.map((item) => Event.fromJson(item)).toList();

@@ -1,3 +1,4 @@
+import 'package:intl/intl.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'event.g.dart';
@@ -6,7 +7,8 @@ part 'event.g.dart';
 class Event {
   final Actor actor;
   @JsonKey(name: 'created_at')
-  final String? createdAt;
+  // 形如 2025-07-07T07:42:56Z
+  final String createdAt;
   final String? id;
   final Organization? org;
   final Payload payload;
@@ -16,7 +18,7 @@ class Event {
 
   Event({
     required this.actor,
-    this.createdAt,
+    required this.createdAt,
     this.id,
     this.org,
     required this.payload,
@@ -24,6 +26,24 @@ class Event {
     required this.repo,
     this.type,
   });
+
+  DateTime get createdDateTime => DateTime.parse(createdAt);
+  DateTime get localTime => createdDateTime.toLocal();
+
+  String get timeAgo {
+    final now = DateTime.now();
+    final difference = now.difference(localTime);
+
+    if (difference.inDays > 0) {
+      return '${difference.inDays}天前';
+    } else if (difference.inHours > 0) {
+      return '${difference.inHours}小时前';
+    } else if (difference.inMinutes > 0) {
+      return '${difference.inMinutes}分钟前';
+    } else {
+      return '刚刚';
+    }
+  }
 
   factory Event.fromJson(Map<String, dynamic> json) => _$EventFromJson(json);
   Map<String, dynamic> toJson() => _$EventToJson(this);
@@ -94,6 +114,7 @@ class Payload {
   final String? description;
   @JsonKey(name: 'pusher_type')
   final String? pusherType;
+  final Release? release;
 
   Payload({
     this.action,
@@ -106,6 +127,7 @@ class Payload {
     this.masterBranch,
     this.description,
     this.pusherType,
+    this.release
   });
 
   factory Payload.fromJson(Map<String, dynamic> json) => _$PayloadFromJson(json);
@@ -345,60 +367,60 @@ class Issue {
 @JsonSerializable()
 class EventUser {
   @JsonKey(name: 'avatar_url')
-  final String? avatarUrl;
+  final String avatarUrl;
   @JsonKey(name: 'events_url')
-  final String? eventsUrl;
+  final String eventsUrl;
   @JsonKey(name: 'followers_url')
-  final String? followersUrl;
+  final String followersUrl;
   @JsonKey(name: 'following_url')
-  final String? followingUrl;
+  final String followingUrl;
   @JsonKey(name: 'gists_url')
-  final String? gistsUrl;
+  final String gistsUrl;
   @JsonKey(name: 'gravatar_id')
   final String? gravatarId;
   @JsonKey(name: 'html_url')
-  final String? htmlUrl;
-  final int? id;
-  final String? login;
+  final String htmlUrl;
+  final int id;
+  final String login;
   @JsonKey(name: 'node_id')
-  final String? nodeId;
+  final String nodeId;
   @JsonKey(name: 'organizations_url')
-  final String? organizationsUrl;
+  final String organizationsUrl;
   @JsonKey(name: 'received_events_url')
-  final String? receivedEventsUrl;
+  final String receivedEventsUrl;
   @JsonKey(name: 'repos_url')
-  final String? reposUrl;
+  final String reposUrl;
   @JsonKey(name: 'site_admin')
-  final bool? siteAdmin;
+  final bool siteAdmin;
   @JsonKey(name: 'starred_at')
   final String? starredAt;
   @JsonKey(name: 'starred_url')
-  final String? starredUrl;
+  final String starredUrl;
   @JsonKey(name: 'subscriptions_url')
-  final String? subscriptionsUrl;
-  final String? type;
-  final String? url;
+  final String subscriptionsUrl;
+  final String type;
+  final String url;
 
   EventUser({
-    this.avatarUrl,
-    this.eventsUrl,
-    this.followersUrl,
-    this.followingUrl,
-    this.gistsUrl,
+    required this.avatarUrl,
+    required this.eventsUrl,
+    required this.followersUrl,
+    required this.followingUrl,
+    required this.gistsUrl,
     this.gravatarId,
-    this.htmlUrl,
-    this.id,
-    this.login,
-    this.nodeId,
-    this.organizationsUrl,
-    this.receivedEventsUrl,
-    this.reposUrl,
-    this.siteAdmin,
+    required this.htmlUrl,
+    required this.id,
+    required this.login,
+    required this.nodeId,
+    required this.organizationsUrl,
+    required this.receivedEventsUrl,
+    required this.reposUrl,
+    required this.siteAdmin,
     this.starredAt,
-    this.starredUrl,
-    this.subscriptionsUrl,
-    this.type,
-    this.url,
+    required this.starredUrl,
+    required this.subscriptionsUrl,
+    required this.type,
+    required this.url,
   });
 
   factory EventUser.fromJson(Map<String, dynamic> json) => _$EventUserFromJson(json);
@@ -527,4 +549,133 @@ class PullRequest {
 
   factory PullRequest.fromJson(Map<String, dynamic> json) => _$PullRequestFromJson(json);
   Map<String, dynamic> toJson() => _$PullRequestToJson(this);
+}
+
+@JsonSerializable()
+class Release {
+  final String url;
+  @JsonKey(name: 'html_url')
+  final String htmlUrl;
+  @JsonKey(name: 'assets_url')
+  final String assetsUrl;
+  @JsonKey(name: 'upload_url')
+  final String uploadUrl;
+  @JsonKey(name: 'tarball_url')
+  final String tarballUrl;
+  @JsonKey(name: 'zipball_url')
+  final String zipballUrl;
+  @JsonKey(name: 'discussion_url')
+  final String? discussionUrl;
+  final int id;
+  @JsonKey(name: 'node_id')
+  final String nodeId;
+  @JsonKey(name: 'tag_name')
+  final String tagName;
+  @JsonKey(name: 'target_commitish')
+  final String targetCommitish;
+  final String name;
+  final String body;
+  final bool draft;
+  final bool prerelease;
+  final bool immutable;
+  @JsonKey(name: 'created_at')
+  final String createdAt;
+  @JsonKey(name: 'published_at')
+  final String? publishedAt;
+  final EventUser author;
+  final List<ReleaseAsset> assets;
+
+  Release({
+    required this.url,
+    required this.htmlUrl,
+    required this.assetsUrl,
+    required this.uploadUrl,
+    required this.tarballUrl,
+    required this.zipballUrl,
+    this.discussionUrl,
+    required this.id,
+    required this.nodeId,
+    required this.tagName,
+    required this.targetCommitish,
+    required this.name,
+    required this.body,
+    required this.draft,
+    required this.prerelease,
+    required this.immutable,
+    required this.createdAt,
+    this.publishedAt,
+    required this.author,
+    required this.assets,
+  });
+
+  // 时间解析方法
+  DateTime get createdDateTime => DateTime.parse(createdAt);
+  DateTime? get publishedDateTime => publishedAt != null ? DateTime.parse(publishedAt!) : null;
+
+  DateTime get localCreatedTime => createdDateTime.toLocal();
+  DateTime? get localPublishedTime => publishedDateTime?.toLocal();
+
+  String get formattedCreatedTime => DateFormat('yyyy-MM-dd HH:mm').format(localCreatedTime);
+  String? get formattedPublishedTime => localPublishedTime != null
+      ? DateFormat('yyyy-MM-dd HH:mm').format(localPublishedTime!)
+      : null;
+
+  factory Release.fromJson(Map<String, dynamic> json) => _$ReleaseFromJson(json);
+  Map<String, dynamic> toJson() => _$ReleaseToJson(this);
+}
+
+@JsonSerializable()
+class ReleaseAsset {
+  final String url;
+  @JsonKey(name: 'browser_download_url')
+  final String browserDownloadUrl;
+  final int id;
+  @JsonKey(name: 'node_id')
+  final String nodeId;
+  final String name;
+  final String? label;
+  final String state;
+  @JsonKey(name: 'content_type')
+  final String contentType;
+  final int size;
+  final String? digest;
+  @JsonKey(name: 'download_count')
+  final int downloadCount;
+  @JsonKey(name: 'created_at')
+  final String createdAt;
+  @JsonKey(name: 'updated_at')
+  final String updatedAt;
+  final EventUser uploader;
+
+  ReleaseAsset({
+    required this.url,
+    required this.browserDownloadUrl,
+    required this.id,
+    required this.nodeId,
+    required this.name,
+    this.label,
+    required this.state,
+    required this.contentType,
+    required this.size,
+    this.digest,
+    required this.downloadCount,
+    required this.createdAt,
+    required this.updatedAt,
+    required this.uploader,
+  });
+
+  // 时间解析
+  DateTime get createdDateTime => DateTime.parse(createdAt);
+  DateTime get updatedDateTime => DateTime.parse(updatedAt);
+
+  // 文件大小格式化
+  String get formattedSize {
+    if (size < 1024) return '$size B';
+    if (size < 1024 * 1024) return '${(size / 1024).toStringAsFixed(1)} KB';
+    if (size < 1024 * 1024 * 1024) return '${(size / (1024 * 1024)).toStringAsFixed(1)} MB';
+    return '${(size / (1024 * 1024 * 1024)).toStringAsFixed(1)} GB';
+  }
+
+  factory ReleaseAsset.fromJson(Map<String, dynamic> json) => _$ReleaseAssetFromJson(json);
+  Map<String, dynamic> toJson() => _$ReleaseAssetToJson(this);
 }

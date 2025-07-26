@@ -8,7 +8,7 @@ part of 'event.dart';
 
 Event _$EventFromJson(Map<String, dynamic> json) => Event(
   actor: Actor.fromJson(json['actor'] as Map<String, dynamic>),
-  createdAt: json['created_at'] as String?,
+  createdAt: json['created_at'] as String,
   id: json['id'] as String?,
   org:
       json['org'] == null
@@ -91,6 +91,10 @@ Payload _$PayloadFromJson(Map<String, dynamic> json) => Payload(
   masterBranch: json['master_branch'] as String?,
   description: json['description'] as String?,
   pusherType: json['pusher_type'] as String?,
+  release:
+      json['release'] == null
+          ? null
+          : Release.fromJson(json['release'] as Map<String, dynamic>),
 );
 
 Map<String, dynamic> _$PayloadToJson(Payload instance) => <String, dynamic>{
@@ -104,6 +108,7 @@ Map<String, dynamic> _$PayloadToJson(Payload instance) => <String, dynamic>{
   'master_branch': instance.masterBranch,
   'description': instance.description,
   'pusher_type': instance.pusherType,
+  'release': instance.release,
 };
 
 Comment _$CommentFromJson(Map<String, dynamic> json) => Comment(
@@ -322,25 +327,25 @@ Map<String, dynamic> _$IssueToJson(Issue instance) => <String, dynamic>{
 };
 
 EventUser _$EventUserFromJson(Map<String, dynamic> json) => EventUser(
-  avatarUrl: json['avatar_url'] as String?,
-  eventsUrl: json['events_url'] as String?,
-  followersUrl: json['followers_url'] as String?,
-  followingUrl: json['following_url'] as String?,
-  gistsUrl: json['gists_url'] as String?,
+  avatarUrl: json['avatar_url'] as String,
+  eventsUrl: json['events_url'] as String,
+  followersUrl: json['followers_url'] as String,
+  followingUrl: json['following_url'] as String,
+  gistsUrl: json['gists_url'] as String,
   gravatarId: json['gravatar_id'] as String?,
-  htmlUrl: json['html_url'] as String?,
-  id: (json['id'] as num?)?.toInt(),
-  login: json['login'] as String?,
-  nodeId: json['node_id'] as String?,
-  organizationsUrl: json['organizations_url'] as String?,
-  receivedEventsUrl: json['received_events_url'] as String?,
-  reposUrl: json['repos_url'] as String?,
-  siteAdmin: json['site_admin'] as bool?,
+  htmlUrl: json['html_url'] as String,
+  id: (json['id'] as num).toInt(),
+  login: json['login'] as String,
+  nodeId: json['node_id'] as String,
+  organizationsUrl: json['organizations_url'] as String,
+  receivedEventsUrl: json['received_events_url'] as String,
+  reposUrl: json['repos_url'] as String,
+  siteAdmin: json['site_admin'] as bool,
   starredAt: json['starred_at'] as String?,
-  starredUrl: json['starred_url'] as String?,
-  subscriptionsUrl: json['subscriptions_url'] as String?,
-  type: json['type'] as String?,
-  url: json['url'] as String?,
+  starredUrl: json['starred_url'] as String,
+  subscriptionsUrl: json['subscriptions_url'] as String,
+  type: json['type'] as String,
+  url: json['url'] as String,
 );
 
 Map<String, dynamic> _$EventUserToJson(EventUser instance) => <String, dynamic>{
@@ -459,4 +464,88 @@ Map<String, dynamic> _$PullRequestToJson(PullRequest instance) =>
       'merged_at': instance.mergedAt,
       'patch_url': instance.patchUrl,
       'url': instance.url,
+    };
+
+Release _$ReleaseFromJson(Map<String, dynamic> json) => Release(
+  url: json['url'] as String,
+  htmlUrl: json['html_url'] as String,
+  assetsUrl: json['assets_url'] as String,
+  uploadUrl: json['upload_url'] as String,
+  tarballUrl: json['tarball_url'] as String,
+  zipballUrl: json['zipball_url'] as String,
+  discussionUrl: json['discussion_url'] as String?,
+  id: (json['id'] as num).toInt(),
+  nodeId: json['node_id'] as String,
+  tagName: json['tag_name'] as String,
+  targetCommitish: json['target_commitish'] as String,
+  name: json['name'] as String,
+  body: json['body'] as String,
+  draft: json['draft'] as bool,
+  prerelease: json['prerelease'] as bool,
+  immutable: json['immutable'] as bool,
+  createdAt: json['created_at'] as String,
+  publishedAt: json['published_at'] as String?,
+  author: EventUser.fromJson(json['author'] as Map<String, dynamic>),
+  assets:
+      (json['assets'] as List<dynamic>)
+          .map((e) => ReleaseAsset.fromJson(e as Map<String, dynamic>))
+          .toList(),
+);
+
+Map<String, dynamic> _$ReleaseToJson(Release instance) => <String, dynamic>{
+  'url': instance.url,
+  'html_url': instance.htmlUrl,
+  'assets_url': instance.assetsUrl,
+  'upload_url': instance.uploadUrl,
+  'tarball_url': instance.tarballUrl,
+  'zipball_url': instance.zipballUrl,
+  'discussion_url': instance.discussionUrl,
+  'id': instance.id,
+  'node_id': instance.nodeId,
+  'tag_name': instance.tagName,
+  'target_commitish': instance.targetCommitish,
+  'name': instance.name,
+  'body': instance.body,
+  'draft': instance.draft,
+  'prerelease': instance.prerelease,
+  'immutable': instance.immutable,
+  'created_at': instance.createdAt,
+  'published_at': instance.publishedAt,
+  'author': instance.author,
+  'assets': instance.assets,
+};
+
+ReleaseAsset _$ReleaseAssetFromJson(Map<String, dynamic> json) => ReleaseAsset(
+  url: json['url'] as String,
+  browserDownloadUrl: json['browser_download_url'] as String,
+  id: (json['id'] as num).toInt(),
+  nodeId: json['node_id'] as String,
+  name: json['name'] as String,
+  label: json['label'] as String?,
+  state: json['state'] as String,
+  contentType: json['content_type'] as String,
+  size: (json['size'] as num).toInt(),
+  digest: json['digest'] as String?,
+  downloadCount: (json['download_count'] as num).toInt(),
+  createdAt: json['created_at'] as String,
+  updatedAt: json['updated_at'] as String,
+  uploader: EventUser.fromJson(json['uploader'] as Map<String, dynamic>),
+);
+
+Map<String, dynamic> _$ReleaseAssetToJson(ReleaseAsset instance) =>
+    <String, dynamic>{
+      'url': instance.url,
+      'browser_download_url': instance.browserDownloadUrl,
+      'id': instance.id,
+      'node_id': instance.nodeId,
+      'name': instance.name,
+      'label': instance.label,
+      'state': instance.state,
+      'content_type': instance.contentType,
+      'size': instance.size,
+      'digest': instance.digest,
+      'download_count': instance.downloadCount,
+      'created_at': instance.createdAt,
+      'updated_at': instance.updatedAt,
+      'uploader': instance.uploader,
     };
