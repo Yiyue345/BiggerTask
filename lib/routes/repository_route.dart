@@ -183,7 +183,6 @@ class _RepositoryRouteState extends State<RepositoryRoute> {
                               data: utf8.decode(base64.decode(readme.content.replaceAll('\n', ''))),
                             shrinkWrap: true,
                             padding: EdgeInsets.zero,
-
                           ),
                         );
                       }

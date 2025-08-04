@@ -2,6 +2,7 @@ import 'package:biggertask/common/methods.dart';
 import 'package:biggertask/common/static.dart';
 import 'package:biggertask/models/github_user.dart';
 import 'package:biggertask/routes/repos_route.dart';
+import 'package:biggertask/routes/starred_repos_route.dart';
 import 'package:biggertask/widgets/github_namecard.dart';
 import 'package:flutter/material.dart';
 import 'package:icons_plus/icons_plus.dart';
@@ -93,6 +94,23 @@ class _UserInfoRouteState extends State<UserInfoRoute> {
                           (_user!.publicRepos + (_user!.privateRepos == null ? 0 : _user!.privateRepos!)).toString(),
                       ),
                     ),
+                    ListTile(
+                      leading: Icon(OctIcons.star),
+                      title: Text('标星'),
+                      trailing: FutureBuilder(
+                          future: Methods.getStarredCount(Global.token, _user!),
+                          builder: (context, snapshot) {
+                            if (snapshot.connectionState == ConnectionState.done) {
+                              return Text(snapshot.data.toString());
+                            } else {
+                              return Text('');
+                            }
+                          }
+                      ),
+                      onTap: () {
+                        Get.to(() => StarredReposRoute(user: _user!));
+                      },
+                    )
                   ],
                 ),
               )

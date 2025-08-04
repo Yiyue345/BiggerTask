@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:biggertask/common/static.dart';
 import 'package:biggertask/models/github_user.dart';
 import 'package:biggertask/routes/repos_route.dart';
+import 'package:biggertask/routes/starred_repos_route.dart';
 import 'package:biggertask/widgets/github_login.dart';
 import 'package:biggertask/widgets/github_namecard.dart';
 import 'package:flutter/material.dart';
@@ -78,7 +79,23 @@ class _MyInfoRouteState extends State<MyInfoRoute> {
                         (Global.gitHubUser!.publicRepos + (Global.gitHubUser!.privateRepos == null ? 0 : Global.gitHubUser!.privateRepos! + 1)).toString(),
                       )
                   ),
-
+                  ListTile(
+                    leading: Icon(OctIcons.star),
+                    title: Text('标星'),
+                    trailing: FutureBuilder(
+                        future: Methods.getStarredCount(Global.token, Global.gitHubUser!),
+                        builder: (context, snapshot) {
+                          if (snapshot.connectionState == ConnectionState.done) {
+                            return Text(snapshot.data.toString());
+                          } else {
+                            return Text('');
+                          }
+                        }
+                    ),
+                    onTap: () {
+                      Get.to(() => StarredReposRoute(user: Global.gitHubUser!));
+                    },
+                  ),
                   ListTile(
                     leading: Icon(Icons.exit_to_app,),
                     title: Text('退出'),
@@ -193,6 +210,9 @@ class _MyInfoRouteState extends State<MyInfoRoute> {
     final userInfo = await Methods.getMyInfo(Global.token);
     if (userInfo != null) {
       Global.gitHubUser = GitHubUser.fromJson(userInfo);
+      final SharedPreferences prefs = await SharedPreferences.getInstance();
+      await prefs.setString('userData', jsonEncode(Global.gitHubUser));
+
     }
 
     setState(() {

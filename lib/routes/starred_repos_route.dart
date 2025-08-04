@@ -4,7 +4,6 @@ import 'package:biggertask/models/github_user.dart';
 import 'package:biggertask/models/repository.dart';
 import 'package:biggertask/routes/repository_route.dart';
 import 'package:biggertask/widgets/keep_alive_wrapper.dart';
-import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:icons_plus/icons_plus.dart';
@@ -12,17 +11,17 @@ import 'package:get/get.dart';
 
 import '../common/static.dart';
 
-class RepositoriesRoute extends StatefulWidget {
+class StarredReposRoute extends StatefulWidget {
 
-  const RepositoriesRoute({super.key, required this.user});
+  const StarredReposRoute({super.key, required this.user});
 
   final GitHubUser user;
 
   @override
-  State<StatefulWidget> createState() => _RepositoriesRouteState();
+  State<StatefulWidget> createState() => _StarredReposRouteState();
 }
 
-class _RepositoriesRouteState extends State<RepositoriesRoute> {
+class _StarredReposRouteState extends State<StarredReposRoute> {
   List<Repository> repositories = [];
   late GitHubUser _user;
   int _reposPage = 1;
@@ -35,7 +34,7 @@ class _RepositoriesRouteState extends State<RepositoriesRoute> {
   Future<bool> _getStarredStatus(String fullname) {
     return _starredCache.putIfAbsent(
         fullname,
-            () => Methods.isStarred(fullname, Global.token)
+        () => Methods.isStarred(fullname, Global.token)
     );
   }
 
@@ -58,21 +57,11 @@ class _RepositoriesRouteState extends State<RepositoriesRoute> {
     });
 
     try {
-      late final newRepos;
-      if (_user.login == Global.gitHubUser!.login) {
-        newRepos = await Methods.getOwnRepositories(
-            Global.token,
-            page: _reposPage
-        );
-      }
-      else {
-        newRepos = await Methods.getRepositories(
-            Global.token,
-            _user.login,
-            page: _reposPage
-        );
-      }
-
+      final newRepos = await Methods.getStarredRepositories(
+          Global.token,
+          _user.login,
+        page: _reposPage
+      );
 
       setState(() {
         if (refresh) {
@@ -107,7 +96,7 @@ class _RepositoriesRouteState extends State<RepositoriesRoute> {
                 '${_user.login} 的',
                 style: TextStyle(fontSize: 12)
             ),
-            Text('仓库', style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold)),
+            Text('标星仓库', style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold)),
           ],
         ),
       ),
@@ -185,25 +174,13 @@ class _RepositoriesRouteState extends State<RepositoriesRoute> {
                     );
                   }
                 }
-
+                
               }
           )
 
       ),
     );
   }
-
-  // Future<void> _initRepositories({int page = 1, int perPage = 30}) async {
-  //   try {
-  //     repositories = _user.login == Global.gitHubUser?.login
-  //         ? await
-  //         : await _getRepositories();
-  //     setState(() {});
-  //   } catch (e) {
-  //     Fluttertoast.showToast(msg: 'Error initializing repositories: $e');
-  //     print('Error initializing repositories: $e');
-  //   }
-  // }
 
 }
 

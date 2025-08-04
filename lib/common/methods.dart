@@ -5,21 +5,19 @@ import 'package:biggertask/models/event.dart';
 import 'package:biggertask/models/github_user.dart';
 import 'package:biggertask/models/repository.dart';
 import 'package:dio/dio.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 class Methods {
+
+  static final DioManager _dioManager = DioManager();
+
   static Future<Map<String, dynamic>?> getMyInfo(String? token) async {
     // 第三发请求，获取用户信息
 
     try {
-      final dio = Dio();
-      final response = await dio.post(
+      _dioManager.setAuthToken(token);
+      final response = await _dioManager.dio.post(
           'https://api.github.com/user',
-          options: Options(
-              headers: {
-                'Authorization': 'Bearer $token',
-                'Accept': 'application/json',
-              }
-          )
       );
 
       if (response.statusCode == 200) {
@@ -35,16 +33,10 @@ class Methods {
   }
 
   static Future<GitHubUser?> getUserInfo(String username, String? token) async {
-    Dio dio = Dio();
     try {
-      final response = await dio.get(
+      _dioManager.setAuthToken(token);
+      final response = await _dioManager.dio.get(
         'https://api.github.com/users/$username',
-        options: Options(
-          headers: {
-            'Authorization': token != null && token.isNotEmpty ? 'Bearer $token' : '',
-            'Accept': 'application/vnd.github.v3+json',
-          },
-        ),
       );
 
       if (response.statusCode == 200) {
@@ -62,14 +54,11 @@ class Methods {
     if (token == null || token.isEmpty) {
       return false;
     }
-    Dio dio = Dio();
     try {
-      final response = await dio.get(
+      _dioManager.setAuthToken(token);
+      final response = await _dioManager.dio.get(
         'https://api.github.com/user/starred/$repoFullName',
           options: Options(
-            headers: {
-              'Authorization': 'Bearer $token'
-            },
             validateStatus: (status) => status == 204 || status == 404, // 204 表示已收藏，404 表示未收藏
           ),
 
@@ -94,16 +83,10 @@ class Methods {
     if (token == null || token.isEmpty) {
       return false;
     }
-    Dio dio = Dio();
     try {
-      final response = await dio.put(
+      _dioManager.setAuthToken(token);
+      final response = await _dioManager.dio.put(
         'https://api.github.com/user/starred/$repoFullName',
-        options: Options(
-          headers: {
-            'Authorization': 'Bearer $token',
-            'Accept': 'application/vnd.github.v3+json',
-          },
-        ),
       );
 
       return response.statusCode == 204; // 204 No Content 表示成功
@@ -117,16 +100,10 @@ class Methods {
     if (token == null || token.isEmpty) {
       return false;
     }
-    Dio dio = Dio();
     try {
-      final response = await dio.delete(
+      _dioManager.setAuthToken(token);
+      final response = await _dioManager.dio.delete(
         'https://api.github.com/user/starred/$repoFullName',
-        options: Options(
-          headers: {
-            'Authorization': 'Bearer $token',
-            'Accept': 'application/vnd.github.v3+json',
-          },
-        ),
       );
 
       return response.statusCode == 204; // 204 No Content 表示成功
@@ -141,20 +118,14 @@ class Methods {
       return [];
     }
 
-    Dio dio = Dio();
     try {
-      final response = await dio.get(
+      _dioManager.setAuthToken(token);
+      final response = await _dioManager.dio.get(
         'https://api.github.com/users/${Global.gitHubUser?.login}/received_events',
         queryParameters: {
           'page': page,
           'per_page': perPage,
         },
-        options: Options(
-          headers: {
-            'Authorization': 'Bearer $token',
-            'Accept': 'application/vnd.github.v3+json',
-          },
-        ),
       );
       // print('Received events response: ${response.data}');
       if (response.statusCode == 200) {
@@ -170,16 +141,10 @@ class Methods {
   }
 
   static Future<Repository?> getRepository(String fullName, String? token) async {
-    Dio dio = Dio();
     try {
-      final response = await dio.get(
+      _dioManager.setAuthToken(token);
+      final response = await _dioManager.dio.get(
         'https://api.github.com/repos/$fullName',
-        options: Options(
-          headers: {
-            'Authorization': 'Bearer $token',
-            'Accept': 'application/vnd.github.v3+json',
-          },
-        ),
       );
 
       if (response.statusCode == 200) {
@@ -192,4 +157,173 @@ class Methods {
       return null; // 返回一个空的 Repository 实例
     }
   }
+
+  static Future<List<Repository>> getStarredRepositories(String? token, String username, {int page = 1, int perPage = 30}) async {
+    if (token == null || token.isEmpty) {
+      return [];
+    }
+
+    try {
+      late var response;
+      _dioManager.setAuthToken(token);
+      if (username == Global.gitHubUser!.login) {
+        response = await _dioManager.dio.get(
+          'https://api.github.com/user/starred',
+          queryParameters: {
+            'page': page,
+            'per_page': perPage,
+          },
+        );
+      }
+      else {
+        response = await _dioManager.dio.get(
+          'https://api.github.com/users/$username/starred',
+          queryParameters: {
+            'page': page,
+            'per_page': perPage,
+          },
+        );
+      }
+
+
+      if (response.statusCode == 200) {
+        List<dynamic> data = response.data;
+        return data.map((item) => Repository.fromJson(item)).toList();
+      } else {
+        throw Exception('Failed to load starred repositories: ${response.statusCode}');
+      }
+    } catch (e) {
+      print('Error fetching starred repositories: $e');
+      return [];
+    }
+  }
+
+  static Future<int> getStarredCount(String? token, GitHubUser? user) async {
+    if (token == null || user == null) {
+      return 0;
+    }
+    try {
+      List response;
+      int count = 0;
+      response = await Methods.getStarredRepositories(token, user.login, page: 1, perPage: 100);
+      while (response.isNotEmpty) {
+        count += response.length;
+        // 获取下一页
+        response = await Methods.getStarredRepositories(token, user.login, page: (count / 100).ceil() + 1, perPage: 100);
+      }
+      return count;
+    } catch (e) {
+      Fluttertoast.showToast(msg: '获取标星数量失败: $e');
+      return 0;
+    }
+  }
+
+  static Future<List<Repository>> getOwnRepositories(String? token, {int page = 1, int perPage = 30}) async {
+    if (token == null || token.isEmpty) {
+      return [];
+    }
+    try {
+      _dioManager.setAuthToken(token);
+      final response = await _dioManager.dio.get(
+          'https://api.github.com/user/repos',
+          queryParameters: {
+            'page': page,
+            'per_page': perPage,
+          },
+      );
+
+      if (response.statusCode == 200) {
+        final List<dynamic> jsonList = response.data; // 已经是List<dynamic>了
+        // print(response.data);
+        return jsonList.map((json) => Repository.fromJson(json)).toList();
+      }
+      else {
+        throw Exception('Failed to load repositories: ${response.statusCode}');
+      }
+    } catch (e) {
+      Fluttertoast.showToast(msg: 'Error fetching repositories: $e');
+      print('Error fetching repositories: $e');
+      return [];
+    }
+  }
+
+  static Future<List<Repository>> getRepositories(String? token, String username, {int page = 1, int perPage = 30}) async {
+    if (token == null || token.isEmpty) {
+      return [];
+    }
+    try {
+      _dioManager.setAuthToken(token);
+      final response = await _dioManager.dio.get(
+          'https://api.github.com/users/$username/repos',
+          queryParameters: {
+            'page': page,
+            'per_page': perPage,
+          },
+      );
+
+      if (response.statusCode == 200) {
+        final List<dynamic> jsonList = response.data; // 已经是 List<dynamic> 了
+        // print(response.data);
+        return jsonList.map((json) => Repository.fromJson(json)).toList();
+      }
+      else {
+        throw Exception('Failed to load repositories: ${response.statusCode}');
+      }
+    }
+    catch (e) {
+      Fluttertoast.showToast(msg: 'Error fetching repositories: $e');
+      print('Error fetching repositories: $e');
+      return [];
+    }
+  }
+}
+
+class DioManager {
+  static final DioManager _instance = DioManager._internal();
+  late final Dio _dio;
+
+  factory DioManager() {
+    return _instance;
+  }
+
+  DioManager._internal() {
+    _dio = Dio();
+    _setupInterceptors();
+  }
+
+  Dio get dio => _dio;
+
+  void _setupInterceptors() {
+    _dio.interceptors.add(
+      InterceptorsWrapper(
+        onRequest: (options, handler) {
+          print('Request: ${options.method} ${options.uri}');
+          handler.next(options);
+        },
+        onResponse: (response, handler) {
+          print('Response: ${response.statusCode} ${response.data}');
+          handler.next(response);
+        },
+        onError: (error, handler) {
+          print('Error: ${error.message}');
+          handler.next(error);
+        },
+      )
+    );
+
+    _dio.options.connectTimeout = Duration(seconds: 30);
+    _dio.options.receiveTimeout = Duration(seconds: 30);
+    _dio.options.headers['Accept'] = 'application/vnd.github.v3+json';
+
+  }
+
+  void setAuthToken(String? token) {
+    if (token != null && token.isNotEmpty) {
+      _dio.options.headers['Authorization'] = 'Bearer $token';
+    }
+    else {
+      _dio.options.headers.remove('Authorization');
+    }
+  }
+
 }

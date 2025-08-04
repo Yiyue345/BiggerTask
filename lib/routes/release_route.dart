@@ -45,19 +45,20 @@ class _ReleaseRouteState extends State<ReleaseRoute> {
                   SizedBox(width: 4,),
                   GestureDetector(
                     onTap: () {
-                      Get.to(() => UserInfoRoute(username: widget.release.author.login));
+                      Get.to(() => UserInfoRoute(username: widget.repositoryName.split('/')[0]));
                     },
                     child: Text(
-                      widget.release.author.login,
+                      widget.repositoryName.split('/')[0], // 仓库拥有者
                       style: TextStyle(
-                        color: Theme.of(context).colorScheme.primaryFixed
+                        color: Theme.of(context).colorScheme.primaryFixedDim,
+                        fontWeight: FontWeight.bold
                       ),
                     ),
                   ),
                   Text(
                     ' / ',
                     style: TextStyle(
-                        color: Theme.of(context).colorScheme.primaryFixed
+                        color: Theme.of(context).colorScheme.primaryFixedDim
                     ),
                   ),
                   FutureBuilder(
@@ -69,16 +70,17 @@ class _ReleaseRouteState extends State<ReleaseRoute> {
                               Get.to(() => RepositoryRoute(repository: snapshot.data!));
                             },
                             child: Text(
-                              widget.repositoryName,
+                              widget.repositoryName.split('/')[1], // 仓库名称
                               style: TextStyle(
-                                  color: Theme.of(context).colorScheme.primaryFixed
+                                  color: Theme.of(context).colorScheme.primaryFixedDim,
+                                  fontWeight: FontWeight.bold
                               ),
                             ),
                           );
                         }
                         else {
                           return Text(
-                            widget.repositoryName,
+                            widget.repositoryName.split('/')[1],
                             style: TextStyle(
                                 color: Theme.of(context).colorScheme.primaryFixed
                             ),
@@ -86,10 +88,8 @@ class _ReleaseRouteState extends State<ReleaseRoute> {
                         }
                       }
                   ),
-
                 ],
               ),
-
               MarkdownWidget(
                 data: widget.release.body,
                 shrinkWrap: true,
