@@ -1,3 +1,11 @@
+import 'dart:async';
+
+import 'package:biggertask/common/methods.dart';
+import 'package:biggertask/common/static.dart';
+import 'package:biggertask/models/repository.dart';
+import 'package:biggertask/models/search.dart';
+import 'package:biggertask/widgets/event_tile.dart';
+import 'package:biggertask/widgets/keep_alive_wrapper.dart';
 import 'package:flutter/material.dart';
 
 class SearchPage extends StatefulWidget {
@@ -11,6 +19,9 @@ class _SearchPageState extends State<SearchPage> {
 
   final TextEditingController _controller = TextEditingController();
   String _searchText = '';
+  Timer? _debounceTimer;
+  int _page = 1;
+  List<Repository> _repositories = [];
 
   // final List _options = ['commits', 'issues', 'pull requests', 'repositories', 'code', 'topics', 'users'];
   // final List<bool> _selectedOptions = [false, false, false, false, false, false, false];
@@ -69,14 +80,52 @@ class _SearchPageState extends State<SearchPage> {
 
   }
 
+  @override
+  void initState() {
+    super.initState();
+    _controller.addListener(_onSearchTextChanged);
+  }
+
+  void _onSearchTextChanged() {
+
+    _debounceTimer?.cancel();
+    _debounceTimer = Timer(Duration(seconds: 1), () async {
+      String currentText = _controller.text.trim();
+
+      if (currentText != _searchText) {
+        setState(() {
+          _searchText = currentText;
+        });
+      }
+
+      if (currentText.isNotEmpty) {
+        print(currentText);
+        _page = 1;
+        _repositories.clear();
+        SearchReposResponse? response = await Methods.searchRepositories(Global.token, currentText, page: _page);
+        setState(() {
+          _repositories.addAll(response?.repositories ?? []);
+        });
+        // 搜索
+      }
+
+    });
+
+  }
+
+  @override
+  void dispose() {
+    _debounceTimer?.cancel();
+    _controller.removeListener(_onSearchTextChanged);
+    _controller.dispose();
+    super.dispose();
+  }
+
 
   @override
   Widget build(BuildContext context) {
 
-    _controller.addListener(() {
-      _searchText = _controller.text;
 
-    });
 
     return Scaffold(
       appBar: AppBar(
@@ -121,10 +170,14 @@ class _SearchPageState extends State<SearchPage> {
           ),
         ],
       ),
-      body: Column(
-        children: [
+      body: _repositories.isEmpty
+      ? SizedBox()
+          : ListView.builder(
+        itemCount: _repositories.length,
+          itemBuilder: (context, index) {
 
-        ],
+          return KeepAliveWrapper(child: RepositoryEventTile(repoName: _repositories[index].fullName));
+          }
       ),
     );
   }

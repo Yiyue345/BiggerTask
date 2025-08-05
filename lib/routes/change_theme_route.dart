@@ -1,5 +1,3 @@
-import 'package:biggertask/common/static.dart';
-import 'package:biggertask/main.dart';
 import 'package:biggertask/states/theme_controller.dart';
 import 'package:biggertask/widgets/theme_colors_container.dart';
 import 'package:flex_color_picker/flex_color_picker.dart';

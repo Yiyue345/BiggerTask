@@ -4,6 +4,7 @@ import 'package:biggertask/common/static.dart';
 import 'package:biggertask/models/event.dart';
 import 'package:biggertask/models/github_user.dart';
 import 'package:biggertask/models/repository.dart';
+import 'package:biggertask/models/search.dart';
 import 'package:dio/dio.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
@@ -115,6 +116,7 @@ class Methods {
 
   static Future<List<Event>> getMyEvents(String? token, {int page = 1, int perPage = 30}) async {
     if (token == null || token.isEmpty || Global.gitHubUser == null) {
+      print('Token is null or empty, or GitHub user is not set.');
       return [];
     }
 
@@ -274,6 +276,34 @@ class Methods {
       Fluttertoast.showToast(msg: 'Error fetching repositories: $e');
       print('Error fetching repositories: $e');
       return [];
+    }
+  }
+
+  static Future<SearchReposResponse?> searchRepositories(String? token, String query, {int page = 1, int perPage = 30}) async {
+    if (token == null || token.isEmpty) {
+      return null;
+    }
+    try {
+      _dioManager.setAuthToken(token);
+      final response = await _dioManager.dio.get(
+        'https://api.github.com/search/repositories',
+        queryParameters: {
+          'q': query,
+          'page': page,
+          'per_page': perPage,
+        },
+      );
+
+      if (response.statusCode == 200) {
+        final SearchReposResponse searchResponse = SearchReposResponse.fromJson(response.data);
+        return searchResponse;
+      } else {
+        throw Exception('Failed to search repositories: ${response.statusCode}');
+      }
+    } catch (e) {
+      Fluttertoast.showToast(msg: 'Error searching repositories: $e');
+      print('Error searching repositories: $e');
+      return null;
     }
   }
 }

@@ -133,7 +133,37 @@ class RepositoryEventTile extends StatelessWidget {
         future: _fetchRepository(),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return ListTile();
+            return ListTile(
+              minVerticalPadding: 0,
+              title: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Flexible(
+                    child: Row(
+                      children: [
+                        CircleAvatar(
+                          radius: 8,
+                        ),
+                        SizedBox(width: 4,),
+                        Flexible(
+                          child: Text(
+                            repoName,
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                            style: TextStyle(
+                                color: Theme.of(context).colorScheme.onSecondaryFixedVariant,
+                                fontWeight: FontWeight.bold,
+                                fontSize: 16
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+
+                ],
+              ),
+            );
           }
           if (snapshot.hasError) {
             return ListTile(
@@ -188,7 +218,7 @@ class RepositoryEventTile extends StatelessWidget {
                         repository!.stargazersCount = starController.getStarCount(repository!.fullName);
                       },
                     label: Text(
-                        starController._starCounts[repository!.fullName].toString() ?? '0',
+                        starController._starCounts[repository?.fullName].toString(),
                       style: TextStyle(
                         color: starController.isStarred(repository!.fullName)
                           ? Colors.amber
@@ -377,7 +407,7 @@ class ReleaseEventTile extends StatelessWidget {
         children: [
           CircleAvatar(
             backgroundImage: NetworkImage(
-              event.payload.release!.author.avatarUrl!,
+              event.payload.release!.author.avatarUrl,
             ),
             radius: 8,
           ),

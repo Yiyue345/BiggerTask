@@ -20,6 +20,7 @@ class HomepageBaseRoute extends StatefulWidget {
 
 class _HomepageBaseRouteState extends State<HomepageBaseRoute> {
   int _selectedIndex = 0;
+  bool _isInitialized = false;
 
   final List<Widget> _pages = [
     ExploreRoute(),
@@ -45,6 +46,9 @@ class _HomepageBaseRouteState extends State<HomepageBaseRoute> {
     final userMap = userData.isNotEmpty ? jsonDecode(userData) : {}; // 解析 json 字符串成 map
     Global.gitHubUser = userMap.isNotEmpty ? GitHubUser.fromJson(userMap) : null; // 如果 map 不为空，则创建 GitHubUser 实例
 
+    setState(() {
+      _isInitialized = true;
+    });
 
   }
 
@@ -57,8 +61,13 @@ class _HomepageBaseRouteState extends State<HomepageBaseRoute> {
 
   @override
   Widget build(BuildContext context) {
-
-
+    if (!_isInitialized) {
+      return Scaffold(
+        body: Center(
+          child: SizedBox(),
+        ),
+      );
+    }
 
     return Scaffold(
       appBar: AppBar(

@@ -1,4 +1,3 @@
-import 'package:biggertask/common/static.dart';
 import 'package:biggertask/routes/change_theme_route.dart';
 import 'package:biggertask/routes/homepage_base_route.dart';
 import 'package:biggertask/routes/language_route.dart';

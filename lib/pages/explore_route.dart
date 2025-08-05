@@ -26,12 +26,16 @@ class _ExploreRouteState extends State<ExploreRoute> with AutomaticKeepAliveClie
       isLoaded = true;
       rawJson = jsonEncode(response.map((e) => e.toJson()).toList());
     });
+
   }
 
   @override
   void initState() {
     super.initState();
-    _fetchData();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      // 在页面加载后立即获取数据
+      _fetchData();
+    });
   }
 
   @override
