@@ -16,7 +16,7 @@ class SimpleGitHubUser {
   @JsonKey(name: 'gists_url')
   final String gistsUrl;
   @JsonKey(name: 'gravatar_id')
-  final String gravatarId;
+  final String? gravatarId;
   @JsonKey(name: 'html_url')
   final String htmlUrl;
   final int id;
@@ -39,6 +39,8 @@ class SimpleGitHubUser {
   final String url;
   @JsonKey(name: 'starred_at')
   final String? starredAt;
+  @JsonKey(name: 'score')
+  final double? score;
 
   SimpleGitHubUser({
     required this.avatarUrl,
@@ -46,7 +48,7 @@ class SimpleGitHubUser {
     required this.followersUrl,
     required this.followingUrl,
     required this.gistsUrl,
-    required this.gravatarId,
+    this.gravatarId,
     required this.htmlUrl,
     required this.id,
     required this.login,
@@ -60,6 +62,7 @@ class SimpleGitHubUser {
     required this.type,
     required this.url,
     this.starredAt,
+    this.score,
   });
 
   factory SimpleGitHubUser.fromJson(Map<String, dynamic> json) =>

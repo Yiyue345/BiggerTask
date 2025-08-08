@@ -13,7 +13,7 @@ SimpleGitHubUser _$SimpleGitHubUserFromJson(Map<String, dynamic> json) =>
       followersUrl: json['followers_url'] as String,
       followingUrl: json['following_url'] as String,
       gistsUrl: json['gists_url'] as String,
-      gravatarId: json['gravatar_id'] as String,
+      gravatarId: json['gravatar_id'] as String?,
       htmlUrl: json['html_url'] as String,
       id: (json['id'] as num).toInt(),
       login: json['login'] as String,
@@ -27,6 +27,7 @@ SimpleGitHubUser _$SimpleGitHubUserFromJson(Map<String, dynamic> json) =>
       type: json['type'] as String,
       url: json['url'] as String,
       starredAt: json['starred_at'] as String?,
+      score: (json['score'] as num?)?.toDouble(),
     );
 
 Map<String, dynamic> _$SimpleGitHubUserToJson(SimpleGitHubUser instance) =>
@@ -50,6 +51,7 @@ Map<String, dynamic> _$SimpleGitHubUserToJson(SimpleGitHubUser instance) =>
       'type': instance.type,
       'url': instance.url,
       'starred_at': instance.starredAt,
+      'score': instance.score,
     };
 
 GitHubUser _$GitHubUserFromJson(Map<String, dynamic> json) => GitHubUser(
@@ -58,7 +60,7 @@ GitHubUser _$GitHubUserFromJson(Map<String, dynamic> json) => GitHubUser(
   followersUrl: json['followers_url'] as String,
   followingUrl: json['following_url'] as String,
   gistsUrl: json['gists_url'] as String,
-  gravatarId: json['gravatar_id'] as String,
+  gravatarId: json['gravatar_id'] as String?,
   htmlUrl: json['html_url'] as String,
   id: (json['id'] as num).toInt(),
   login: json['login'] as String,

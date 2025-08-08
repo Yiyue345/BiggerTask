@@ -34,7 +34,10 @@ class _RepositoriesRouteState extends State<RepositoriesRoute> {
   Future<bool> _getStarredStatus(String fullname) {
     return _starredCache.putIfAbsent(
         fullname,
-            () => Methods.isStarred(fullname, Global.token)
+            () => Methods.isStarred(
+              repoFullName: fullname,
+              token: Global.token
+            )
     );
   }
 
@@ -60,14 +63,14 @@ class _RepositoriesRouteState extends State<RepositoriesRoute> {
       late final newRepos;
       if (_user.login == Global.gitHubUser!.login) {
         newRepos = await Methods.getOwnRepositories(
-            Global.token,
+            token: Global.token,
             page: _reposPage
         );
       }
       else {
         newRepos = await Methods.getRepositories(
-            Global.token,
-            _user.login,
+            token: Global.token,
+            username: _user.login,
             page: _reposPage
         );
       }

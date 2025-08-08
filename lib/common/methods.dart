@@ -12,7 +12,7 @@ class Methods {
 
   static final DioManager _dioManager = DioManager();
 
-  static Future<Map<String, dynamic>?> getMyInfo(String? token) async {
+  static Future<Map<String, dynamic>?> getMyInfo({required String? token}) async {
     // 第三发请求，获取用户信息
 
     try {
@@ -51,7 +51,7 @@ class Methods {
     }
   }
 
-  static Future<bool> isStarred(String repoFullName, String? token) async {
+  static Future<bool> isStarred({required String repoFullName, required String? token}) async {
     if (token == null || token.isEmpty) {
       return false;
     }
@@ -80,7 +80,7 @@ class Methods {
     }
   }
 
-  static Future<bool> starRepository(String repoFullName, String? token) async {
+  static Future<bool> starRepository({required String repoFullName, required String? token}) async {
     if (token == null || token.isEmpty) {
       return false;
     }
@@ -97,7 +97,7 @@ class Methods {
     }
   }
 
-  static Future<bool> unstarRepository(String repoFullName, String? token) async {
+  static Future<bool> unstarRepository({required String repoFullName, required String? token}) async {
     if (token == null || token.isEmpty) {
       return false;
     }
@@ -114,7 +114,7 @@ class Methods {
     }
   }
 
-  static Future<List<Event>> getMyEvents(String? token, {int page = 1, int perPage = 30}) async {
+  static Future<List<Event>> getMyEvents({required String? token, int page = 1, int perPage = 30}) async {
     if (token == null || token.isEmpty || Global.gitHubUser == null) {
       print('Token is null or empty, or GitHub user is not set.');
       return [];
@@ -142,7 +142,7 @@ class Methods {
     }
   }
 
-  static Future<Repository?> getRepository(String fullName, String? token) async {
+  static Future<Repository?> getRepository({required String fullName, required String? token}) async {
     try {
       _dioManager.setAuthToken(token);
       final response = await _dioManager.dio.get(
@@ -160,7 +160,7 @@ class Methods {
     }
   }
 
-  static Future<List<Repository>> getStarredRepositories(String? token, String username, {int page = 1, int perPage = 30}) async {
+  static Future<List<Repository>> getStarredRepositories({required String? token, required String username, int page = 1, int perPage = 30}) async {
     if (token == null || token.isEmpty) {
       return [];
     }
@@ -200,19 +200,21 @@ class Methods {
     }
   }
 
-  static Future<int> getStarredCount(String? token, GitHubUser? user) async {
+  static Future<int> getStarredCount({required String? token, GitHubUser? user}) async {
     if (token == null || user == null) {
       return 0;
     }
     try {
       List response;
       int count = 0;
-      response = await Methods.getStarredRepositories(token, user.login, page: 1, perPage: 100);
-      while (response.isNotEmpty) {
+      int page = 1;
+      do {
+        response = await Methods.getStarredRepositories(token: token, username: user.login, page: page, perPage: 100);
+        page++;
         count += response.length;
-        // 获取下一页
-        response = await Methods.getStarredRepositories(token, user.login, page: (count / 100).ceil() + 1, perPage: 100);
       }
+      while (response.isNotEmpty);
+
       return count;
     } catch (e) {
       Fluttertoast.showToast(msg: '获取标星数量失败: $e');
@@ -220,7 +222,7 @@ class Methods {
     }
   }
 
-  static Future<List<Repository>> getOwnRepositories(String? token, {int page = 1, int perPage = 30}) async {
+  static Future<List<Repository>> getOwnRepositories({required String? token, int page = 1, int perPage = 30}) async {
     if (token == null || token.isEmpty) {
       return [];
     }
@@ -249,7 +251,7 @@ class Methods {
     }
   }
 
-  static Future<List<Repository>> getRepositories(String? token, String username, {int page = 1, int perPage = 30}) async {
+  static Future<List<Repository>> getRepositories({required String? token, required String username, int page = 1, int perPage = 30}) async {
     if (token == null || token.isEmpty) {
       return [];
     }
@@ -279,7 +281,7 @@ class Methods {
     }
   }
 
-  static Future<SearchReposResponse?> searchRepositories(String? token, String query, {int page = 1, int perPage = 30}) async {
+  static Future<SearchReposResponse?> searchRepositories({required String? token, required String query, int page = 1, int perPage = 30}) async {
     if (token == null || token.isEmpty) {
       return null;
     }
@@ -304,6 +306,76 @@ class Methods {
       Fluttertoast.showToast(msg: 'Error searching repositories: $e');
       print('Error searching repositories: $e');
       return null;
+    }
+  }
+
+  static Future<SearchUsersResponse?> searchUsers({required String? token, required String query, int page = 1, int perPage = 30}) async {
+    if (token == null || token.isEmpty) {
+      return null;
+    }
+
+    try {
+      _dioManager.setAuthToken(token);
+      final response = await _dioManager.dio.get(
+        'https://api.github.com/search/users',
+        queryParameters: {
+          'q': query,
+          'page': page,
+          'per_page': perPage,
+        },
+      );
+
+      if (response.statusCode == 200) {
+        final SearchUsersResponse searchResponse = SearchUsersResponse.fromJson(response.data);
+        return searchResponse;
+      } else {
+        throw Exception('Failed to search users: ${response.statusCode}');
+      }
+    } catch (e) {
+      Fluttertoast.showToast(msg: 'Error searching users: $e');
+      print('Error searching users: $e');
+      return null;
+    }
+  }
+
+  static Future<List<Release>> getReleases({required String? token, required String repoFullName, int page = 1, int perPage = 30}) async {
+    try {
+      _dioManager.setAuthToken(token);
+      final response = await _dioManager.dio.get(
+        'https://api.github.com/repos/$repoFullName/releases',
+        queryParameters: {
+          'page': page,
+          'per_page': perPage,
+        },
+      );
+
+      if (response.statusCode == 200) {
+        List<dynamic> data = response.data;
+        return data.map((item) => Release.fromJson(item)).toList();
+      } else {
+        throw Exception('Failed to load releases: ${response.statusCode}');
+      }
+    } catch (e) {
+      print('Error fetching releases: $e');
+      return [];
+    }
+  }
+
+  static Future<int> getReleaseCount({required String? token, required String repoFullName}) async {
+    int count = 0;
+    try {
+      _dioManager.setAuthToken(token);
+      List response = await getReleases(token: token, repoFullName: repoFullName, page: 1, perPage: 100);
+      while (response.isNotEmpty) {
+        count += response.length;
+        // 获取下一页
+        response = await getReleases(token: token, repoFullName: repoFullName, page: (count ~/ 100) + 1, perPage: 100); // ~/是整除
+      }
+      return count;
+
+    } catch (e) {
+      print('Error fetching release count: $e');
+      return 0;
     }
   }
 }

@@ -2,11 +2,14 @@ import 'dart:async';
 
 import 'package:biggertask/common/methods.dart';
 import 'package:biggertask/common/static.dart';
+import 'package:biggertask/models/github_user.dart';
 import 'package:biggertask/models/repository.dart';
 import 'package:biggertask/models/search.dart';
 import 'package:biggertask/widgets/event_tile.dart';
+import 'package:biggertask/widgets/github_namecard.dart';
 import 'package:biggertask/widgets/keep_alive_wrapper.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class SearchPage extends StatefulWidget {
   const SearchPage({super.key});
@@ -21,20 +24,37 @@ class _SearchPageState extends State<SearchPage> {
   String _searchText = '';
   Timer? _debounceTimer;
   int _page = 1;
-  List<Repository> _repositories = [];
+  final Map<String, List> _items = {
+    'repositories': <Repository>[],
+    'users': <SimpleGitHubUser>[],
+    'commits': [],
+    'issues': [],
+    'pull requests': [],
+    'code': [],
+    'topics': [],
+  };
+  String _selectedType = 'repositories';
+  bool _isLoading = false; bool _hasMore = true;
 
-  // final List _options = ['commits', 'issues', 'pull requests', 'repositories', 'code', 'topics', 'users'];
-  // final List<bool> _selectedOptions = [false, false, false, false, false, false, false];
 
-  // todo: 打补丁支持多语言
   final Map<String, bool> _selectedOptions = {
-    'commits': true,
-    'issues': true,
-    'pull requests': true,
+    'commits': false,
+    'issues': false,
+    'pull requests': false,
     'repositories': true,
-    'code': true,
-    'topics': true,
-    'users': true,
+    'code': false,
+    'topics': false,
+    'users': false,
+  };
+
+  final Map<String, String> _typeLabels = {
+    'commits': '提交',
+    'issues': '议题',
+    'pull requests': '拉取请求',
+    'repositories': '仓库',
+    'code': '代码',
+    'topics': '主题',
+    'users': '用户',
   };
 
   void _showCustomMenu(TapDownDetails details) {
@@ -58,7 +78,7 @@ class _SearchPageState extends State<SearchPage> {
                       children: _selectedOptions.entries.map((entry) {
                         return CheckboxListTile(
                           title: Text(
-                              entry.key,
+                              _typeLabels[entry.key]!,
                             style: TextStyle(
                               color: Colors.black
                             ),
@@ -66,7 +86,20 @@ class _SearchPageState extends State<SearchPage> {
                           value: entry.value,
                           onChanged: (bool? value) {
                             setStateInside(() {
-                              _selectedOptions[entry.key] = value!;
+                              _selectedType = entry.key;
+                              print(_selectedType);
+                              _selectedOptions.updateAll((key, value) => false);
+                              _selectedOptions[entry.key] = true;
+                              _items.map((key, value) => MapEntry(key, []));
+                              _page = 1;
+                              _hasMore = true;
+                              _onSearchTextChanged();
+                            });
+                            setState(() {
+
+                            });
+                            Future.delayed(Duration(milliseconds: 200), () {
+                              Get.back();
                             });
                           },
                         );
@@ -91,7 +124,7 @@ class _SearchPageState extends State<SearchPage> {
     _debounceTimer?.cancel();
     _debounceTimer = Timer(Duration(seconds: 1), () async {
       String currentText = _controller.text.trim();
-
+      _isLoading = true;
       if (currentText != _searchText) {
         setState(() {
           _searchText = currentText;
@@ -101,12 +134,31 @@ class _SearchPageState extends State<SearchPage> {
       if (currentText.isNotEmpty) {
         print(currentText);
         _page = 1;
-        _repositories.clear();
-        SearchReposResponse? response = await Methods.searchRepositories(Global.token, currentText, page: _page);
-        setState(() {
-          _repositories.addAll(response?.repositories ?? []);
-        });
-        // 搜索
+        _items[_selectedType]!.clear();
+        switch (_selectedType) {
+          case 'repositories':
+            Methods.searchRepositories(token: Global.token, query: currentText, page: _page).then((response) {
+              setState(() {
+                _items['repositories']!.addAll(response?.repositories ?? []);
+                _isLoading = false;
+                _hasMore = response?.repositories.length == 30; // 假设每页最多30个仓库
+              });
+
+            });
+            break;
+          case 'users':
+            Methods.searchUsers(token: Global.token, query: currentText, page: _page).then((response) {
+              setState(() {
+                final users = response?.users ?? <SimpleGitHubUser>[];
+                _items['users']!.addAll(users);
+                _isLoading = false;
+                _hasMore = response?.users.length == 30; // 假设每页最多30个用户
+              });
+            });
+            break;
+        }
+
+
       }
 
     });
@@ -125,14 +177,12 @@ class _SearchPageState extends State<SearchPage> {
   @override
   Widget build(BuildContext context) {
 
-
-
     return Scaffold(
       appBar: AppBar(
         title: TextField(
           autofocus: true,
           decoration: InputDecoration(
-            hintText: '搜索',
+            hintText: '搜索${_typeLabels[_selectedType]}',
             // border: InputBorder.none,
             suffixIcon: IconButton(
               icon: Icon(Icons.close),
@@ -145,7 +195,6 @@ class _SearchPageState extends State<SearchPage> {
         ),
         actions: [
           PopupMenuButton(
-
             itemBuilder: (context) => [
               PopupMenuItem(
                 enabled: false,
@@ -170,13 +219,73 @@ class _SearchPageState extends State<SearchPage> {
           ),
         ],
       ),
-      body: _repositories.isEmpty
+      body: _items[_selectedType]!.isEmpty
       ? SizedBox()
           : ListView.builder(
-        itemCount: _repositories.length,
+        itemCount: _items[_selectedType]!.length + (_hasMore ? 1 : 0),
           itemBuilder: (context, index) {
+          if (index == _items[_selectedType]!.length) {
+            if (_isLoading) {
+              return Center(
+                child: Padding(
+                  padding: EdgeInsets.symmetric(vertical: 8),
+                child: CircularProgressIndicator(),
+              ),
+              );
+            }
+            else {
+              // 加载更多
+              _page++;
+              _isLoading = true;
+              switch (_selectedType) {
+                case 'repositories':
+                  Methods.searchRepositories(token: Global.token, query: _searchText, page: _page).then((response) {
+                    setState(() {
+                      _items[_selectedType]!.addAll(response?.repositories ?? []);
+                      _hasMore = response?.repositories.length == 30; // 假设每页最多30个仓库
+                      _isLoading = false;
+                    });
+                  }).catchError((e) {
+                    setState(() {
+                      _isLoading = false;
+                    });
+                    print('Error loading more repositories: $e');
+                  });
+                case 'users':
+                  Methods.searchUsers(token: Global.token, query: _searchText, page: _page).then((response) {
+                    setState(() {
+                      final users = response?.users ?? <SimpleGitHubUser>[];
+                      _items[_selectedType]!.addAll(users);
+                      _hasMore = response?.users.length == 30; // 假设每页最多30个用户
+                      _isLoading = false;
+                    });
+                  }).catchError((e) {
+                    setState(() {
+                      _isLoading = false;
+                    });
+                    print('Error loading more users: $e');
+                  });
+                  break;
+                default:
+                  return SizedBox();
+              }
 
-          return KeepAliveWrapper(child: RepositoryEventTile(repoName: _repositories[index].fullName));
+              return Center(
+                child: Padding(
+                  padding: EdgeInsets.symmetric(vertical: 8),
+                  child: CircularProgressIndicator(),
+                ),
+              );
+            }
+          }
+          switch (_selectedType) {
+            case 'repositories':
+              return KeepAliveWrapper(child: RepositoryEventTile(repoName: _items['repositories']![index].fullName));
+            case 'users':
+              return KeepAliveWrapper(child: GitHubUserTile(user: _items['users']![index]));
+            default:
+              return SizedBox(); // 其他类型暂不处理
+          }
           }
       ),
     );

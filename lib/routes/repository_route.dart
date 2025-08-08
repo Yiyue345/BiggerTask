@@ -1,3 +1,4 @@
+import 'package:biggertask/routes/release_list_route.dart';
 import 'package:biggertask/routes/user_info_route.dart';
 import 'package:get/get.dart';
 import 'dart:convert';
@@ -61,7 +62,7 @@ class _RepositoryRouteState extends State<RepositoryRoute> {
                     Text(
                       widget.repository.name,
                       style: TextStyle(
-                          fontSize: 32,
+                          fontSize: 24,
                           fontWeight: FontWeight.bold
                       ),
                     ),
@@ -93,6 +94,59 @@ class _RepositoryRouteState extends State<RepositoryRoute> {
                 ),
 
               ),
+              if (widget.repository.fork)
+                Padding(
+                    padding: EdgeInsets.only(left: 20),
+                  child: FutureBuilder(
+                      future: Methods.getRepository(
+                          fullName: widget.repository.fullName,
+                          token: Global.token
+                      ),
+                      builder: (context, snapshot) {
+                        if (snapshot.connectionState == ConnectionState.done && !snapshot.hasError && snapshot.hasData) {
+                          return GestureDetector(
+                            onTap: () {
+                              if (snapshot.data!.parent != null) {
+                                Navigator.push(context, MaterialPageRoute(builder: (context) => RepositoryRoute(repository: snapshot.data!.parent!)));
+                                // Get.to(() => RepositoryRoute(repository: snapshot.data!.parent!)); // Get 在这里用不了！！！
+                              }
+                            },
+                            child: Row(
+                              children: [
+                                Icon(
+                                    OctIcons.repo_forked,
+                                  size: 17,
+                                ),
+                                SizedBox(width: 4,),
+                                Text(
+                                    '复刻自 ',
+                                    style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        color: Theme.of(context).colorScheme.secondary
+                                    )
+                                ),
+                                Text(
+                                    snapshot.data!.parent != null ?
+                                    snapshot.data!.parent!.fullName
+                                        : ''
+                                    ,
+                                    style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        decoration: TextDecoration.underline,
+                                        decorationStyle: TextDecorationStyle.solid,
+                                        decorationColor: Theme.of(context).colorScheme.secondary,
+                                        color: Theme.of(context).colorScheme.secondary
+                                    )
+                                )
+                              ],
+                            ),
+                          );
+                        }
+                        return Text('');
+                      }
+                  ),
+                )
+              ,
               // 标星按钮
               SizedBox(
                 height: 40,
@@ -148,8 +202,24 @@ class _RepositoryRouteState extends State<RepositoryRoute> {
                 ),
 
               ),
-
-
+              ListTile(
+                leading: Icon(OctIcons.tag),
+                title: Text('发行版'),
+                trailing: FutureBuilder(
+                    future: Methods.getReleaseCount(token: Global.token, repoFullName: widget.repository.fullName),
+                    builder: (context, snapshot) {
+                      if (snapshot.connectionState == ConnectionState.done && !snapshot.hasError) {
+                        return Text(snapshot.data.toString());
+                      }
+                      else {
+                        return SizedBox();
+                      }
+                    }
+                ),
+                onTap: () {
+                  Get.to(() => ReleaseListRoute(repoFullName: widget.repository.fullName));
+                },
+              ),
 
               FutureBuilder(
                   future: _readmeFuture,
@@ -232,7 +302,7 @@ class _RepositoryRouteState extends State<RepositoryRoute> {
   }
 
   Future<void> _checkStarredStatus() async {
-    _isStarred = await Methods.isStarred(widget.repository.fullName, Global.token);
+    _isStarred = await Methods.isStarred(repoFullName: widget.repository.fullName, token: Global.token);
     setState(() {
 
     });
@@ -255,10 +325,10 @@ class _RepositoryRouteState extends State<RepositoryRoute> {
             TextButton(
               onPressed: () async {
                 if (_isStarred!) {
-                  await Methods.unstarRepository(widget.repository.fullName, Global.token);
+                  await Methods.unstarRepository(repoFullName: widget.repository.fullName, token: Global.token);
                   widget.repository.stargazersCount--;
                 } else {
-                  await Methods.starRepository(widget.repository.fullName, Global.token);
+                  await Methods.starRepository(repoFullName: widget.repository.fullName, token: Global.token);
                   widget.repository.stargazersCount++;
                 }
                 Navigator.of(context).pop();

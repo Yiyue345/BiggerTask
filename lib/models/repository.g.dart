@@ -89,6 +89,14 @@ Repository _$RepositoryFromJson(Map<String, dynamic> json) => Repository(
           : SecurityAndAnalysis.fromJson(
             json['security_and_analysis'] as Map<String, dynamic>,
           ),
+  parent:
+      json['parent'] == null
+          ? null
+          : Repository.fromJson(json['parent'] as Map<String, dynamic>),
+  source:
+      json['source'] == null
+          ? null
+          : Repository.fromJson(json['source'] as Map<String, dynamic>),
 );
 
 Map<String, dynamic> _$RepositoryToJson(Repository instance) =>
@@ -167,6 +175,8 @@ Map<String, dynamic> _$RepositoryToJson(Repository instance) =>
       'updated_at': instance.updatedAt,
       'permissions': instance.permissions,
       'security_and_analysis': instance.securityAndAnalysis,
+      'parent': instance.parent,
+      'source': instance.source,
     };
 
 Owner _$OwnerFromJson(Map<String, dynamic> json) => Owner(

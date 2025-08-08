@@ -98,7 +98,7 @@ class _UserInfoRouteState extends State<UserInfoRoute> {
                       leading: Icon(OctIcons.star),
                       title: Text('标星'),
                       trailing: FutureBuilder(
-                          future: Methods.getStarredCount(Global.token, _user!),
+                          future: Methods.getStarredCount(token: Global.token, user: _user!),
                           builder: (context, snapshot) {
                             if (snapshot.connectionState == ConnectionState.done) {
                               return Text(snapshot.data.toString());

@@ -83,7 +83,7 @@ class _MyInfoRouteState extends State<MyInfoRoute> {
                     leading: Icon(OctIcons.star),
                     title: Text('标星'),
                     trailing: FutureBuilder(
-                        future: Methods.getStarredCount(Global.token, Global.gitHubUser!),
+                        future: Methods.getStarredCount(token: Global.token, user: Global.gitHubUser!),
                         builder: (context, snapshot) {
                           if (snapshot.connectionState == ConnectionState.done) {
                             return Text(snapshot.data.toString());
@@ -207,7 +207,7 @@ class _MyInfoRouteState extends State<MyInfoRoute> {
   }
 
   Future<void> _onRefresh() async {
-    final userInfo = await Methods.getMyInfo(Global.token);
+    final userInfo = await Methods.getMyInfo(token: Global.token);
     if (userInfo != null) {
       Global.gitHubUser = GitHubUser.fromJson(userInfo);
       final SharedPreferences prefs = await SharedPreferences.getInstance();

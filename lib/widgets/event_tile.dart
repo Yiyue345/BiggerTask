@@ -114,7 +114,7 @@ class RepositoryEventTile extends StatelessWidget {
   final StarController starController = Get.put(StarController());
 
   Future<void> _fetchRepository() async {
-    repository = await Methods.getRepository(repoName, Global.token);
+    repository = await Methods.getRepository(fullName: repoName, token: Global.token);
 
     if (repository != null) {
       await starController.initializeRepo(
@@ -282,11 +282,11 @@ class StarController extends GetxController {
     bool currentState = isStarred(repoFullName);
 
     if (currentState) {
-      await Methods.unstarRepository(repoFullName, token);
+      await Methods.unstarRepository(repoFullName: repoFullName, token: token);
       _starredRepos[repoFullName] = false;
       _starCounts[repoFullName] = currentCount - 1;
     } else {
-      await Methods.starRepository(repoFullName, token);
+      await Methods.starRepository(repoFullName: repoFullName, token: token);
       _starredRepos[repoFullName] = true;
       _starCounts[repoFullName] = currentCount + 1;
     }
@@ -294,7 +294,7 @@ class StarController extends GetxController {
 
   Future<void> initializeRepo(String repoFullName, String token, int starCount) async {
     if (!_starredRepos.containsKey(repoFullName)) {
-      bool starred = await Methods.isStarred(repoFullName, token);
+      bool starred = await Methods.isStarred(repoFullName: repoFullName, token: token);
       _starredRepos[repoFullName] = starred;
       _starCounts[repoFullName] = starCount;
     }

@@ -30,6 +30,7 @@ class _ReleaseRouteState extends State<ReleaseRoute> {
         child: Padding(
             padding: EdgeInsets.symmetric(horizontal: 16),
           child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               // 头像，拥有者和仓库
               Row(
@@ -62,7 +63,7 @@ class _ReleaseRouteState extends State<ReleaseRoute> {
                     ),
                   ),
                   FutureBuilder(
-                      future: Methods.getRepository(widget.repositoryName, Global.token),
+                      future: Methods.getRepository(fullName: widget.repositoryName, token: Global.token),
                       builder: (context, snapshot) {
                         if (snapshot.connectionState == ConnectionState.done || snapshot.hasData) {
                           return GestureDetector(
@@ -82,7 +83,8 @@ class _ReleaseRouteState extends State<ReleaseRoute> {
                           return Text(
                             widget.repositoryName.split('/')[1],
                             style: TextStyle(
-                                color: Theme.of(context).colorScheme.primaryFixed
+                                color: Theme.of(context).colorScheme.primaryFixedDim,
+                                fontWeight: FontWeight.bold
                             ),
                           );
                         }
@@ -90,6 +92,14 @@ class _ReleaseRouteState extends State<ReleaseRoute> {
                   ),
                 ],
               ),
+              Text(
+                widget.release.name.isEmpty ? '未命名' : widget.release.name,
+                style: TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold
+                ),
+              ),
+              Divider(),
               MarkdownWidget(
                 data: widget.release.body,
                 shrinkWrap: true,

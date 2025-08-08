@@ -138,6 +138,9 @@ class Repository {
   @JsonKey(name: 'security_and_analysis')
   final SecurityAndAnalysis? securityAndAnalysis;
 
+  final Repository? parent;
+  final Repository? source;
+
   Repository({
     required this.id,
     required this.nodeId,
@@ -213,6 +216,8 @@ class Repository {
     required this.updatedAt,
     this.permissions,
     this.securityAndAnalysis,
+    this.parent,
+    this.source
   });
 
   factory Repository.fromJson(Map<String, dynamic> json) => _$RepositoryFromJson(json);

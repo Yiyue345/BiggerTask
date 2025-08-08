@@ -128,7 +128,7 @@ class _GitHubLoginState extends State<GitHubLogin> {
         print("获取到访问令牌");
 
         // 获取用户信息
-        final userInfo = await Methods.getMyInfo(accessToken);
+        final userInfo = await Methods.getMyInfo(token: accessToken);
         if (userInfo != null) {
           widget.onLoginSuccess(accessToken, userInfo);
         }

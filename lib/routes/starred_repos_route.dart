@@ -31,10 +31,10 @@ class _StarredReposRouteState extends State<StarredReposRoute> {
   // 缓存已标星状态
   final Map<String, Future<bool>> _starredCache = {};
 
-  Future<bool> _getStarredStatus(String fullname) {
+  Future<bool> _getStarredStatus(String fullName) {
     return _starredCache.putIfAbsent(
-        fullname,
-        () => Methods.isStarred(fullname, Global.token)
+        fullName,
+        () => Methods.isStarred(repoFullName: fullName, token: Global.token)
     );
   }
 
@@ -58,8 +58,8 @@ class _StarredReposRouteState extends State<StarredReposRoute> {
 
     try {
       final newRepos = await Methods.getStarredRepositories(
-          Global.token,
-          _user.login,
+          token: Global.token,
+          username: _user.login,
         page: _reposPage
       );
 
