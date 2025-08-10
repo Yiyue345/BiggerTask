@@ -1,4 +1,5 @@
 import 'package:biggertask/common/static.dart';
+import 'package:biggertask/l10n/app_localizations.dart';
 import 'package:biggertask/models/github_user.dart';
 import 'package:biggertask/widgets/github_namecard.dart';
 import 'package:dio/dio.dart';
@@ -78,7 +79,7 @@ class _FollowersRouteState extends State<FollowersRoute> {
                                   shadowColor: WidgetStatePropertyAll(Colors.transparent)
                               ),
                               child: Text(
-                                  '上一页',
+                                AppLocalizations.of(context)!.previousPage,
                                 style: TextStyle(
                                   color: _page > 1
                                       ? Colors.black
@@ -97,7 +98,7 @@ class _FollowersRouteState extends State<FollowersRoute> {
                                 shadowColor: WidgetStatePropertyAll(Colors.transparent)
                             ),
                             child: Text(
-                              '下一页',
+                              AppLocalizations.of(context)!.nextPage,
                               style: TextStyle(
                                   color: _page < _maxPage
                                       ? Colors.black

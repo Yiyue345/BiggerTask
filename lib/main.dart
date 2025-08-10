@@ -1,3 +1,4 @@
+import 'package:biggertask/l10n/app_localizations.dart';
 import 'package:biggertask/routes/change_theme_route.dart';
 import 'package:biggertask/routes/homepage_base_route.dart';
 import 'package:biggertask/routes/language_route.dart';
@@ -19,9 +20,14 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final ThemeController c = Get.put(ThemeController());
+    Get.put(LanguageController());
     
     return Obx(() => GetMaterialApp(
-      title: 'Flutter Demo',
+      onGenerateTitle: (context) {
+        return AppLocalizations.of(context)!.appTitle;
+      },
+      localizationsDelegates: AppLocalizations.localizationsDelegates,
+      supportedLocales: AppLocalizations.supportedLocales,
       theme: ThemeData(
         colorScheme: c.colorScheme,
         appBarTheme: AppBarTheme(

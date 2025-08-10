@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:biggertask/common/methods.dart';
 import 'package:biggertask/common/static.dart';
+import 'package:biggertask/l10n/app_localizations.dart';
 import 'package:biggertask/models/event.dart';
 import 'package:biggertask/widgets/event_tile.dart';
 import 'package:biggertask/widgets/keep_alive_wrapper.dart';
@@ -56,6 +57,8 @@ class _ExploreRouteState extends State<ExploreRoute> with AutomaticKeepAliveClie
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+
     super.build(context);
     return RefreshIndicator(
         onRefresh: () async {
@@ -82,7 +85,7 @@ class _ExploreRouteState extends State<ExploreRoute> with AutomaticKeepAliveClie
                       minimumSize: WidgetStatePropertyAll(Size.zero), // 移除最小尺寸
                       overlayColor: WidgetStatePropertyAll(Colors.transparent)
                     ),
-                    child: Text('暂时还没有事件哦~')
+                    child: Text(l10n.noEventText)
                 )
               ],
             )

@@ -1,6 +1,8 @@
 import 'dart:convert';
+import 'dart:math';
 
 import 'package:biggertask/common/static.dart';
+import 'package:biggertask/l10n/app_localizations.dart';
 import 'package:biggertask/models/github_user.dart';
 import 'package:biggertask/routes/repos_route.dart';
 import 'package:biggertask/routes/starred_repos_route.dart';
@@ -24,13 +26,13 @@ class MyInfoRoute extends StatefulWidget {
 
 class _MyInfoRouteState extends State<MyInfoRoute> {
 
+  @override
+  void initState() {
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
-    // if (Global.token != null) {
-    //
-    //   Methods.getUserInfo(Global.token!);
-    // }
 
     return RefreshIndicator(
         onRefresh: _onRefresh,
@@ -71,7 +73,7 @@ class _MyInfoRouteState extends State<MyInfoRoute> {
                   ],
                   ListTile(
                     leading: Icon(OctIcons.repo,),
-                    title: Text('仓库'),
+                    title: Text(AppLocalizations.of(context)!.repositories),
                     onTap: () {
                       Get.to(() => RepositoriesRoute(user: Global.gitHubUser!));
                     },
@@ -81,7 +83,7 @@ class _MyInfoRouteState extends State<MyInfoRoute> {
                   ),
                   ListTile(
                     leading: Icon(OctIcons.star),
-                    title: Text('标星'),
+                    title: Text(AppLocalizations.of(context)!.stars),
                     trailing: FutureBuilder(
                         future: Methods.getStarredCount(token: Global.token, user: Global.gitHubUser!),
                         builder: (context, snapshot) {
@@ -98,26 +100,26 @@ class _MyInfoRouteState extends State<MyInfoRoute> {
                   ),
                   ListTile(
                     leading: Icon(Icons.exit_to_app,),
-                    title: Text('退出'),
+                    title: Text(AppLocalizations.of(context)!.exit),
                     onTap: () async {
                       bool? exit = await showDialog(
                           context: context,
                           builder: (context) {
                             return AlertDialog(
-                              title: Text('退出登录'),
-                              content: Text('你真的要退出登录吗？'),
+                              title: Text(AppLocalizations.of(context)!.exitTitle),
+                              content: Text(AppLocalizations.of(context)!.exitMessage),
                               actions: [
                                 TextButton(
                                   onPressed: () {
                                     Navigator.of(context).pop(false);
                                   },
-                                  child: Text('取消'),
+                                  child: Text(AppLocalizations.of(context)!.cancel),
                                 ),
                                 TextButton(
                                   onPressed: () {
                                     Navigator.of(context).pop(true);
                                   },
-                                  child: Text('确定'),
+                                  child: Text(AppLocalizations.of(context)!.confirm),
                                 )
                               ],
                             );
@@ -133,7 +135,7 @@ class _MyInfoRouteState extends State<MyInfoRoute> {
               )
                   : ElevatedButton(
                   onPressed: _login,
-                  child: Text('登录')
+                  child: Text(AppLocalizations.of(context)!.login)
               ),
             )
           ],
@@ -152,7 +154,7 @@ class _MyInfoRouteState extends State<MyInfoRoute> {
           )
       );
 
-      
+
       await Navigator.of(context).push(
         MaterialPageRoute(builder: (context) => GitHubLogin(
             onLoginSuccess: (token, userInfo) async {
@@ -172,14 +174,14 @@ class _MyInfoRouteState extends State<MyInfoRoute> {
               });
             },
             onLoginError: (e) {
-              Fluttertoast.showToast(msg: '登录失败: $e');
+              Fluttertoast.showToast(msg: AppLocalizations.of(context)!.loginFailed(e));
             }
         )
         )
       );
 
     } catch (e) {
-      Fluttertoast.showToast(msg: '登录过程出错: $e');
+      Fluttertoast.showToast(msg: AppLocalizations.of(context)!.loginError(e));
     }
 
   }

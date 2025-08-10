@@ -1,3 +1,4 @@
+import 'package:biggertask/l10n/app_localizations.dart';
 import 'package:biggertask/routes/release_list_route.dart';
 import 'package:biggertask/routes/user_info_route.dart';
 import 'package:get/get.dart';
@@ -119,17 +120,7 @@ class _RepositoryRouteState extends State<RepositoryRoute> {
                                 ),
                                 SizedBox(width: 4,),
                                 Text(
-                                    '复刻自 ',
-                                    style: TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        color: Theme.of(context).colorScheme.secondary
-                                    )
-                                ),
-                                Text(
-                                    snapshot.data!.parent != null ?
-                                    snapshot.data!.parent!.fullName
-                                        : ''
-                                    ,
+                                    AppLocalizations.of(context)!.forkedFrom(snapshot.data!.parent!.fullName),
                                     style: TextStyle(
                                         fontWeight: FontWeight.bold,
                                         decoration: TextDecoration.underline,
@@ -137,7 +128,8 @@ class _RepositoryRouteState extends State<RepositoryRoute> {
                                         decorationColor: Theme.of(context).colorScheme.secondary,
                                         color: Theme.of(context).colorScheme.secondary
                                     )
-                                )
+                                ),
+
                               ],
                             ),
                           );
@@ -204,7 +196,7 @@ class _RepositoryRouteState extends State<RepositoryRoute> {
               ),
               ListTile(
                 leading: Icon(OctIcons.tag),
-                title: Text('发行版'),
+                title: Text(AppLocalizations.of(context)!.release),
                 trailing: FutureBuilder(
                     future: Methods.getReleaseCount(token: Global.token, repoFullName: widget.repository.fullName),
                     builder: (context, snapshot) {
@@ -238,7 +230,7 @@ class _RepositoryRouteState extends State<RepositoryRoute> {
                           children: [
                             Icon(Icons.error, color: Colors.red, size: 48),
                             SizedBox(height: 16),
-                            Text('Error: ${snapshot.error}'),
+                            Text(AppLocalizations.of(context)!.readmeLoadFailed + snapshot.error.toString()),
                           ],
                         ),
                       );
@@ -258,13 +250,13 @@ class _RepositoryRouteState extends State<RepositoryRoute> {
                       }
                       else {
                         return Center(
-                          child: Text('No README available'),
+                          child: Text(AppLocalizations.of(context)!.noReadme),
                         );
                       }
                     }
                     else {
                       return Center(
-                        child: Text('No data found'),
+                        child: Text(AppLocalizations.of(context)!.noReadme),
                       );
                     }
                   }
@@ -313,14 +305,14 @@ class _RepositoryRouteState extends State<RepositoryRoute> {
       context: context,
       builder: (context) {
         return AlertDialog(
-          title: Text(_isStarred! ? '取消收藏' : '收藏'),
-          content: Text(_isStarred! ? '确定取消收藏该仓库吗？' : '确定收藏该仓库吗？'),
+          title: Text(_isStarred! ? AppLocalizations.of(context)!.unStar : AppLocalizations.of(context)!.star),
+          content: Text(_isStarred! ? AppLocalizations.of(context)!.unStarMessage : AppLocalizations.of(context)!.starMessage),
           actions: [
             TextButton(
               onPressed: () {
                 Navigator.of(context).pop();
               },
-              child: Text('取消'),
+              child: Text(AppLocalizations.of(context)!.cancel),
             ),
             TextButton(
               onPressed: () async {
@@ -335,7 +327,7 @@ class _RepositoryRouteState extends State<RepositoryRoute> {
                 await _checkStarredStatus();
 
               },
-              child: Text(_isStarred! ? '取消收藏' : '收藏'),
+              child: Text(_isStarred! ? AppLocalizations.of(context)!.unStar : AppLocalizations.of(context)!.star),
             ),
           ],
         );

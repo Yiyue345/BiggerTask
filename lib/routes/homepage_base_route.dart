@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:biggertask/common/static.dart';
+import 'package:biggertask/l10n/app_localizations.dart';
 import 'package:biggertask/pages/explore_route.dart';
 import 'package:biggertask/routes/search_page.dart';
 import 'package:biggertask/pages/my_info_route.dart';
@@ -69,9 +70,14 @@ class _HomepageBaseRouteState extends State<HomepageBaseRoute> {
       );
     }
 
+    final List<String> titles = [
+      AppLocalizations.of(context)!.bottomNavigationExplore,
+      AppLocalizations.of(context)!.bottomNavigationMine,
+    ];
+
     return Scaffold(
       appBar: AppBar(
-        title: Text('首页'),
+        title: Text(titles[_selectedIndex]),
         actions: [
           if (_selectedIndex == 0) IconButton(
               onPressed: () {
@@ -96,12 +102,12 @@ class _HomepageBaseRouteState extends State<HomepageBaseRoute> {
           items: [
             BottomNavigationBarItem(
                 icon: Icon(Icons.explore),
-              label: '首页',
+              label: AppLocalizations.of(context)!.bottomNavigationExplore,
 
             ),
             BottomNavigationBarItem(
                 icon: Icon(Icons.person_outline),
-              label: '我的'
+              label: AppLocalizations.of(context)!.bottomNavigationMine
             )
           ],
         currentIndex: _selectedIndex,

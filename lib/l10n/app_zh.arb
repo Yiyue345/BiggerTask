@@ -1,0 +1,57 @@
+{
+  "@@locale": "zh",
+  "appTitle": "更大的任务",
+  "search": "搜索",
+  "repositories": "仓库",
+  "commits": "提交",
+  "issues": "议题",
+  "pullRequests": "拉取请求",
+  "code": "代码",
+  "users": "用户",
+  "stars": "标星",
+  "forks": "复刻",
+  "release": "发行版",
+
+  "followers": "粉丝",
+  "followings": "关注",
+  "followersCount": "{followers} 粉丝",
+  "followingCount": "{followings} 关注",
+
+  "settings": "设置",
+  "cancel": "取消",
+  "confirm": "确定",
+  "login": "登录",
+  "loginFailed": "登录失败：{error}",
+  "loginError": "登录过程出错：{error}",
+  "noLogin": "未登录",
+  "exit": "退出",
+  "exitTitle": "退出登录",
+  "exitMessage": "你真的要退出登录吗？",
+  "forkedFrom": "复刻自 {parentName}",
+  "star": "标星",
+  "unStar": "取消标星",
+  "unStarMessage": "确定取消标星该仓库吗？",
+  "starMessage": "确定标星该仓库吗？",
+
+  "loading": "加载中...",
+  "loadFailed": "加载失败",
+
+  "noEventText": "暂时还没有事件哦~",
+
+  "theme": "主题",
+
+  "previousPage": "上一页",
+  "nextPage": "下一页",
+
+  "noReadme": "该仓库没有 README 文件",
+  "readmeLoadFailed": "README 加载失败",
+
+  "bottomNavigationExplore": "探索",
+  "bottomNavigationMine": "我的",
+
+  "language": "语言",
+  "languageSystem": "跟随系统",
+  "languageChinese": "中文",
+  "languageEnglish": "英文"
+
+}

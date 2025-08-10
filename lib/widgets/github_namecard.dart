@@ -1,5 +1,6 @@
 import 'package:biggertask/common/methods.dart';
 import 'package:biggertask/common/static.dart';
+import 'package:biggertask/l10n/app_localizations.dart';
 import 'package:biggertask/models/github_user.dart';
 import 'package:biggertask/routes/follow_route.dart';
 import 'package:biggertask/routes/user_info_route.dart';
@@ -85,7 +86,7 @@ class GitHubNameCard extends StatelessWidget {
                     )),
                   ),
                   child: Text(
-                      '${user?.followers ?? 0} 粉丝',
+                    AppLocalizations.of(context)!.followersCount(user!.followers),
                     style: TextStyle(
                         color: Colors.grey,
                         fontSize: 14
@@ -112,7 +113,7 @@ class GitHubNameCard extends StatelessWidget {
                     )),
                   ),
                     child: Text(
-                        '${user?.following ?? 0} 关注',
+                      AppLocalizations.of(context)!.followingCount(user!.following),
                       style: TextStyle(
                         color: Colors.grey,
                         fontSize: 14
@@ -168,7 +169,7 @@ class _GitHubUserTileState extends State<GitHubUserTile> with AutomaticKeepAlive
                       : null,
                 ),
                 title: Text(user!.login),
-                subtitle: Text('加载中...'),
+                subtitle: Text(AppLocalizations.of(context)!.loading),
                 onTap: () {
                   Get.to(() => UserInfoRoute(username: user!.login,));
                 }
@@ -186,7 +187,7 @@ class _GitHubUserTileState extends State<GitHubUserTile> with AutomaticKeepAlive
                       : null,
                 ),
                 title: Text(user!.login),
-                subtitle: Text('加载失败'),
+                subtitle: Text(AppLocalizations.of(context)!.loadFailed),
                 onTap: () {
                   Get.to(() => UserInfoRoute(username: user!.login,));
                 }

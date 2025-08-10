@@ -1,0 +1,100 @@
+{
+  "@@locale": "en",
+  "appTitle": "BiggerTask",
+  "search": "Search",
+  "repositories": "Repositories",
+  "commits": "Commits",
+  "issues": "Issues",
+  "pullRequests": "Pull Requests",
+  "code": "Code",
+  "users": "Users",
+  "stars": "Stars",
+  "forks": "Forks",
+  "release": "Releases",
+
+  "followers": "Followers",
+  "followings": "Followings",
+  "followersCount": "{followers, plural, =1{1 follower} other{{followers} followers}}",
+  "@followersCount": {
+    "description": "Text showing the number of followers",
+    "placeholders": {
+      "followers": {
+        "type": "int"
+      }
+    }
+  },
+  "followingCount": "{followings, plural, =1{1 following} other{{followings} followings}}",
+  "@followingCount": {
+    "description": "Text showing the number of followings",
+    "placeholders": {
+      "followings": {
+        "type": "int"
+      }
+    }
+  },
+
+
+  "settings": "Settings",
+  "cancel": "Cancel",
+  "confirm": "OK",
+  "login": "Login",
+  "loginFailed": "Login failed: {error}",
+  "loginError": "Login error occurred: {error}",
+  "noLogin": "Not logged in",
+  "exit": "Sign out",
+  "exitTitle": "Sign out",
+  "@exitTitle": {
+    "description": "Title of the sign out confirmation dialog"
+  },
+  "exitMessage": "Are you sure you want to sign out?",
+  "@exitMessage": {
+    "description": "Message of the sign out confirmation dialog"
+  },
+  "forkedFrom": "Forked from {parentName}",
+  "@forkedFrom": {
+    "description": "Text showing which repository this is forked from",
+    "placeholders": {
+      "parentName": {
+        "type": "String",
+        "example": "owner/repo"
+      }
+    }
+  },
+  "star": "Star",
+  "unStar": "Unstar",
+  "unStarMessage": "Are you sure you want to unstar this repository?",
+  "starMessage": "Are you sure you want to star this repository?",
+
+  "loading": "Loading...",
+  "loadFailed": "Load failed",
+
+  "noEventText": "No events found",
+  "@noEventText": {
+    "description": "Text shown when there are no events to display on home page"
+  },
+
+  "theme": "Theme",
+
+  "previousPage": "Previous Page",
+  "nextPage": "Next Page",
+
+  "noReadme": "No README file found",
+  "readmeLoadFailed": "Failed to load README",
+
+  "bottomNavigationExplore": "Explore",
+  "bottomNavigationMine": "Profile",
+
+  "language": "Language",
+  "languageSystem": "System Default",
+  "@languageSystem": {
+    "description": "Language option to follow the system language"
+  },
+  "languageChinese": "Chinese",
+  "@languageChinese": {
+    "description": "Language option for Chinese"
+  },
+  "languageEnglish": "English",
+  "@languageEnglish": {
+    "description": "Language option for English"
+  }
+}
