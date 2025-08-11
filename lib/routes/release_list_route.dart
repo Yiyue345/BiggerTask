@@ -1,5 +1,6 @@
 import 'package:biggertask/common/methods.dart';
 import 'package:biggertask/common/static.dart';
+import 'package:biggertask/l10n/app_localizations.dart';
 import 'package:biggertask/models/event.dart';
 import 'package:biggertask/routes/release_route.dart';
 import 'package:biggertask/widgets/keep_alive_wrapper.dart';
@@ -45,7 +46,7 @@ class _ReleaseListRouteState extends State<ReleaseListRoute> {
           child: _isLoaded 
               ? _releases.isEmpty 
                 ? Center(
-                    child: Text('暂无发行版'),
+                    child: Text(AppLocalizations.of(context)!.noReleases),
                   )
                 : ListView.builder(
               itemCount: _releases.length + (_hasMore ? 1 : 0) ,
@@ -65,7 +66,7 @@ class _ReleaseListRouteState extends State<ReleaseListRoute> {
                 return KeepAliveWrapper(
                     child: ListTile(
                       title: Text(
-                        _releases[index].name.isEmpty ? '未命名' : _releases[index].name,
+                        _releases[index].name.isEmpty ? AppLocalizations.of(context)!.unNamed : _releases[index].name,
                         style: TextStyle(
                           fontSize: 16,
                           fontWeight: FontWeight.bold,
@@ -110,17 +111,17 @@ class _ReleaseListRouteState extends State<ReleaseListRoute> {
     final difference = now.difference(dateTime);
 
     if (difference.inSeconds < 60) {
-      return '刚刚';
+      return AppLocalizations.of(context)!.now;
     } else if (difference.inMinutes < 60) {
-      return '${difference.inMinutes} 分钟前';
+      return AppLocalizations.of(context)!.minuteAgo(difference.inMinutes);
     } else if (difference.inHours < 24) {
-      return '${difference.inHours} 小时前';
+      return AppLocalizations.of(context)!.hourAgo(difference.inHours);
     } else if (difference.inDays < 30) {
-      return '${difference.inDays} 天前';
+      return AppLocalizations.of(context)!.dayAgo(difference.inDays);
     } else if (difference.inDays < 365) {
-      return '${(difference.inDays / 30).floor()} 个月前';
+      return AppLocalizations.of(context)!.monthAgo((difference.inDays / 30).floor());
     } else {
-      return '${(difference.inDays / 365).floor()} 年前';
+      return AppLocalizations.of(context)!.yearAgo((difference.inDays / 365).floor());
     }
   }
 }

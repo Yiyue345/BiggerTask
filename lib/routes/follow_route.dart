@@ -45,7 +45,7 @@ class _FollowersRouteState extends State<FollowersRoute> {
               ),
             ),
             Text(
-                '粉丝',
+                AppLocalizations.of(context)!.followers,
               style: TextStyle(
                 fontSize: 22,
                 fontWeight: FontWeight.bold
@@ -204,7 +204,7 @@ class _FollowingRouteState extends State<FollowingRoute> with AutomaticKeepAlive
               ),
             ),
             Text(
-              '关注',
+              AppLocalizations.of(context)!.followings,
               style: TextStyle(
                   fontSize: 22,
                   fontWeight: FontWeight.bold
@@ -238,7 +238,7 @@ class _FollowingRouteState extends State<FollowingRoute> with AutomaticKeepAlive
                                 shadowColor: WidgetStatePropertyAll(Colors.transparent)
                             ),
                             child: Text(
-                              '上一页',
+                              AppLocalizations.of(context)!.previousPage,
                               style: TextStyle(
                                   color: _page > 1
                                       ? Colors.black
@@ -257,7 +257,7 @@ class _FollowingRouteState extends State<FollowingRoute> with AutomaticKeepAlive
                                 shadowColor: WidgetStatePropertyAll(Colors.transparent)
                             ),
                             child: Text(
-                              '下一页',
+                              AppLocalizations.of(context)!.nextPage,
                               style: TextStyle(
                                   color: _page < _maxPage
                                       ? Colors.black

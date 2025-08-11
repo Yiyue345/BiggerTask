@@ -4,6 +4,7 @@ class KeepAliveWrapper extends StatefulWidget {
   final Widget child;
   final bool keepAlive;
 
+  /// A widget that wraps its child in a [StatefulWidget] to keep the state alive.
   const KeepAliveWrapper({super.key, required this.child, this.keepAlive = true});
 
   @override

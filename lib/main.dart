@@ -28,6 +28,7 @@ class MyApp extends StatelessWidget {
       },
       localizationsDelegates: AppLocalizations.localizationsDelegates,
       supportedLocales: AppLocalizations.supportedLocales,
+      debugShowCheckedModeBanner: false,
       theme: ThemeData(
         colorScheme: c.colorScheme,
         appBarTheme: AppBarTheme(

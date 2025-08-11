@@ -1,5 +1,6 @@
 import 'package:biggertask/common/methods.dart';
 import 'package:biggertask/common/static.dart';
+import 'package:biggertask/l10n/app_localizations.dart';
 import 'package:biggertask/models/github_user.dart';
 import 'package:biggertask/routes/repos_route.dart';
 import 'package:biggertask/routes/starred_repos_route.dart';
@@ -38,7 +39,7 @@ class _UserInfoRouteState extends State<UserInfoRoute> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('用户信息'),
+        title: Text(AppLocalizations.of(context)!.userInfo),
       ),
       body: RefreshIndicator(
           onRefresh: _onRefresh,
@@ -86,7 +87,7 @@ class _UserInfoRouteState extends State<UserInfoRoute> {
                           OctIcons.repo,
                         color: Theme.of(context).colorScheme.secondary,
                       ),
-                      title: Text('仓库'),
+                      title: Text(AppLocalizations.of(context)!.repositories),
                       onTap: () {
                         Get.to(() => RepositoriesRoute(user: _user!));
                       },
@@ -96,7 +97,7 @@ class _UserInfoRouteState extends State<UserInfoRoute> {
                     ),
                     ListTile(
                       leading: Icon(OctIcons.star),
-                      title: Text('标星'),
+                      title: Text(AppLocalizations.of(context)!.stars),
                       trailing: FutureBuilder(
                           future: Methods.getStarredCount(token: Global.token, user: _user!),
                           builder: (context, snapshot) {

@@ -30,6 +30,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get code => 'Code';
 
   @override
+  String get topics => 'Topics';
+
+  @override
   String get users => 'Users';
 
   @override
@@ -40,6 +43,12 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get release => 'Releases';
+
+  @override
+  String get userInfo => 'User Info';
+
+  @override
+  String get starRepositories => 'Starred Repositories';
 
   @override
   String get followers => 'Followers';
@@ -122,10 +131,29 @@ class AppLocalizationsEn extends AppLocalizations {
   String get starMessage => 'Are you sure you want to star this repository?';
 
   @override
+  String whose(String who) {
+    return '$who\'s';
+  }
+
+  @override
+  String searchForSomething(String what) {
+    return 'Search for $what';
+  }
+
+  @override
+  String get gitHubLogin => 'GitHub Login';
+
+  @override
+  String get noBio => 'No bio provided';
+
+  @override
   String get loading => 'Loading...';
 
   @override
   String get loadFailed => 'Load failed';
+
+  @override
+  String get savedSuccessfully => 'Saved successfully!';
 
   @override
   String get noEventText => 'No events found';
@@ -146,6 +174,104 @@ class AppLocalizationsEn extends AppLocalizations {
   String get readmeLoadFailed => 'Failed to load README';
 
   @override
+  String get noDescription => 'No description provided';
+
+  @override
+  String get noMoreRepos => 'No more repositories';
+
+  @override
+  String get noReleases => 'No releases found';
+
+  @override
+  String get unNamed => 'Unnamed';
+
+  @override
+  String get repoNoExistOrPrivate =>
+      'This repository does not exist or is private';
+
+  @override
+  String get forkARepository => 'Forked a repository';
+
+  @override
+  String get starARepository => 'Starred a repository';
+
+  @override
+  String get createARepository => 'Created a repository';
+
+  @override
+  String get createABranch => 'Created a branch';
+
+  @override
+  String get createATag => 'Created a tag';
+
+  @override
+  String get deleteABranch => 'Deleted a branch';
+
+  @override
+  String get deleteATag => 'Deleted a tag';
+
+  @override
+  String get releaseANewVersion => 'Released a new version';
+
+  @override
+  String get now => 'Just now';
+
+  @override
+  String minuteAgo(int minutes) {
+    String _temp0 = intl.Intl.pluralLogic(
+      minutes,
+      locale: localeName,
+      other: '$minutes minutes ago',
+      one: '1 minute ago',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String hourAgo(int hours) {
+    String _temp0 = intl.Intl.pluralLogic(
+      hours,
+      locale: localeName,
+      other: '$hours hours ago',
+      one: '1 hour ago',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String dayAgo(int days) {
+    String _temp0 = intl.Intl.pluralLogic(
+      days,
+      locale: localeName,
+      other: '$days days ago',
+      one: '1 day ago',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String monthAgo(int months) {
+    String _temp0 = intl.Intl.pluralLogic(
+      months,
+      locale: localeName,
+      other: '$months months ago',
+      one: '1 month ago',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String yearAgo(int years) {
+    String _temp0 = intl.Intl.pluralLogic(
+      years,
+      locale: localeName,
+      other: '$years years ago',
+      one: '1 year ago',
+    );
+    return '$_temp0';
+  }
+
+  @override
   String get bottomNavigationExplore => 'Explore';
 
   @override
@@ -161,5 +287,75 @@ class AppLocalizationsEn extends AppLocalizations {
   String get languageChinese => 'Chinese';
 
   @override
+  String get languageChineseMicrosoft => 'Chinese (Microsoft)';
+
+  @override
   String get languageEnglish => 'English';
+
+  @override
+  String get choosePrimaryColor => 'Choose Primary Color';
+
+  @override
+  String get chooseSecondaryColor => 'Choose Accent Color';
+
+  @override
+  String get chooseSurfaceColor => 'Choose Surface Color';
+
+  @override
+  String get chooseErrorColor => 'Choose Error Color';
+
+  @override
+  String get chooseOnPrimaryColor => 'Text Color on Primary Color';
+
+  @override
+  String get chooseOnSecondaryColor => 'Text Color on Accent Color';
+
+  @override
+  String get chooseOnSurfaceColor => 'Text Color on Surface Color';
+
+  @override
+  String get chooseOnErrorColor => 'Text Color on Error Color';
+
+  @override
+  String get colorShade => 'Color Shade';
+
+  @override
+  String get opacity => 'Opacity';
+
+  @override
+  String get saveChangesOfTheme => 'Save Theme Changes';
+
+  @override
+  String get unSavedThemeChangesTitle => 'Unsaved Changes';
+
+  @override
+  String get unSavedThemeChangesMessage =>
+      'You have unsaved changes. Do you want to exit without saving?';
+
+  @override
+  String get advancedThemeSettings => 'Advanced Theme Settings';
+
+  @override
+  String get autoSelectOtherColors => 'Automatically set other colors';
+
+  @override
+  String get autoSelectTextColors => 'Automatically set text colors';
+
+  @override
+  String get enableDarkMode => 'Dark Mode';
+
+  @override
+  String get primaryColorLabel => 'Primary Color';
+
+  @override
+  String get accentColorLabel => 'Accent Color';
+
+  @override
+  String get bothColorLabel => 'Primary and Accent Colors';
+
+  @override
+  String get customColorLabel => 'Custom';
+
+  @override
+  String get wheelColorLabel => 'Wheel';
 }

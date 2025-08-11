@@ -7,10 +7,13 @@
   "issues": "议题",
   "pullRequests": "拉取请求",
   "code": "代码",
+  "topics": "主题",
   "users": "用户",
   "stars": "标星",
   "forks": "复刻",
   "release": "发行版",
+  "userInfo": "用户信息",
+  "starRepositories": "标星仓库",
 
   "followers": "粉丝",
   "followings": "关注",
@@ -32,9 +35,14 @@
   "unStar": "取消标星",
   "unStarMessage": "确定取消标星该仓库吗？",
   "starMessage": "确定标星该仓库吗？",
+  "whose": "{who} 的",
+  "searchForSomething": "搜索{what}",
+  "gitHubLogin": "GitHub 登录",
+  "noBio": "无简介",
 
   "loading": "加载中...",
   "loadFailed": "加载失败",
+  "savedSuccessfully": "保存成功！",
 
   "noEventText": "暂时还没有事件哦~",
 
@@ -45,6 +53,27 @@
 
   "noReadme": "该仓库没有 README 文件",
   "readmeLoadFailed": "README 加载失败",
+  "noDescription": "该仓库没有描述",
+  "noMoreRepos": "没有更多仓库了",
+  "noReleases": "暂无发行版",
+  "unNamed": "未命名",
+  "repoNoExistOrPrivate": "该仓库不存在或不可见",
+
+  "forkARepository": "复刻了一个仓库",
+  "starARepository": "标星了一个仓库",
+  "createARepository": "创建了一个仓库",
+  "createABranch": "创建了一个分支",
+  "createATag": "创建了一个标签",
+  "deleteABranch": "删除了一个分支",
+  "deleteATag": "删除了一个标签",
+  "releaseANewVersion": "发布了一个版本",
+
+  "now": "刚刚",
+  "minuteAgo": "{minutes} 分钟前",
+  "hourAgo": "{hours} 小时前",
+  "dayAgo": "{days} 天前",
+  "monthAgo": "{months} 个月前",
+  "yearAgo": "{years} 年前",
 
   "bottomNavigationExplore": "探索",
   "bottomNavigationMine": "我的",
@@ -52,6 +81,34 @@
   "language": "语言",
   "languageSystem": "跟随系统",
   "languageChinese": "中文",
-  "languageEnglish": "英文"
+  "languageChineseMicrosoft": "中文（微软）",
+  "languageEnglish": "英文",
+
+  "choosePrimaryColor": "选择主色",
+  "chooseSecondaryColor": "选择强调色",
+  "chooseSurfaceColor": "选择背景色",
+  "chooseErrorColor": "选择错误提示颜色",
+  "chooseOnPrimaryColor": "主色之上的文字颜色",
+  "chooseOnSecondaryColor": "强调色之上的文字颜色",
+  "chooseOnSurfaceColor": "背景之上的文字颜色",
+  "chooseOnErrorColor": "错误色之上的文字颜色",
+  "colorShade": "颜色深浅",
+  "opacity": "不透明度",
+
+  "saveChangesOfTheme": "保存对当前主题的修改",
+  "unSavedThemeChangesTitle": "未保存的更改",
+  "unSavedThemeChangesMessage": "您有未保存的更改，确定要直接退出吗？",
+
+  "advancedThemeSettings": "高级主题设置",
+  "autoSelectOtherColors": "自动设置其他颜色",
+  "autoSelectTextColors": "自动设置文字颜色",
+
+  "enableDarkMode": "深色主题",
+
+  "primaryColorLabel": "主色",
+  "accentColorLabel": "强调色",
+  "bothColorLabel": "主色与强调色",
+  "customColorLabel": "自定义",
+  "wheelColorLabel": "色轮"
 
 }

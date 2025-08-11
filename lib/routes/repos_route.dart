@@ -1,5 +1,6 @@
 
 import 'package:biggertask/common/methods.dart';
+import 'package:biggertask/l10n/app_localizations.dart';
 import 'package:biggertask/models/github_user.dart';
 import 'package:biggertask/models/repository.dart';
 import 'package:biggertask/routes/repository_route.dart';
@@ -91,7 +92,7 @@ class _RepositoriesRouteState extends State<RepositoriesRoute> {
       setState(() {
         _isLoading = false;
       });
-      Fluttertoast.showToast(msg: '加载失败: $e');
+      Fluttertoast.showToast(msg: '${AppLocalizations.of(context)!.loadFailed}: $e');
       print('Error loading repositories: $e');
     }
 
@@ -106,10 +107,10 @@ class _RepositoriesRouteState extends State<RepositoriesRoute> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-                '${_user.login} 的',
+                AppLocalizations.of(context)!.whose(_user.login),
                 style: TextStyle(fontSize: 12)
             ),
-            Text('仓库', style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold)),
+            Text(AppLocalizations.of(context)!.repositories, style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold)),
           ],
         ),
       ),
@@ -126,7 +127,7 @@ class _RepositoriesRouteState extends State<RepositoriesRoute> {
                   return KeepAliveWrapper(
                       child: ListTile(
                           title: Text(repo.name),
-                          subtitle: Text(repo.description ?? '无描述'),
+                          subtitle: Text(repo.description ?? AppLocalizations.of(context)!.noDescription),
                           trailing: FutureBuilder(
                               future: _getStarredStatus(repo.fullName),
                               builder: (context, starSnapshot) {
@@ -182,7 +183,7 @@ class _RepositoriesRouteState extends State<RepositoriesRoute> {
                     return Padding(
                       padding: const EdgeInsets.all(16.0),
                       child: Center(
-                        child: Text('没有更多仓库了', style: TextStyle(color: Colors.grey)),
+                        child: Text(AppLocalizations.of(context)!.noMoreRepos, style: TextStyle(color: Colors.grey)),
                       ),
                     );
                   }

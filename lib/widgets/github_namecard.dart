@@ -8,6 +8,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:icons_plus/icons_plus.dart';
 import 'package:get/get.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class GitHubNameCard extends StatelessWidget {
   final GitHubUser? user;
@@ -45,7 +46,7 @@ class GitHubNameCard extends StatelessWidget {
                 style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
               ),
               Text(
-                user?.login ?? '未登录',
+                user?.login ?? AppLocalizations.of(context)!.noLogin,
                 style: TextStyle(
                     fontWeight: FontWeight.w300,
                     color: Colors.grey[700]
@@ -54,7 +55,7 @@ class GitHubNameCard extends StatelessWidget {
             ]
             else
               Text(
-                user?.login ?? '未登录',
+                user?.login ?? AppLocalizations.of(context)!.noLogin,
                 style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
               ),
             Row(
@@ -121,10 +122,45 @@ class GitHubNameCard extends StatelessWidget {
                     ),
                 ),
               ],
-            )
+            ),
+            if (user?.blog != null && user!.blog!.isNotEmpty)
+              _buildBlogLink(context)
           ],
         ),
 
+      ],
+    );
+  }
+
+  Widget _buildBlogLink(BuildContext context) {
+    if (user!.blog == null || user!.blog!.isEmpty) {
+      return SizedBox.shrink();
+    }
+
+    return Row(
+      children: [
+        Icon(
+            OctIcons.link,
+          size: 16,
+        ),
+        SizedBox(width: 4,),
+        GestureDetector(
+          onTap: () async {
+            final url = user!.blog!;
+            final uri = Uri.parse(url.startsWith('http') ? url : 'https://$url');
+
+            if (await canLaunchUrl(uri)) {
+              await launchUrl(uri, mode: LaunchMode.externalApplication);
+            }
+          },
+          child: Text(
+            user!.blog!,
+            style: TextStyle(
+              color: Theme.of(context).colorScheme.secondary,
+              // decoration: TextDecoration.underline,
+            ),
+          ),
+        )
       ],
     );
   }
@@ -168,7 +204,12 @@ class _GitHubUserTileState extends State<GitHubUserTile> with AutomaticKeepAlive
                       ? Icon(Icons.account_circle, size: 40)
                       : null,
                 ),
-                title: Text(user!.login),
+                title: Text(
+                    user!.login,
+                  style: TextStyle(
+                      fontWeight: FontWeight.bold
+                  )
+                ),
                 subtitle: Text(AppLocalizations.of(context)!.loading),
                 onTap: () {
                   Get.to(() => UserInfoRoute(username: user!.login,));
@@ -186,7 +227,12 @@ class _GitHubUserTileState extends State<GitHubUserTile> with AutomaticKeepAlive
                       ? Icon(Icons.account_circle, size: 40)
                       : null,
                 ),
-                title: Text(user!.login),
+                title: Text(
+                    user!.login,
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold
+                  ),
+                ),
                 subtitle: Text(AppLocalizations.of(context)!.loadFailed),
                 onTap: () {
                   Get.to(() => UserInfoRoute(username: user!.login,));
@@ -223,11 +269,20 @@ class _GitHubUserTileState extends State<GitHubUserTile> with AutomaticKeepAlive
                         )
                     )
 
-                  ],
+                  ]
+                  else ...[
+                    Text(
+                      gitHubUser.login,
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                      overflow: TextOverflow.ellipsis,
+                      maxLines: 1,
+                    )
+                  ]
+                  ,
                 ],
               ),
               subtitle: Text(
-                gitHubUser.bio ?? '无简介',
+                gitHubUser.bio ?? AppLocalizations.of(context)!.noBio,
                 overflow: TextOverflow.ellipsis,
                 maxLines: 2,
               ),

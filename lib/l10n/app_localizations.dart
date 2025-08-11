@@ -96,6 +96,7 @@ abstract class AppLocalizations {
   static const List<Locale> supportedLocales = <Locale>[
     Locale('en'),
     Locale('zh'),
+    Locale('zh', 'MS'),
   ];
 
   /// No description provided for @appTitle.
@@ -140,6 +141,12 @@ abstract class AppLocalizations {
   /// **'Code'**
   String get code;
 
+  /// No description provided for @topics.
+  ///
+  /// In en, this message translates to:
+  /// **'Topics'**
+  String get topics;
+
   /// No description provided for @users.
   ///
   /// In en, this message translates to:
@@ -163,6 +170,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Releases'**
   String get release;
+
+  /// No description provided for @userInfo.
+  ///
+  /// In en, this message translates to:
+  /// **'User Info'**
+  String get userInfo;
+
+  /// No description provided for @starRepositories.
+  ///
+  /// In en, this message translates to:
+  /// **'Starred Repositories'**
+  String get starRepositories;
 
   /// No description provided for @followers.
   ///
@@ -278,6 +297,30 @@ abstract class AppLocalizations {
   /// **'Are you sure you want to star this repository?'**
   String get starMessage;
 
+  /// Text showing whose name it is
+  ///
+  /// In en, this message translates to:
+  /// **'{who}\'s'**
+  String whose(String who);
+
+  /// Text shown in the search bar when searching for something
+  ///
+  /// In en, this message translates to:
+  /// **'Search for {what}'**
+  String searchForSomething(String what);
+
+  /// No description provided for @gitHubLogin.
+  ///
+  /// In en, this message translates to:
+  /// **'GitHub Login'**
+  String get gitHubLogin;
+
+  /// No description provided for @noBio.
+  ///
+  /// In en, this message translates to:
+  /// **'No bio provided'**
+  String get noBio;
+
   /// No description provided for @loading.
   ///
   /// In en, this message translates to:
@@ -289,6 +332,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Load failed'**
   String get loadFailed;
+
+  /// No description provided for @savedSuccessfully.
+  ///
+  /// In en, this message translates to:
+  /// **'Saved successfully!'**
+  String get savedSuccessfully;
 
   /// Text shown when there are no events to display on home page
   ///
@@ -326,6 +375,120 @@ abstract class AppLocalizations {
   /// **'Failed to load README'**
   String get readmeLoadFailed;
 
+  /// No description provided for @noDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'No description provided'**
+  String get noDescription;
+
+  /// No description provided for @noMoreRepos.
+  ///
+  /// In en, this message translates to:
+  /// **'No more repositories'**
+  String get noMoreRepos;
+
+  /// No description provided for @noReleases.
+  ///
+  /// In en, this message translates to:
+  /// **'No releases found'**
+  String get noReleases;
+
+  /// No description provided for @unNamed.
+  ///
+  /// In en, this message translates to:
+  /// **'Unnamed'**
+  String get unNamed;
+
+  /// No description provided for @repoNoExistOrPrivate.
+  ///
+  /// In en, this message translates to:
+  /// **'This repository does not exist or is private'**
+  String get repoNoExistOrPrivate;
+
+  /// Text showing that a repository was forked
+  ///
+  /// In en, this message translates to:
+  /// **'Forked a repository'**
+  String get forkARepository;
+
+  /// Text showing that a repository was starred
+  ///
+  /// In en, this message translates to:
+  /// **'Starred a repository'**
+  String get starARepository;
+
+  /// Text showing that a repository was created
+  ///
+  /// In en, this message translates to:
+  /// **'Created a repository'**
+  String get createARepository;
+
+  /// Text showing that a branch was created
+  ///
+  /// In en, this message translates to:
+  /// **'Created a branch'**
+  String get createABranch;
+
+  /// Text showing that a tag was created
+  ///
+  /// In en, this message translates to:
+  /// **'Created a tag'**
+  String get createATag;
+
+  /// Text showing that a branch was deleted
+  ///
+  /// In en, this message translates to:
+  /// **'Deleted a branch'**
+  String get deleteABranch;
+
+  /// Text showing that a tag was deleted
+  ///
+  /// In en, this message translates to:
+  /// **'Deleted a tag'**
+  String get deleteATag;
+
+  /// Text showing that a new version was released
+  ///
+  /// In en, this message translates to:
+  /// **'Released a new version'**
+  String get releaseANewVersion;
+
+  /// No description provided for @now.
+  ///
+  /// In en, this message translates to:
+  /// **'Just now'**
+  String get now;
+
+  /// Text showing how long ago something happened in minutes
+  ///
+  /// In en, this message translates to:
+  /// **'{minutes, plural, =1{1 minute ago} other{{minutes} minutes ago}}'**
+  String minuteAgo(int minutes);
+
+  /// Text showing how long ago something happened in hours
+  ///
+  /// In en, this message translates to:
+  /// **'{hours, plural, =1{1 hour ago} other{{hours} hours ago}}'**
+  String hourAgo(int hours);
+
+  /// Text showing how long ago something happened in days
+  ///
+  /// In en, this message translates to:
+  /// **'{days, plural, =1{1 day ago} other{{days} days ago}}'**
+  String dayAgo(int days);
+
+  /// Text showing how long ago something happened in months
+  ///
+  /// In en, this message translates to:
+  /// **'{months, plural, =1{1 month ago} other{{months} months ago}}'**
+  String monthAgo(int months);
+
+  /// Text showing how long ago something happened in years
+  ///
+  /// In en, this message translates to:
+  /// **'{years, plural, =1{1 year ago} other{{years} years ago}}'**
+  String yearAgo(int years);
+
   /// No description provided for @bottomNavigationExplore.
   ///
   /// In en, this message translates to:
@@ -356,11 +519,149 @@ abstract class AppLocalizations {
   /// **'Chinese'**
   String get languageChinese;
 
+  /// No description provided for @languageChineseMicrosoft.
+  ///
+  /// In en, this message translates to:
+  /// **'Chinese (Microsoft)'**
+  String get languageChineseMicrosoft;
+
   /// Language option for English
   ///
   /// In en, this message translates to:
   /// **'English'**
   String get languageEnglish;
+
+  /// No description provided for @choosePrimaryColor.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose Primary Color'**
+  String get choosePrimaryColor;
+
+  /// Prompt to choose the accent color used in the app
+  ///
+  /// In en, this message translates to:
+  /// **'Choose Accent Color'**
+  String get chooseSecondaryColor;
+
+  /// No description provided for @chooseSurfaceColor.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose Surface Color'**
+  String get chooseSurfaceColor;
+
+  /// Prompt to choose the color used for error messages
+  ///
+  /// In en, this message translates to:
+  /// **'Choose Error Color'**
+  String get chooseErrorColor;
+
+  /// Prompt to choose the text color that appears on the primary color background
+  ///
+  /// In en, this message translates to:
+  /// **'Text Color on Primary Color'**
+  String get chooseOnPrimaryColor;
+
+  /// No description provided for @chooseOnSecondaryColor.
+  ///
+  /// In en, this message translates to:
+  /// **'Text Color on Accent Color'**
+  String get chooseOnSecondaryColor;
+
+  /// No description provided for @chooseOnSurfaceColor.
+  ///
+  /// In en, this message translates to:
+  /// **'Text Color on Surface Color'**
+  String get chooseOnSurfaceColor;
+
+  /// No description provided for @chooseOnErrorColor.
+  ///
+  /// In en, this message translates to:
+  /// **'Text Color on Error Color'**
+  String get chooseOnErrorColor;
+
+  /// No description provided for @colorShade.
+  ///
+  /// In en, this message translates to:
+  /// **'Color Shade'**
+  String get colorShade;
+
+  /// No description provided for @opacity.
+  ///
+  /// In en, this message translates to:
+  /// **'Opacity'**
+  String get opacity;
+
+  /// No description provided for @saveChangesOfTheme.
+  ///
+  /// In en, this message translates to:
+  /// **'Save Theme Changes'**
+  String get saveChangesOfTheme;
+
+  /// No description provided for @unSavedThemeChangesTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Unsaved Changes'**
+  String get unSavedThemeChangesTitle;
+
+  /// Message of the dialog warning about unsaved theme changes
+  ///
+  /// In en, this message translates to:
+  /// **'You have unsaved changes. Do you want to exit without saving?'**
+  String get unSavedThemeChangesMessage;
+
+  /// No description provided for @advancedThemeSettings.
+  ///
+  /// In en, this message translates to:
+  /// **'Advanced Theme Settings'**
+  String get advancedThemeSettings;
+
+  /// No description provided for @autoSelectOtherColors.
+  ///
+  /// In en, this message translates to:
+  /// **'Automatically set other colors'**
+  String get autoSelectOtherColors;
+
+  /// No description provided for @autoSelectTextColors.
+  ///
+  /// In en, this message translates to:
+  /// **'Automatically set text colors'**
+  String get autoSelectTextColors;
+
+  /// No description provided for @enableDarkMode.
+  ///
+  /// In en, this message translates to:
+  /// **'Dark Mode'**
+  String get enableDarkMode;
+
+  /// No description provided for @primaryColorLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Primary Color'**
+  String get primaryColorLabel;
+
+  /// No description provided for @accentColorLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Accent Color'**
+  String get accentColorLabel;
+
+  /// Label for a color option that includes both primary and accent colors
+  ///
+  /// In en, this message translates to:
+  /// **'Primary and Accent Colors'**
+  String get bothColorLabel;
+
+  /// No description provided for @customColorLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Custom'**
+  String get customColorLabel;
+
+  /// No description provided for @wheelColorLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Wheel'**
+  String get wheelColorLabel;
 }
 
 class _AppLocalizationsDelegate
@@ -381,6 +682,18 @@ class _AppLocalizationsDelegate
 }
 
 AppLocalizations lookupAppLocalizations(Locale locale) {
+  // Lookup logic when language+country codes are specified.
+  switch (locale.languageCode) {
+    case 'zh':
+      {
+        switch (locale.countryCode) {
+          case 'MS':
+            return AppLocalizationsZhMs();
+        }
+        break;
+      }
+  }
+
   // Lookup logic when only language code is specified.
   switch (locale.languageCode) {
     case 'en':

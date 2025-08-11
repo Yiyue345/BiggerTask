@@ -1,4 +1,5 @@
 import 'package:biggertask/common/methods.dart';
+import 'package:biggertask/l10n/app_localizations.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
@@ -153,7 +154,7 @@ class _GitHubLoginState extends State<GitHubLogin> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('GitHub 登录'),
+        title: Text(AppLocalizations.of(context)!.gitHubLogin),
       ),
       body: Stack(
         children: [

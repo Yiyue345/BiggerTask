@@ -1,5 +1,6 @@
 import 'package:biggertask/common/methods.dart';
 import 'package:biggertask/common/static.dart';
+import 'package:biggertask/l10n/app_localizations.dart';
 import 'package:biggertask/models/event.dart';
 import 'package:biggertask/routes/repository_route.dart';
 import 'package:biggertask/routes/user_info_route.dart';
@@ -93,7 +94,7 @@ class _ReleaseRouteState extends State<ReleaseRoute> {
                 ],
               ),
               Text(
-                widget.release.name.isEmpty ? '未命名' : widget.release.name,
+                widget.release.name.isEmpty ? AppLocalizations.of(context)!.unNamed : widget.release.name,
                 style: TextStyle(
                   fontSize: 20,
                   fontWeight: FontWeight.bold

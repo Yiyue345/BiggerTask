@@ -1,5 +1,6 @@
 import 'package:biggertask/common/methods.dart';
 import 'package:biggertask/common/static.dart';
+import 'package:biggertask/l10n/app_localizations.dart';
 import 'package:biggertask/models/event.dart';
 import 'package:biggertask/models/repository.dart';
 import 'package:biggertask/routes/release_route.dart';
@@ -45,7 +46,7 @@ class EventTile extends StatelessWidget {
     if (event.type! == 'ForkEvent') {
       return CommonRepositoryEventTile(
         event: event,
-        action: '复刻了一个仓库',
+        action: AppLocalizations.of(context)!.forkARepository,
         trailing: RepositoryEventTile(repoName: event.repo.name),
       );
     }
@@ -53,7 +54,7 @@ class EventTile extends StatelessWidget {
     else if (event.type == 'WatchEvent') {
       return CommonRepositoryEventTile(
         event: event,
-        action: '标星了一个仓库',
+        action: AppLocalizations.of(context)!.starARepository,
         trailing: RepositoryEventTile(repoName: event.repo.name),
       );
     }
@@ -62,21 +63,21 @@ class EventTile extends StatelessWidget {
       if (event.payload.refType == 'repository') {
         return CommonRepositoryEventTile(
           event: event,
-          action: '创建了一个仓库',
+          action: AppLocalizations.of(context)!.createARepository,
           trailing: RepositoryEventTile(repoName: event.repo.name),
         );
       }
       else if (event.payload.refType == 'branch') {
         return CommonRepositoryEventTile(
           event: event,
-          action: '创建了一个分支',
+          action: AppLocalizations.of(context)!.createABranch,
           trailing: RepositoryEventTile(repoName: event.repo.name),
         );
       }
       else if (event.payload.refType == 'tag') {
         return CommonRepositoryEventTile(
           event: event,
-          action: '创建了一个标签',
+          action: AppLocalizations.of(context)!.createATag,
           trailing: RepositoryEventTile(repoName: event.repo.name),
         );
       }
@@ -85,13 +86,13 @@ class EventTile extends StatelessWidget {
       if (event.payload.refType == 'branch') {
         return CommonRepositoryEventTile(
           event: event,
-          action: '删除了一个分支',
+          action: AppLocalizations.of(context)!.deleteABranch,
           trailing: RepositoryEventTile(repoName: event.repo.name),
         );
       } else if (event.payload.refType == 'tag') {
         return CommonRepositoryEventTile(
           event: event,
-          action: '删除了一个标签',
+          action: AppLocalizations.of(context)!.deleteATag,
           trailing: RepositoryEventTile(repoName: event.repo.name),
         );
       }
@@ -99,7 +100,7 @@ class EventTile extends StatelessWidget {
     else if (event.type == 'ReleaseEvent') {
       return CommonRepositoryEventTile(
         event: event,
-        action: '发布了一个版本',
+        action: AppLocalizations.of(context)!.releaseANewVersion,
         trailing: ReleaseEventTile(event: event)
       );
     }
@@ -167,7 +168,7 @@ class RepositoryEventTile extends StatelessWidget {
           }
           if (snapshot.hasError) {
             return ListTile(
-              title: Text('加载失败'),
+              title: Text(AppLocalizations.of(context)!.loadFailed),
               onTap: () async {
                 await _fetchRepository();
               },
@@ -176,7 +177,7 @@ class RepositoryEventTile extends StatelessWidget {
           if (snapshot.connectionState == ConnectionState.done) {
             if (repository == null) {
               return ListTile(
-                title: Text('仓库不存在或不可见'),
+                title: Text(AppLocalizations.of(context)!.repoNoExistOrPrivate),
               );
             }
             return ListTile(
@@ -246,7 +247,7 @@ class RepositoryEventTile extends StatelessWidget {
               subtitle: Padding(
                   padding: EdgeInsets.symmetric(vertical: 4),
                 child: Text(
-                  repository?.description ?? '无描述',
+                  repository?.description ?? AppLocalizations.of(context)!.noDescription,
                   maxLines: 5,
                   overflow: TextOverflow.ellipsis,
                   style: TextStyle(
@@ -303,6 +304,7 @@ class StarController extends GetxController {
 
 class CommonRepositoryEventTile extends StatelessWidget {
   final Event event;
+  /// 事件的动作描述，例如 "forked a repository" 或 "starred a repository"
   final String action;
   final Widget? trailing;
 
@@ -315,7 +317,19 @@ class CommonRepositoryEventTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final String relativeTime = event.timeAgo;
+    final String relativeTime;
+    if (event.timeAgo.inSeconds < 60) {
+      relativeTime = AppLocalizations.of(context)!.now;
+    } else if (event.timeAgo.inMinutes < 60) {
+      relativeTime = AppLocalizations.of(context)!.minuteAgo(event.timeAgo.inMinutes);
+    } else if (event.timeAgo.inHours < 24) {
+      relativeTime = AppLocalizations.of(context)!.hourAgo(event.timeAgo.inHours);
+    } else if (event.timeAgo.inDays < 30) {
+      relativeTime = AppLocalizations.of(context)!.dayAgo(event.timeAgo.inDays);
+    } else {
+      relativeTime = event.createdAt;
+      
+    };
 
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),

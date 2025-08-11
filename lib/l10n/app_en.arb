@@ -7,10 +7,14 @@
   "issues": "Issues",
   "pullRequests": "Pull Requests",
   "code": "Code",
+  "topics": "Topics",
   "users": "Users",
   "stars": "Stars",
   "forks": "Forks",
   "release": "Releases",
+  "userInfo": "User Info",
+  "starRepositories": "Starred Repositories",
+
 
   "followers": "Followers",
   "followings": "Followings",
@@ -64,9 +68,32 @@
   "unStar": "Unstar",
   "unStarMessage": "Are you sure you want to unstar this repository?",
   "starMessage": "Are you sure you want to star this repository?",
+  "whose": "{who}'s",
+  "@whose": {
+    "description": "Text showing whose name it is",
+    "placeholders": {
+      "who": {
+        "type": "String",
+        "example": "owner"
+      }
+    }
+  },
+  "searchForSomething": "Search for {what}",
+  "@searchForSomething": {
+    "description": "Text shown in the search bar when searching for something",
+    "placeholders": {
+      "what": {
+        "type": "String",
+        "example": "repositories, users, issues"
+      }
+    }
+  },
+  "gitHubLogin": "GitHub Login",
+  "noBio": "No bio provided",
 
   "loading": "Loading...",
   "loadFailed": "Load failed",
+  "savedSuccessfully": "Saved successfully!",
 
   "noEventText": "No events found",
   "@noEventText": {
@@ -80,6 +107,92 @@
 
   "noReadme": "No README file found",
   "readmeLoadFailed": "Failed to load README",
+  "noDescription": "No description provided",
+  "noMoreRepos": "No more repositories",
+  "noReleases": "No releases found",
+  "unNamed": "Unnamed",
+  "repoNoExistOrPrivate": "This repository does not exist or is private",
+
+  "forkARepository": "Forked a repository",
+  "@forkARepository": {
+    "description": "Text showing that a repository was forked"
+  },
+  "starARepository": "Starred a repository",
+  "@starARepository": {
+    "description": "Text showing that a repository was starred"
+  },
+  "createARepository": "Created a repository",
+  "@createARepository": {
+    "description": "Text showing that a repository was created"
+  },
+  "createABranch": "Created a branch",
+  "@createABranch": {
+    "description": "Text showing that a branch was created"
+  },
+  "createATag": "Created a tag",
+  "@createATag": {
+    "description": "Text showing that a tag was created"
+  },
+  "deleteABranch": "Deleted a branch",
+  "@deleteABranch": {
+    "description": "Text showing that a branch was deleted"
+  },
+  "deleteATag": "Deleted a tag",
+  "@deleteATag": {
+    "description": "Text showing that a tag was deleted"
+  },
+  "releaseANewVersion": "Released a new version",
+  "@releaseANewVersion": {
+    "description": "Text showing that a new version was released"
+  },
+
+  "now": "Just now",
+  "minuteAgo": "{minutes, plural, =1{1 minute ago} other{{minutes} minutes ago}}",
+  "@minuteAgo": {
+    "description": "Text showing how long ago something happened in minutes",
+    "placeholders": {
+      "minutes": {
+        "type": "int"
+      }
+    }
+  },
+  "hourAgo": "{hours, plural, =1{1 hour ago} other{{hours} hours ago}}",
+  "@hourAgo": {
+    "description": "Text showing how long ago something happened in hours",
+    "placeholders": {
+      "hours": {
+        "type": "int"
+      }
+    }
+  },
+  "dayAgo": "{days, plural, =1{1 day ago} other{{days} days ago}}",
+  "@dayAgo": {
+    "description": "Text showing how long ago something happened in days",
+    "placeholders": {
+      "days": {
+        "type": "int"
+      }
+    }
+  },
+  "monthAgo": "{months, plural, =1{1 month ago} other{{months} months ago}}",
+  "@monthAgo": {
+    "description": "Text showing how long ago something happened in months",
+    "placeholders": {
+      "months": {
+        "type": "int"
+      }
+    }
+  },
+  "yearAgo": "{years, plural, =1{1 year ago} other{{years} years ago}}",
+  "@yearAgo": {
+    "description": "Text showing how long ago something happened in years",
+    "placeholders": {
+      "years": {
+        "type": "int"
+      }
+    }
+  },
+
 
   "bottomNavigationExplore": "Explore",
   "bottomNavigationMine": "Profile",
@@ -93,8 +206,56 @@
   "@languageChinese": {
     "description": "Language option for Chinese"
   },
+  "languageChineseMicrosoft": "Chinese (Microsoft)",
   "languageEnglish": "English",
   "@languageEnglish": {
     "description": "Language option for English"
-  }
+  },
+
+  "choosePrimaryColor": "Choose Primary Color",
+  "chooseSecondaryColor": "Choose Accent Color",
+  "@chooseSecondaryColor": {
+    "description": "Prompt to choose the accent color used in the app"
+  },
+  "chooseSurfaceColor": "Choose Surface Color",
+  "chooseErrorColor": "Choose Error Color",
+  "@chooseErrorColor": {
+    "description": "Prompt to choose the color used for error messages"
+  },
+  "chooseOnPrimaryColor": "Text Color on Primary Color",
+  "@chooseOnPrimaryColor": {
+    "description": "Prompt to choose the text color that appears on the primary color background"
+  },
+  "chooseOnSecondaryColor": "Text Color on Accent Color",
+  "chooseOnSurfaceColor": "Text Color on Surface Color",
+  "chooseOnErrorColor": "Text Color on Error Color",
+  "colorShade": "Color Shade",
+  "opacity": "Opacity",
+
+  "saveChangesOfTheme": "Save Theme Changes",
+  "unSavedThemeChangesTitle": "Unsaved Changes",
+  "@unSavedTitle": {
+    "description": "Title of the dialog warning about unsaved theme changes"
+  },
+  "unSavedThemeChangesMessage": "You have unsaved changes. Do you want to exit without saving?",
+  "@unSavedThemeChangesMessage": {
+    "description": "Message of the dialog warning about unsaved theme changes"
+  },
+
+
+  "advancedThemeSettings": "Advanced Theme Settings",
+  "autoSelectOtherColors": "Automatically set other colors",
+  "autoSelectTextColors": "Automatically set text colors",
+
+  "enableDarkMode": "Dark Mode",
+
+  "primaryColorLabel": "Primary Color",
+  "accentColorLabel": "Accent Color",
+  "bothColorLabel": "Primary and Accent Colors",
+  "@bothColorLabel": {
+    "description": "Label for a color option that includes both primary and accent colors"
+  },
+  "customColorLabel": "Custom",
+  "wheelColorLabel": "Wheel"
+
 }

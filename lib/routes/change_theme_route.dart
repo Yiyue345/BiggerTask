@@ -1,3 +1,4 @@
+import 'package:biggertask/l10n/app_localizations.dart';
 import 'package:biggertask/states/theme_controller.dart';
 import 'package:biggertask/widgets/theme_colors_container.dart';
 import 'package:flex_color_picker/flex_color_picker.dart';
@@ -197,20 +198,20 @@ class _ThemeRouteState extends State<ThemeRoute> {
               bool shouldPop = await showDialog(
                   context: context,
                   builder: (context) => AlertDialog(
-                    title: Text('更改未保存'),
-                    content: Text('您有未保存的更改，确定要直接退出吗？'),
+                    title: Text(AppLocalizations.of(context)!.unSavedThemeChangesTitle),
+                    content: Text(AppLocalizations.of(context)!.unSavedThemeChangesMessage),
                     actions: [
                       TextButton(
                         onPressed: () {
                           Get.back<bool>(result: true);
                         },
-                        child: Text('确定'),
+                        child: Text(AppLocalizations.of(context)!.confirm),
                       ),
                       TextButton(
                         onPressed: () {
                           Get.back<bool>(result: false);
                         },
-                        child: Text('取消'),
+                        child: Text(AppLocalizations.of(context)!.cancel),
                       )
                     ],
                   )
@@ -223,14 +224,14 @@ class _ThemeRouteState extends State<ThemeRoute> {
           },
           child: Scaffold(
             appBar: AppBar(
-              title: Text('主题'),
+              title: Text(AppLocalizations.of(context)!.theme),
             ),
             body: SingleChildScrollView(
               child: Center(
                 child: Column(
                   children: [
                     ListTile(
-                      title: Text('深色主题'),
+                      title: Text(AppLocalizations.of(context)!.enableDarkMode),
                       trailing: Switch(
                           value: false,
                           onChanged: (v) {
@@ -305,14 +306,14 @@ class _ThemeRouteState extends State<ThemeRoute> {
                     SizedBox(height: 4,),
                     ListTile(
                       leading: Icon(Icons.save),
-                      title: Text('保存对当前主题的修改'),
+                      title: Text(AppLocalizations.of(context)!.saveChangesOfTheme),
                       onTap: () async {
                         await _saveChanges();
                       },
                     ),
                     ListTile(
                       leading: Icon(Icons.settings_suggest),
-                      title: Text('高级主题设置'),
+                      title: Text(AppLocalizations.of(context)!.advancedThemeSettings),
                       trailing: Switch(
                           value: themeController.advancedTheme.value,
                           onChanged: (v) async {
@@ -330,7 +331,7 @@ class _ThemeRouteState extends State<ThemeRoute> {
                           ? Column(
                         children: [
                           ListTile(
-                            title: Text('自动设置次要颜色'),
+                            title: Text(AppLocalizations.of(context)!.autoSelectOtherColors),
                             trailing: Switch(
                                 value: themeController.autoSelectColor.value,
                                 onChanged: (v) async {
@@ -343,7 +344,7 @@ class _ThemeRouteState extends State<ThemeRoute> {
                           ),
 
                           ListTile(
-                            title: Text('自动设置文字颜色'),
+                            title: Text(AppLocalizations.of(context)!.autoSelectTextColors),
                             trailing: Switch(
                                 value: themeController.autoSelectTextColor.value,
                                 onChanged: (v) async {
@@ -366,6 +367,10 @@ class _ThemeRouteState extends State<ThemeRoute> {
                                     secondaryColor: secondary,
                                     surfaceColor: surface,
                                     errorColor: error,
+                                    primaryColorTitle: AppLocalizations.of(context)!.choosePrimaryColor,
+                                    secondaryColorTitle: AppLocalizations.of(context)!.chooseSecondaryColor,
+                                    surfaceColorTitle: AppLocalizations.of(context)!.chooseSurfaceColor,
+                                    errorColorTitle: AppLocalizations.of(context)!.chooseErrorColor,
                                     onPrimaryColorChanged: (color) {
                                       setState(() {
 
@@ -418,10 +423,10 @@ class _ThemeRouteState extends State<ThemeRoute> {
                                     errorColor: onError,
                                     surfaceColor: onSurface,
 
-                                    primaryColorTitle: '主色之上的文字颜色',
-                                    secondaryColorTitle: '强调色之上的文字颜色',
-                                    surfaceColorTitle: '背景之上的文字颜色',
-                                    errorColorTitle: '错误色之上的文字颜色',
+                                    primaryColorTitle: AppLocalizations.of(context)!.chooseOnPrimaryColor,
+                                    secondaryColorTitle: AppLocalizations.of(context)!.chooseOnSecondaryColor,
+                                    surfaceColorTitle: AppLocalizations.of(context)!.chooseOnSurfaceColor,
+                                    errorColorTitle: AppLocalizations.of(context)!.chooseOnErrorColor,
 
                                     onPrimaryColorChanged: (color) {
                                       setState(() {
@@ -461,7 +466,7 @@ class _ThemeRouteState extends State<ThemeRoute> {
                       )
                           : ColorPicker(
                           color: primary,
-                          subheading: Text('渐变色'),
+                          subheading: Text(AppLocalizations.of(context)!.opacity),
                           showColorName: true,
                           showColorCode: true,
                           colorCodeHasColor: true,
@@ -471,11 +476,11 @@ class _ThemeRouteState extends State<ThemeRoute> {
                             ColorPickerType.wheel: true
                           },
                           pickerTypeLabels: {
-                            ColorPickerType.primary: '主色',
-                            ColorPickerType.accent: '强调色',
-                            ColorPickerType.both: '主色与强调色',
-                            ColorPickerType.custom: '自定义',
-                            ColorPickerType.wheel : '轮盘'
+                            ColorPickerType.primary: AppLocalizations.of(context)!.primaryColorLabel,
+                            ColorPickerType.accent: AppLocalizations.of(context)!.accentColorLabel,
+                            ColorPickerType.both: AppLocalizations.of(context)!.bothColorLabel,
+                            ColorPickerType.custom: AppLocalizations.of(context)!.customColorLabel,
+                            ColorPickerType.wheel : AppLocalizations.of(context)!.wheelColorLabel
                           },
 
                           onColorChanged: (color) {
@@ -572,7 +577,7 @@ class _ThemeRouteState extends State<ThemeRoute> {
     await prefs.setInt('error', error.toARGB32());
     await prefs.setInt('onError', onError.toARGB32());
 
-    Fluttertoast.showToast(msg: '保存成功！');
+    Fluttertoast.showToast(msg: AppLocalizations.of(context)!.savedSuccessfully);
 
     _isEdited = false;
   }

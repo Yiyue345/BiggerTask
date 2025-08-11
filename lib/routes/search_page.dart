@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:biggertask/common/methods.dart';
 import 'package:biggertask/common/static.dart';
+import 'package:biggertask/l10n/app_localizations.dart';
 import 'package:biggertask/models/github_user.dart';
 import 'package:biggertask/models/repository.dart';
 import 'package:biggertask/models/search.dart';
@@ -47,15 +48,7 @@ class _SearchPageState extends State<SearchPage> {
     'users': false,
   };
 
-  final Map<String, String> _typeLabels = {
-    'commits': '提交',
-    'issues': '议题',
-    'pull requests': '拉取请求',
-    'repositories': '仓库',
-    'code': '代码',
-    'topics': '主题',
-    'users': '用户',
-  };
+  late Map<String, String> _typeLabels;
 
   void _showCustomMenu(TapDownDetails details) {
     final position = RelativeRect.fromLTRB
@@ -116,6 +109,7 @@ class _SearchPageState extends State<SearchPage> {
   @override
   void initState() {
     super.initState();
+
     _controller.addListener(_onSearchTextChanged);
   }
 
@@ -177,12 +171,22 @@ class _SearchPageState extends State<SearchPage> {
   @override
   Widget build(BuildContext context) {
 
+    _typeLabels = {
+      'commits': AppLocalizations.of(context)!.commits,
+      'issues': AppLocalizations.of(context)!.issues,
+      'pull requests': AppLocalizations.of(context)!.pullRequests,
+      'repositories': AppLocalizations.of(context)!.repositories,
+      'code': AppLocalizations.of(context)!.code,
+      'topics': AppLocalizations.of(context)!.topics,
+      'users': AppLocalizations.of(context)!.users,
+    };
+
     return Scaffold(
       appBar: AppBar(
         title: TextField(
           autofocus: true,
           decoration: InputDecoration(
-            hintText: '搜索${_typeLabels[_selectedType]}',
+            hintText: AppLocalizations.of(context)!.searchForSomething(_typeLabels[_selectedType]!),
             // border: InputBorder.none,
             suffixIcon: IconButton(
               icon: Icon(Icons.close),
@@ -194,27 +198,33 @@ class _SearchPageState extends State<SearchPage> {
           controller: _controller,
         ),
         actions: [
-          PopupMenuButton(
-            itemBuilder: (context) => [
-              PopupMenuItem(
-                enabled: false,
-                  child: CheckboxListTile(
-                    title: Text('提交'),
-                      value: _selectedOptions['commits'],
-                      onChanged: (v) {
-                        setState(() {
-                          _selectedOptions['commits'] = !_selectedOptions['commits']!;
-                        });
-                      }
+          Padding(
+              padding: EdgeInsets.only(right: 16),
+            child: PopupMenuButton(
+              itemBuilder: (context) => [
+                PopupMenuItem(
+                    enabled: false,
+                    child: CheckboxListTile(
+                        title: Text(AppLocalizations.of(context)!.commits),
+                        value: _selectedOptions['commits'],
+                        onChanged: (v) {
+                          setState(() {
+                            _selectedOptions['commits'] = !_selectedOptions['commits']!;
+                          });
+                        }
 
-                  )
+                    )
+                ),
+
+              ],
+              // icon: Icon(Icons.more_vert),
+              child: GestureDetector(
+                onTapDown: _showCustomMenu,
+                child: Icon(
+                    Icons.filter_alt,
+                  size: 28,
+                ),
               ),
-
-            ],
-            // icon: Icon(Icons.more_vert),
-            child: GestureDetector(
-              onTapDown: _showCustomMenu,
-              child: Icon(Icons.filter_alt),
             ),
           ),
         ],

@@ -1,3 +1,4 @@
+import 'package:biggertask/l10n/app_localizations.dart';
 import 'package:flex_color_picker/flex_color_picker.dart';
 import 'package:flutter/material.dart';
 
@@ -37,6 +38,14 @@ class ThemeColorsContainer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    Map<ColorPickerType, String> pickerTypeLabels = {
+      ColorPickerType.primary: AppLocalizations.of(context)!.primaryColorLabel,
+      ColorPickerType.accent: AppLocalizations.of(context)!.accentColorLabel,
+      ColorPickerType.both: AppLocalizations.of(context)!.bothColorLabel,
+      ColorPickerType.custom: AppLocalizations.of(context)!.customColorLabel,
+      ColorPickerType.wheel : AppLocalizations.of(context)!.wheelColorLabel
+    };
+
     return Container(
       padding: const EdgeInsets.all(8),
       width: 120,
@@ -74,8 +83,8 @@ class ThemeColorsContainer extends StatelessWidget {
                               color: primaryColor,
                               title: Text(primaryColorTitle),
                               // heading: Text('heading'),
-                              subheading: Text('渐变色'),
-                              opacitySubheading: Text('透明度'),
+                              subheading: Text(AppLocalizations.of(context)!.colorShade),
+                              opacitySubheading: Text(AppLocalizations.of(context)!.opacity),
                               onColorChanged: (color) {
                                 if (onPrimaryColorChanged != null) {
                                   onPrimaryColorChanged!(color);
@@ -98,8 +107,8 @@ class ThemeColorsContainer extends StatelessWidget {
                                 dialogActionButtons: true,
                                 dialogActionIcons: true,
                                 // dialogOkButtonType: ColorPickerActionButtonType.outlined,
-                                dialogOkButtonLabel: '确定',
-                                dialogCancelButtonLabel: '取消',
+                                dialogOkButtonLabel: AppLocalizations.of(context)!.confirm,
+                                dialogCancelButtonLabel: AppLocalizations.of(context)!.cancel,
                               ),
                             ).showPickerDialog(context);
                           },
@@ -123,8 +132,8 @@ class ThemeColorsContainer extends StatelessWidget {
                               color: secondaryColor,
                               title: Text(secondaryColorTitle),
                               // heading: Text('heading'),
-                              subheading: Text('渐变色'),
-                              opacitySubheading: Text('透明度'),
+                              subheading: Text(AppLocalizations.of(context)!.colorShade),
+                              opacitySubheading: Text(AppLocalizations.of(context)!.opacity),
                               onColorChanged: (color) {
                                 if (onSecondaryColorChanged != null) {
                                   onSecondaryColorChanged!(color);
@@ -146,8 +155,8 @@ class ThemeColorsContainer extends StatelessWidget {
                                 dialogActionButtons: true,
                                 dialogActionIcons: true,
                                 // dialogOkButtonType: ColorPickerActionButtonType.outlined,
-                                dialogOkButtonLabel: '确定',
-                                dialogCancelButtonLabel: '取消',
+                                dialogOkButtonLabel: AppLocalizations.of(context)!.confirm,
+                                dialogCancelButtonLabel: AppLocalizations.of(context)!.cancel,
                               ),
                             ).showPickerDialog(context);
                           },
@@ -178,8 +187,8 @@ class ThemeColorsContainer extends StatelessWidget {
                             color: surfaceColor,
                             title: Text(surfaceColorTitle),
                             // heading: Text('heading'),
-                            subheading: Text('渐变色'),
-                            opacitySubheading: Text('透明度'),
+                            subheading: Text(AppLocalizations.of(context)!.colorShade),
+                            opacitySubheading: Text(AppLocalizations.of(context)!.opacity),
                             onColorChanged: (color) {
                               if (onSurfaceColorChanged != null) {
                                 onSurfaceColorChanged!(color);
@@ -201,8 +210,8 @@ class ThemeColorsContainer extends StatelessWidget {
                               dialogActionButtons: true,
                               dialogActionIcons: true,
                               // dialogOkButtonType: ColorPickerActionButtonType.outlined,
-                              dialogOkButtonLabel: '确定',
-                              dialogCancelButtonLabel: '取消',
+                              dialogOkButtonLabel: AppLocalizations.of(context)!.confirm,
+                              dialogCancelButtonLabel: AppLocalizations.of(context)!.cancel,
                             ),
                           ).showPickerDialog(context);
                         },
@@ -226,8 +235,8 @@ class ThemeColorsContainer extends StatelessWidget {
                               color: errorColor,
                               title: Text(errorColorTitle),
                               // heading: Text('heading'),
-                              subheading: Text('渐变色'),
-                              opacitySubheading: Text('透明度'),
+                              subheading: Text(AppLocalizations.of(context)!.colorShade),
+                              opacitySubheading: Text(AppLocalizations.of(context)!.opacity),
                               onColorChanged: (color) {
                                 if (onErrorColorChanged != null) {
                                   onErrorColorChanged!(color);
@@ -249,8 +258,8 @@ class ThemeColorsContainer extends StatelessWidget {
                                 dialogActionButtons: true,
                                 dialogActionIcons: true,
                                 // dialogOkButtonType: ColorPickerActionButtonType.outlined,
-                                dialogOkButtonLabel: '确定',
-                                dialogCancelButtonLabel: '取消',
+                                dialogOkButtonLabel: AppLocalizations.of(context)!.confirm,
+                                dialogCancelButtonLabel: AppLocalizations.of(context)!.cancel,
                               ),
                             ).showPickerDialog(context);
                           },
@@ -265,15 +274,8 @@ class ThemeColorsContainer extends StatelessWidget {
     );
   }
 
-  Map<ColorPickerType, String> get pickerTypeLabels {
-    return {
-      ColorPickerType.primary: '主色',
-      ColorPickerType.accent: '强调色',
-      ColorPickerType.both: '主色与强调色',
-      ColorPickerType.custom: '自定义',
-      ColorPickerType.wheel : '轮盘'
-    };
-  }
+
+
 
 }
 

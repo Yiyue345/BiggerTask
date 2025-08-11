@@ -30,19 +30,11 @@ class Event {
   DateTime get createdDateTime => DateTime.parse(createdAt);
   DateTime get localTime => createdDateTime.toLocal();
 
-  String get timeAgo {
+  Duration get timeAgo {
     final now = DateTime.now();
     final difference = now.difference(localTime);
 
-    if (difference.inDays > 0) {
-      return '${difference.inDays}天前';
-    } else if (difference.inHours > 0) {
-      return '${difference.inHours}小时前';
-    } else if (difference.inMinutes > 0) {
-      return '${difference.inMinutes}分钟前';
-    } else {
-      return '刚刚';
-    }
+    return difference;
   }
 
   factory Event.fromJson(Map<String, dynamic> json) => _$EventFromJson(json);
