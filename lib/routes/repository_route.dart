@@ -1,5 +1,8 @@
+import 'package:biggertask/html_markdown/custom_node.dart';
+import 'package:biggertask/html_markdown/video.dart';
 import 'package:biggertask/l10n/app_localizations.dart';
 import 'package:biggertask/routes/release_list_route.dart';
+import 'package:biggertask/routes/repo_files_route.dart';
 import 'package:biggertask/routes/user_info_route.dart';
 import 'package:get/get.dart';
 import 'dart:convert';
@@ -212,6 +215,13 @@ class _RepositoryRouteState extends State<RepositoryRoute> {
                   Get.to(() => ReleaseListRoute(repoFullName: widget.repository.fullName));
                 },
               ),
+              ListTile(
+                leading: Icon(OctIcons.code),
+                title: Text(AppLocalizations.of(context)!.code),
+                onTap: () {
+                  Get.to(() => RepoFilesRoute(repoFullName: widget.repository.fullName));
+                },
+              ),
 
               FutureBuilder(
                   future: _readmeFuture,
@@ -245,6 +255,14 @@ class _RepositoryRouteState extends State<RepositoryRoute> {
                               data: utf8.decode(base64.decode(readme.content.replaceAll('\n', ''))),
                             shrinkWrap: true,
                             padding: EdgeInsets.zero,
+                            markdownGenerator: MarkdownGenerator(
+                              generators: [
+                                videoGeneratorWithTag
+                              ],
+                              textGenerator: (node, config, visitor) =>
+                                  CustomTextNode(node.textContent, config, visitor),
+                              richTextBuilder: (span) => Text.rich(span)
+                            ),
                           ),
                         );
                       }

@@ -378,6 +378,34 @@ class Methods {
       return 0;
     }
   }
+
+  static Future<Map<String, dynamic>> getRepoTree({
+    required String? token,
+    required String repoFullName,
+    String? sha,
+    /// 是否递归获取子目录的内容
+    bool recursive = false
+}) async {
+    if (token == null || token.isEmpty) {
+      return {};
+    }
+    _dioManager.setAuthToken(token);
+    try {
+      final String url = sha != null
+          ? 'https://api.github.com/repos/$repoFullName/git/trees/$sha${recursive ? '?recursive=1' : ''}'
+          : 'https://api.github.com/repos/$repoFullName/git/trees/HEAD${recursive ? '?recursive=1' : ''}';
+
+      final response = await _dioManager.dio.get(url);
+      if (response.statusCode == 200) {
+        return response.data;
+      } else {
+        throw Exception('Failed to fetch repository tree: ${response.statusCode}');
+      }
+    } catch (e) {
+      print('Error fetching repository tree: $e');
+      return {};
+    }
+  }
 }
 
 class DioManager {

@@ -359,7 +359,7 @@ class AppLocalizationsZhMs extends AppLocalizationsZh {
   String get userInfo => '用户信息';
 
   @override
-  String get starRepositories => '星星存储库';
+  String get starRepositories => '星星仓库';
 
   @override
   String get followers => '追随者';
