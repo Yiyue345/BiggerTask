@@ -1,14 +1,18 @@
 import 'package:biggertask/common/methods.dart';
 import 'package:biggertask/common/static.dart';
-import 'package:biggertask/models/tree_item.dart';
+import 'package:biggertask/models/repository_content.dart';
+import 'package:biggertask/routes/file_route.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class RepoFilesRoute extends StatefulWidget {
   final String repoFullName;
+  final String? currentPath;
 
   const RepoFilesRoute({
     super.key,
-    required this.repoFullName
+    required this.repoFullName,
+    this.currentPath
   });
 
   @override
@@ -17,7 +21,7 @@ class RepoFilesRoute extends StatefulWidget {
 
 class _RepoFilesRouteState extends State<RepoFilesRoute> {
   bool _isLoading = true;
-  List<TreeItem> _items = [];
+  List<RepositoryContent> _items = [];
 
   @override
   void initState() {
@@ -27,15 +31,19 @@ class _RepoFilesRouteState extends State<RepoFilesRoute> {
 
   Future<void> _loadFiles() async {
     try {
-      final response = await Methods.getRepoTree(
-        repoFullName: widget.repoFullName,
-        token: Global.token,
-        recursive: true
+      _items = await Methods.getRepoContent(
+          token: Global.token,
+          repoFullName: widget.repoFullName,
+        path: widget.currentPath
       );
 
-      final List<dynamic> tree = response['tree'];
+      _items.sort((a, b) {
+        if (a.isDirectory && !b.isDirectory) return -1;
+        if (!a.isDirectory && b.isDirectory) return 1;
+        return a.path.compareTo(b.path);
+      });
+
       setState(() {
-        _items = tree.map((item) => TreeItem.fromJson(item)).toList();
         _isLoading = false;
       });
     } catch (e) {
@@ -44,15 +52,17 @@ class _RepoFilesRouteState extends State<RepoFilesRoute> {
       });
       print('Error loading files: $e');
     }
-
-
   }
+
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-
+        title: Text(widget.currentPath != null
+            ? widget.currentPath!
+            : ''
+        ),
       ),
       body: _isLoading
           ? Center(
@@ -66,9 +76,26 @@ class _RepoFilesRouteState extends State<RepoFilesRoute> {
               leading: Icon(
                 item.isFile ? Icons.insert_drive_file : Icons.folder,
               ),
-              title: Text(item.path),
+              title: Text(item.name),
+              subtitle: item.isFile && item.size != null
+                  ? Text(item.sizeFormatted)
+                  : null,
               onTap: () {
-
+                if (item.isDirectory) {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => RepoFilesRoute(
+                          repoFullName: widget.repoFullName,
+                        currentPath: item.path,
+                      ))
+                  );
+                }
+                else if (item.isFile) {
+                  Get.to(() => FileRoute(
+                      repoFullName: widget.repoFullName,
+                      filePath: item.path
+                  ));
+                }
               },
             );
           }

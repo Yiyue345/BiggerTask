@@ -4,6 +4,7 @@ import 'package:biggertask/common/static.dart';
 import 'package:biggertask/models/event.dart';
 import 'package:biggertask/models/github_user.dart';
 import 'package:biggertask/models/repository.dart';
+import 'package:biggertask/models/repository_content.dart';
 import 'package:biggertask/models/search.dart';
 import 'package:dio/dio.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -379,31 +380,50 @@ class Methods {
     }
   }
 
-  static Future<Map<String, dynamic>> getRepoTree({
+  static Future<List<RepositoryContent>> getRepoContent({
     required String? token,
     required String repoFullName,
-    String? sha,
-    /// 是否递归获取子目录的内容
-    bool recursive = false
+    String? path,
+    String? ref,
 }) async {
     if (token == null || token.isEmpty) {
-      return {};
+      return [];
     }
     _dioManager.setAuthToken(token);
     try {
-      final String url = sha != null
-          ? 'https://api.github.com/repos/$repoFullName/git/trees/$sha${recursive ? '?recursive=1' : ''}'
-          : 'https://api.github.com/repos/$repoFullName/git/trees/HEAD${recursive ? '?recursive=1' : ''}';
+      String url = 'https://api.github.com/repos/$repoFullName/contents';
+      if (path != null && path.isNotEmpty) {
+        url += '/$path';
+      }
 
-      final response = await _dioManager.dio.get(url);
+      Map<String, dynamic> queryParameters = {};
+      if (ref != null && ref.isNotEmpty) {
+        queryParameters['ref'] = ref;
+      }
+
+      final response = await _dioManager.dio.get(
+          url,
+          queryParameters: queryParameters.isNotEmpty ? queryParameters : null,
+      );
       if (response.statusCode == 200) {
-        return response.data;
-      } else {
-        throw Exception('Failed to fetch repository tree: ${response.statusCode}');
+        if (response.data is List) {
+          List<dynamic> data = response.data;
+          return data.map((item) => RepositoryContent.fromJson(item)).toList();
+        }
+        else if (response.data is Map) {
+          // 如果是单个文件的内容，返回一个包含该文件的列表
+          return [RepositoryContent.fromJson(response.data)];
+        }
+        else {
+          throw Exception('Unexpected response format: ${response.data}');
+        }
+      }
+      else {
+        throw Exception('Failed to fetch repository content: ${response.statusCode}');
       }
     } catch (e) {
-      print('Error fetching repository tree: $e');
-      return {};
+      print('Error fetching repository content: $e');
+      return [];
     }
   }
 }

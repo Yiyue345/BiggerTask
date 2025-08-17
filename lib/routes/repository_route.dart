@@ -263,6 +263,17 @@ class _RepositoryRouteState extends State<RepositoryRoute> {
                                   CustomTextNode(node.textContent, config, visitor),
                               richTextBuilder: (span) => Text.rich(span)
                             ),
+                            config: MarkdownConfig(
+                              configs: [
+                                // 让表格可以横向滚动
+                                TableConfig(
+                                  wrapper: (child) => SingleChildScrollView(
+                                    scrollDirection: Axis.horizontal,
+                                    child: child,
+                                  ),
+                                ),
+                              ],
+                            ),
                           ),
                         );
                       }
