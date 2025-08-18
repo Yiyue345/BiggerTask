@@ -329,7 +329,7 @@ class CommonRepositoryEventTile extends StatelessWidget {
     } else {
       relativeTime = event.createdAt;
       
-    };
+    }
 
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),

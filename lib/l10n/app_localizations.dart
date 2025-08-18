@@ -339,6 +339,12 @@ abstract class AppLocalizations {
   /// **'Saved successfully!'**
   String get savedSuccessfully;
 
+  /// No description provided for @copiedSuccessfully.
+  ///
+  /// In en, this message translates to:
+  /// **'Copied successfully!'**
+  String get copiedSuccessfully;
+
   /// Text shown when there are no events to display on home page
   ///
   /// In en, this message translates to:

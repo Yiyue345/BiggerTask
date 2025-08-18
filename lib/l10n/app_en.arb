@@ -94,6 +94,8 @@
   "loading": "Loading...",
   "loadFailed": "Load failed",
   "savedSuccessfully": "Saved successfully!",
+  "copiedSuccessfully": "Copied successfully!",
+
 
   "noEventText": "No events found",
   "@noEventText": {

@@ -143,6 +143,9 @@ class AppLocalizationsZh extends AppLocalizations {
   String get savedSuccessfully => '保存成功！';
 
   @override
+  String get copiedSuccessfully => '复制成功！';
+
+  @override
   String get noEventText => '暂时还没有事件哦~';
 
   @override
@@ -452,6 +455,9 @@ class AppLocalizationsZhMs extends AppLocalizationsZh {
 
   @override
   String get savedSuccessfully => '保存很成功！';
+
+  @override
+  String get copiedSuccessfully => '复制很成功！';
 
   @override
   String get noEventText => '找不到你的事件';

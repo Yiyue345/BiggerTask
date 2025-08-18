@@ -156,6 +156,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get savedSuccessfully => 'Saved successfully!';
 
   @override
+  String get copiedSuccessfully => 'Copied successfully!';
+
+  @override
   String get noEventText => 'No events found';
 
   @override

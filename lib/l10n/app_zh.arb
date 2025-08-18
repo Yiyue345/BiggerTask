@@ -43,6 +43,7 @@
   "loading": "加载中...",
   "loadFailed": "加载失败",
   "savedSuccessfully": "保存成功！",
+  "copiedSuccessfully": "复制成功！",
 
   "noEventText": "暂时还没有事件哦~",
 
