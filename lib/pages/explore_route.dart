@@ -4,17 +4,18 @@ import 'package:biggertask/common/methods.dart';
 import 'package:biggertask/common/static.dart';
 import 'package:biggertask/l10n/app_localizations.dart';
 import 'package:biggertask/models/event.dart';
+import 'package:biggertask/models/repository.dart';
 import 'package:biggertask/widgets/event_tile.dart';
 import 'package:biggertask/widgets/keep_alive_wrapper.dart';
 import 'package:flutter/material.dart';
 
-class ExploreRoute extends StatefulWidget {
+class MyEventsRoute extends StatefulWidget {
   @override
-  _ExploreRouteState createState() => _ExploreRouteState();
+  _MyEventsRouteState createState() => _MyEventsRouteState();
 }
 
-class _ExploreRouteState extends State<ExploreRoute> with AutomaticKeepAliveClientMixin {
-  List<Event> _events = [];
+class _MyEventsRouteState extends State<MyEventsRoute> with AutomaticKeepAliveClientMixin {
+  final List<Event> _events = [];
   bool isLoaded = false;
   String rawJson = '';
   int _page = 1;
@@ -92,6 +93,7 @@ class _ExploreRouteState extends State<ExploreRoute> with AutomaticKeepAliveClie
         )
             :
         ListView.builder(
+          shrinkWrap: true,
           itemCount: _events.length + (_hasMore ? 1 : 0), // 如果有更多数据，增加一个加载更多的占位
             itemBuilder: (context, index) {
             if (index == _events.length && _hasMore) {

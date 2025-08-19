@@ -143,6 +143,33 @@ class Methods {
     }
   }
 
+  static Future<List<Event>> getRepositoryEvents({required String? token, required String repoFullName, int page = 1, int perPage = 30}) async {
+    if (token == null || token.isEmpty) {
+      return [];
+    }
+
+    try {
+      _dioManager.setAuthToken(token);
+      final response = await _dioManager.dio.get(
+        'https://api.github.com/repos/$repoFullName/events',
+        queryParameters: {
+          'page': page,
+          'per_page': perPage,
+        },
+      );
+
+      if (response.statusCode == 200) {
+        List<dynamic> data = response.data;
+        return data.map((item) => Event.fromJson(item)).toList();
+      } else {
+        throw Exception('Failed to load repository events: ${response.statusCode}');
+      }
+    } catch (e) {
+      print('Error fetching repository events: $e');
+      return [];
+    }
+  }
+
   static Future<Repository?> getRepository({required String fullName, required String? token}) async {
     try {
       _dioManager.setAuthToken(token);
@@ -424,6 +451,27 @@ class Methods {
     } catch (e) {
       print('Error fetching repository content: $e');
       return [];
+    }
+  }
+
+  static Future<Map<String, int>> getRepositoryLanguages({required String? token, required String repoFullName}) async {
+    if (token == null || token.isEmpty) {
+      return {};
+    }
+    try {
+      _dioManager.setAuthToken(token);
+      final response = await _dioManager.dio.get(
+        'https://api.github.com/repos/$repoFullName/languages',
+      );
+
+      if (response.statusCode == 200) {
+        return Map<String, int>.from(response.data);
+      } else {
+        throw Exception('Failed to load repository languages: ${response.statusCode}');
+      }
+    } catch (e) {
+      print('Error fetching repository languages: $e');
+      return {};
     }
   }
 }

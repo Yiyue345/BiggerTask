@@ -1,16 +1,29 @@
-# biggertask
+# 一个用 Flutter 写的 GitHub 客户端（还没写好）
 
-A new Flutter project.
+**自备`.env`文件谢谢喵**
 
-## Getting Started
+目前做的功能有：
 
-This project is a starting point for a Flutter application.
+- [x] 登录
+- [x] 查看仓库、用户与用户事件
+- [x] 搜索仓库与用户
+- [x] 部分个人信息展示
+- [x] 仓库的结构预览与代码浏览
+- [x] 多语言
+- [x] 标星与取消标星
+- [x] 展示仓库的已发行版本
+- [x] 关注与粉丝的查看
 
-A few resources to get you started if this is your first Flutter project:
+还要做的功能有：
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+- [ ] 提供更多类型文件的预览
+- [ ] 完全完成主题更换功能
+- [ ] 对其他搜索类型提供支持
+- [ ] 界面优化
+- [ ] 更多事件的展示
+- [ ] 分支、议题与提交的展示
+- [ ] 代码预览界面的设置
+- [x] 展示仓库所使用的主要语言
+- [ ] 展示仓库的所有贡献者
+- [ ] 组织
+- [ ] ……

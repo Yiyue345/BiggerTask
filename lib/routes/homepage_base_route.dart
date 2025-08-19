@@ -24,7 +24,7 @@ class _HomepageBaseRouteState extends State<HomepageBaseRoute> {
   bool _isInitialized = false;
 
   final List<Widget> _pages = [
-    ExploreRoute(),
+    MyEventsRoute(),
     MyInfoRoute()
   ];
 
