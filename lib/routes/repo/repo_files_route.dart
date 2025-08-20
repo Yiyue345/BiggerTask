@@ -1,7 +1,7 @@
 import 'package:biggertask/common/methods.dart';
 import 'package:biggertask/common/static.dart';
 import 'package:biggertask/models/repository_content.dart';
-import 'package:biggertask/routes/file_route.dart';
+import 'package:biggertask/routes/repo/file_route.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 

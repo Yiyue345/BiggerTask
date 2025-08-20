@@ -4,8 +4,8 @@ import 'package:biggertask/common/static.dart';
 import 'package:biggertask/l10n/app_localizations.dart';
 import 'package:biggertask/models/event.dart';
 import 'package:biggertask/models/repository.dart';
-import 'package:biggertask/routes/release_route.dart';
-import 'package:biggertask/routes/repository_route.dart';
+import 'package:biggertask/routes/repo/release_route.dart';
+import 'package:biggertask/routes/repo/repository_route.dart';
 import 'package:biggertask/routes/user_info_route.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -276,6 +276,7 @@ class RepositoryEventTile extends StatelessWidget {
               subtitle: Padding(
                   padding: EdgeInsets.symmetric(vertical: 4),
                 child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
                       repository?.description ?? AppLocalizations.of(context)!.noDescription,

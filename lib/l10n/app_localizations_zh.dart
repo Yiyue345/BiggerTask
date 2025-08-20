@@ -48,6 +48,9 @@ class AppLocalizationsZh extends AppLocalizations {
   String get userInfo => '用户信息';
 
   @override
+  String get contributors => '贡献者';
+
+  @override
   String get starRepositories => '标星仓库';
 
   @override
@@ -360,6 +363,9 @@ class AppLocalizationsZhMs extends AppLocalizationsZh {
 
   @override
   String get userInfo => '用户信息';
+
+  @override
+  String get contributors => '贡献者';
 
   @override
   String get starRepositories => '星星仓库';

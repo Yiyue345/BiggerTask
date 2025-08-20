@@ -177,6 +177,12 @@ abstract class AppLocalizations {
   /// **'User Info'**
   String get userInfo;
 
+  /// No description provided for @contributors.
+  ///
+  /// In en, this message translates to:
+  /// **'Contributors'**
+  String get contributors;
+
   /// No description provided for @starRepositories.
   ///
   /// In en, this message translates to:

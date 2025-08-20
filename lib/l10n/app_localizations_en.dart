@@ -48,6 +48,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get userInfo => 'User Info';
 
   @override
+  String get contributors => 'Contributors';
+
+  @override
   String get starRepositories => 'Starred Repositories';
 
   @override

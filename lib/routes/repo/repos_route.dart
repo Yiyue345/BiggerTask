@@ -3,14 +3,14 @@ import 'package:biggertask/common/methods.dart';
 import 'package:biggertask/l10n/app_localizations.dart';
 import 'package:biggertask/models/github_user.dart';
 import 'package:biggertask/models/repository.dart';
-import 'package:biggertask/routes/repository_route.dart';
+import 'package:biggertask/routes/repo/repository_route.dart';
 import 'package:biggertask/widgets/keep_alive_wrapper.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:icons_plus/icons_plus.dart';
 import 'package:get/get.dart';
 
-import '../common/static.dart';
+import '../../common/static.dart';
 
 class RepositoriesRoute extends StatefulWidget {
 

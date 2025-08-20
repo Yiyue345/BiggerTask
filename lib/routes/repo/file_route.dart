@@ -42,8 +42,8 @@ class _FileRouteState extends State<FileRoute> {
       repoFullName: widget.repoFullName,
       path: widget.filePath
     ))[0];
-    print(file.encoding);
-    print(file.decodedContent);
+    // print(file.encoding);
+    // print(file.decodedContent);
     setState(() {
       _isLoading = false;
     });
@@ -79,12 +79,22 @@ class _FileRouteState extends State<FileRoute> {
         ),
         actions: [
           IconButton(
+              onPressed: () {
+
+              },
+              icon: Icon(
+                  Icons.settings,
+                color: Theme.of(context).colorScheme.onSecondary,
+              )
+          ),
+          IconButton(
               onPressed: _copySelectedLines,
               icon: Icon(
                 Icons.copy,
                 color: Theme.of(context).colorScheme.onSecondary,
               )
-          )
+          ),
+
         ],
         backgroundColor: Theme.of(context).colorScheme.secondary,
       )
@@ -98,7 +108,7 @@ class _FileRouteState extends State<FileRoute> {
   }
 
   Widget _chooseBody(String type) {
-    switch(widget.fileType) {
+    switch(widget.fileType.toLowerCase()) {
       case 'md':
         return Padding(
           padding: EdgeInsets.all(16.0),
@@ -123,6 +133,44 @@ class _FileRouteState extends State<FileRoute> {
                 ),
               ],
             ),
+          ),
+        );
+      case 'png' || 'jpg' || 'jpeg' || 'gif' || 'bmp' || 'webp':
+        return Center(
+          child: InteractiveViewer(
+              child: Image.network(
+                file.downloadUrl!,
+                loadingBuilder: (context, child, loadingProgress) {
+                  if (loadingProgress == null) return child;
+                  return Center(
+                    child: CircularProgressIndicator(
+                      value: loadingProgress.expectedTotalBytes != null
+                          ? loadingProgress.cumulativeBytesLoaded /
+                          loadingProgress.expectedTotalBytes!
+                          : null,
+                    ),
+                  );
+                },
+                  errorBuilder: (context, error, stackTrace) {
+                    return Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Icon(Icons.error, size: 48, color: Colors.red),
+                        SizedBox(height: 8),
+                        Text('Failed to load image'),
+                        SizedBox(height: 8),
+                        ElevatedButton(
+                          onPressed: () {
+                            setState(() {
+                              // 触发重新构建来重试加载
+                            });
+                          },
+                          child: Text('Retry'),
+                        ),
+                      ],
+                    );
+                  }
+              )
           ),
         );
       default:

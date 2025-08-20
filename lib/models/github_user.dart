@@ -141,6 +141,41 @@ class GitHubUser extends SimpleGitHubUser {
 }
 
 @JsonSerializable()
+class ContributorUser extends SimpleGitHubUser {
+  final int contributions;
+
+  ContributorUser({
+    required super.avatarUrl,
+    required super.eventsUrl,
+    required super.followersUrl,
+    required super.followingUrl,
+    required super.gistsUrl,
+    super.gravatarId,
+    required super.htmlUrl,
+    required super.id,
+    required super.login,
+    required super.nodeId,
+    required super.organizationsUrl,
+    required super.receivedEventsUrl,
+    required super.reposUrl,
+    required super.siteAdmin,
+    required super.starredUrl,
+    required super.subscriptionsUrl,
+    required super.type,
+    required super.url,
+    super.starredAt,
+    super.score,
+    required this.contributions,
+  });
+
+  factory ContributorUser.fromJson(Map<String, dynamic> json) =>
+      _$ContributorUserFromJson(json);
+
+  @override
+  Map<String, dynamic> toJson() => _$ContributorUserToJson(this);
+}
+
+@JsonSerializable()
 class GithubPlan {
   final String name;
   final int space;

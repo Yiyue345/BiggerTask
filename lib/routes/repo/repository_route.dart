@@ -1,8 +1,10 @@
 import 'package:biggertask/html_markdown/custom_node.dart';
 import 'package:biggertask/html_markdown/video.dart';
 import 'package:biggertask/l10n/app_localizations.dart';
-import 'package:biggertask/routes/release_list_route.dart';
-import 'package:biggertask/routes/repo_files_route.dart';
+import 'package:biggertask/models/github_user.dart';
+import 'package:biggertask/routes/repo/contributors_route.dart';
+import 'package:biggertask/routes/repo/release_list_route.dart';
+import 'package:biggertask/routes/repo/repo_files_route.dart';
 import 'package:biggertask/routes/user_info_route.dart';
 import 'package:get/get.dart';
 import 'dart:convert';
@@ -26,13 +28,39 @@ class RepositoryRoute extends StatefulWidget {
 class _RepositoryRouteState extends State<RepositoryRoute> {
 
   bool? _isStarred;
-  late final Future<RepositoryReadme?> _readmeFuture;
+  // late final Future<RepositoryReadme?> _readmeFuture;
+  late RepositoryReadme? readme;
+  int _contributersCount = 0;
+  bool _isLoading = true;
 
   @override
   void initState() {
     super.initState();
-    _checkStarredStatus();
-    _readmeFuture = _getReadme(); // 防止 futureBuilder 重复调用
+    _loadRepository();
+    // _readmeFuture = _getReadme(); // 防止 futureBuilder 重复调用
+  }
+
+  Future<void> _loadRepository() async {
+    setState(() {
+      _isLoading = true;
+    });
+    final futures = [
+      _checkStarredStatus(),
+      _getReadme(),
+      Methods.getRepositoryContributorsCount(
+          token: Global.token,
+          repoFullName: widget.repository.fullName
+      )
+    ];
+
+    final results = await Future.wait(futures);
+
+    readme = results[1] as RepositoryReadme?;
+
+    _contributersCount = results[2] as int;
+    setState(() {
+      _isLoading = false;
+    });
   }
 
   @override
@@ -41,7 +69,11 @@ class _RepositoryRouteState extends State<RepositoryRoute> {
       appBar: AppBar(
 
       ),
-      body: RefreshIndicator(
+      body: _isLoading
+          ? Center(
+              child: CircularProgressIndicator(),
+            )
+          : RefreshIndicator(
           child: ListView(
             children: [
               ListTile(
@@ -100,7 +132,7 @@ class _RepositoryRouteState extends State<RepositoryRoute> {
               ),
               if (widget.repository.fork)
                 Padding(
-                    padding: EdgeInsets.only(left: 20),
+                  padding: EdgeInsets.only(left: 20),
                   child: FutureBuilder(
                       future: Methods.getRepository(
                           fullName: widget.repository.fullName,
@@ -118,7 +150,7 @@ class _RepositoryRouteState extends State<RepositoryRoute> {
                             child: Row(
                               children: [
                                 Icon(
-                                    OctIcons.repo_forked,
+                                  OctIcons.repo_forked,
                                   size: 17,
                                 ),
                                 SizedBox(width: 4,),
@@ -150,44 +182,44 @@ class _RepositoryRouteState extends State<RepositoryRoute> {
                   children: [
                     SizedBox(width: 8,),
                     TextButton.icon(
-                        onPressed: _isStarred == null
-                            ? null
-                            : () async {
-                              await _showStarDialog();
-                              await _checkStarredStatus();
-                              setState(() {
+                      onPressed: _isStarred == null
+                          ? null
+                          : () async {
+                        await _showStarDialog();
+                        await _checkStarredStatus();
+                        setState(() {
 
-                              });
-                            },
-                        icon: Icon(
-                          OctIcons.star,
-                          size: 16,
-                        ),
+                        });
+                      },
+                      icon: Icon(
+                        OctIcons.star,
+                        size: 16,
+                      ),
                       label: Text('${widget.repository.stargazersCount}'),
                       style: ButtonStyle(
-                        foregroundColor: WidgetStatePropertyAll(
-                            _isStarred == null
-                                ? Colors.grey
-                                : _isStarred!
-                                ? Colors.white : Colors.grey
-                        ),
-                        backgroundColor: WidgetStatePropertyAll(
-                            _isStarred == null
-                                ? Colors.transparent
-                                : _isStarred!
-                                ? Colors.yellow[700] : Colors.transparent
-                        ),
-                        minimumSize: WidgetStatePropertyAll(Size(0, 0)),
-                        side: WidgetStatePropertyAll(
-                            BorderSide(
-                              color: _isStarred == null
+                          foregroundColor: WidgetStatePropertyAll(
+                              _isStarred == null
+                                  ? Colors.grey
+                                  : _isStarred!
+                                  ? Colors.white : Colors.grey
+                          ),
+                          backgroundColor: WidgetStatePropertyAll(
+                              _isStarred == null
                                   ? Colors.transparent
                                   : _isStarred!
-                                  ? Colors.orange[500]!
-                                  : Colors.transparent,
-                              width: 3.0,
-                            )
-                        )
+                                  ? Colors.yellow[700] : Colors.transparent
+                          ),
+                          minimumSize: WidgetStatePropertyAll(Size(0, 0)),
+                          side: WidgetStatePropertyAll(
+                              BorderSide(
+                                color: _isStarred == null
+                                    ? Colors.transparent
+                                    : _isStarred!
+                                    ? Colors.orange[500]!
+                                    : Colors.transparent,
+                                width: 3.0,
+                              )
+                          )
 
 
                       ),
@@ -222,79 +254,54 @@ class _RepositoryRouteState extends State<RepositoryRoute> {
                   Get.to(() => RepoFilesRoute(repoFullName: widget.repository.fullName));
                 },
               ),
+                if (_contributersCount > 1)
+                ListTile(
+                  leading: Icon(OctIcons.person),
+                  title: Text(AppLocalizations.of(context)!.contributors),
+                  trailing: Text(_contributersCount.toString()),
+                  onTap: () {
+                    Get.to(() => ContributorsRoute(repoFullName: widget.repository.fullName));
+                  },
+                ),
 
-              FutureBuilder(
-                  future: _readmeFuture,
-                  builder: (context, snapshot) {
-                    if (snapshot.connectionState == ConnectionState.waiting) {
-                      return Center(
-                        child: Padding(
-                            padding: EdgeInsets.all(16),
-                          child: CircularProgressIndicator(),
-                        ),
-                      );
-                    }
-                    else if (snapshot.hasError) {
-                      return Center(
-                        child: Column(
-                          children: [
-                            Icon(Icons.error, color: Colors.red, size: 48),
-                            SizedBox(height: 16),
-                            Text(AppLocalizations.of(context)!.readmeLoadFailed + snapshot.error.toString()),
-                          ],
-                        ),
-                      );
-                    }
-                    else if (snapshot.hasData) {
-                      RepositoryReadme? readme = snapshot.data;
-                      if (readme != null) {
-
-                        return Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 16),
-                          child: MarkdownWidget(
-                              data: utf8.decode(base64.decode(readme.content.replaceAll('\n', ''))),
-                            shrinkWrap: true,
-                            padding: EdgeInsets.zero,
-                            markdownGenerator: MarkdownGenerator(
-                              generators: [
-                                videoGeneratorWithTag
-                              ],
-                              textGenerator: (node, config, visitor) =>
-                                  CustomTextNode(node.textContent, config, visitor),
-                              richTextBuilder: (span) => Text.rich(span)
-                            ),
-                            config: MarkdownConfig(
-                              configs: [
-                                // 让表格可以横向滚动
-                                TableConfig(
-                                  wrapper: (child) => SingleChildScrollView(
-                                    scrollDirection: Axis.horizontal,
-                                    child: child,
-                                  ),
-                                ),
-                              ],
-                            ),
+              if (readme != null && readme!.content.isNotEmpty)
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 16),
+                  child: MarkdownWidget(
+                    data: utf8.decode(base64.decode(readme!.content.replaceAll('\n', ''))),
+                    shrinkWrap: true,
+                    padding: EdgeInsets.zero,
+                    markdownGenerator: MarkdownGenerator(
+                        generators: [
+                          videoGeneratorWithTag
+                        ],
+                        textGenerator: (node, config, visitor) =>
+                            CustomTextNode(node.textContent, config, visitor),
+                        richTextBuilder: (span) => Text.rich(span)
+                    ),
+                    config: MarkdownConfig(
+                      configs: [
+                        // 让表格可以横向滚动
+                        TableConfig(
+                          wrapper: (child) => SingleChildScrollView(
+                            scrollDirection: Axis.horizontal,
+                            child: child,
                           ),
-                        );
-                      }
-                      else {
-                        return Center(
-                          child: Text(AppLocalizations.of(context)!.noReadme),
-                        );
-                      }
-                    }
-                    else {
-                      return Center(
-                        child: Text(AppLocalizations.of(context)!.noReadme),
-                      );
-                    }
-                  }
-              )
+                        ),
+                      ],
+                    ),
+                  ),
+                )
+              else
+                Center(
+                  child: Text(AppLocalizations.of(context)!.noReadme),
+                )
             ],
           ),
           onRefresh: () async {
-            await _checkStarredStatus();
-      }),
+            await _loadRepository();
+          })
+      ,
     );
   }
 

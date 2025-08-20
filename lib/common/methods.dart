@@ -474,6 +474,54 @@ class Methods {
       return {};
     }
   }
+
+  static Future<List<ContributorUser>> getRepositoryContributors({required String? token, required String repoFullName, int page = 1, int perPage = 30}) async {
+    if (token == null || token.isEmpty) {
+      return [];
+    }
+    try {
+      _dioManager.setAuthToken(token);
+      final response = await _dioManager.dio.get(
+        'https://api.github.com/repos/$repoFullName/contributors',
+        queryParameters: {
+          'page': page,
+          'per_page': perPage,
+        },
+      );
+
+      if (response.statusCode == 200) {
+        List<dynamic> data = response.data;
+        return data.map((item) => ContributorUser.fromJson(item)).toList();
+      } else {
+        throw Exception('Failed to load contributors: ${response.statusCode}');
+      }
+    } catch (e) {
+      print('Error fetching contributors: $e');
+      return [];
+    }
+  }
+
+  static Future<int> getRepositoryContributorsCount({required String? token, required String repoFullName}) async {
+    if (token == null || token.isEmpty) {
+      return 0;
+    }
+    try {
+      _dioManager.setAuthToken(token);
+      List<ContributorUser> contributors = [];
+      int count = contributors.length;
+      int page = 1;
+      do {
+        contributors = await getRepositoryContributors(token: token, repoFullName: repoFullName, page: page, perPage: 100);
+        count += contributors.length;
+        page++;
+      } while (contributors.isNotEmpty);
+
+      return count;
+    } catch (e) {
+      print('Error fetching contributor count: $e');
+      return 0;
+    }
+  }
 }
 
 class DioManager {

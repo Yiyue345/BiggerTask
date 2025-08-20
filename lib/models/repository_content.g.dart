@@ -13,6 +13,7 @@ RepositoryContent _$RepositoryContentFromJson(Map<String, dynamic> json) =>
               ? null
               : ContentLinks.fromJson(json['_links'] as Map<String, dynamic>),
       content: json['content'] as String?,
+      encoding: json['encoding'] as String?,
       downloadUrl: json['download_url'] as String?,
       gitUrl: json['git_url'] as String?,
       htmlUrl: json['html_url'] as String?,
@@ -28,6 +29,7 @@ Map<String, dynamic> _$RepositoryContentToJson(RepositoryContent instance) =>
     <String, dynamic>{
       '_links': instance.links,
       'content': instance.content,
+      'encoding': instance.encoding,
       'download_url': instance.downloadUrl,
       'git_url': instance.gitUrl,
       'html_url': instance.htmlUrl,

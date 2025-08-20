@@ -2,7 +2,7 @@ import 'package:biggertask/common/methods.dart';
 import 'package:biggertask/common/static.dart';
 import 'package:biggertask/l10n/app_localizations.dart';
 import 'package:biggertask/models/event.dart';
-import 'package:biggertask/routes/release_route.dart';
+import 'package:biggertask/routes/repo/release_route.dart';
 import 'package:biggertask/widgets/keep_alive_wrapper.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
