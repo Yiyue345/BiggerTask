@@ -61,6 +61,11 @@
   "noReleases": "暂未释放",
   "unNamed": "无名氏",
   "repoNoExistOrPrivate": "这个仓库不存在或是私有的",
+  "cannotSaveImageWithNoPermissionToGallery": "啊哦！画廊权限对保存图像是必须的",
+  "saveImage": "保存图像",
+  "savingImage": "正在装载图像...",
+  "imageSaved": "图像已保存到画廊",
+  "imageSaveFailed": "图像保存失败",
 
   "forkARepository": "叉了一个仓库",
   "starARepository": "标星了一个仓库",

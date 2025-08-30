@@ -115,6 +115,11 @@
   "noReleases": "No releases found",
   "unNamed": "Unnamed",
   "repoNoExistOrPrivate": "This repository does not exist or is private",
+  "cannotSaveImageWithNoPermissionToGallery": "Permission to access gallery is required to save images",
+  "saveImage": "Save Image",
+  "savingImage": "Saving image...",
+  "imageSaved": "Image saved to gallery",
+  "imageSaveFailed": "Failed to save image",
 
   "forkARepository": "Forked a repository",
   "@forkARepository": {

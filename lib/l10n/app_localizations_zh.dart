@@ -182,6 +182,21 @@ class AppLocalizationsZh extends AppLocalizations {
   String get repoNoExistOrPrivate => '该仓库不存在或不可见';
 
   @override
+  String get cannotSaveImageWithNoPermissionToGallery => '需要相册权限才能保存图片';
+
+  @override
+  String get saveImage => '保存图片';
+
+  @override
+  String get savingImage => '正在保存图片...';
+
+  @override
+  String get imageSaved => '图片已保存到相册';
+
+  @override
+  String get imageSaveFailed => '图片保存失败';
+
+  @override
   String get forkARepository => '复刻了一个仓库';
 
   @override
@@ -497,6 +512,21 @@ class AppLocalizationsZhMs extends AppLocalizationsZh {
 
   @override
   String get repoNoExistOrPrivate => '这个仓库不存在或是私有的';
+
+  @override
+  String get cannotSaveImageWithNoPermissionToGallery => '啊哦！画廊权限对保存图像是必须的';
+
+  @override
+  String get saveImage => '保存图像';
+
+  @override
+  String get savingImage => '正在装载图像...';
+
+  @override
+  String get imageSaved => '图像已保存到画廊';
+
+  @override
+  String get imageSaveFailed => '图像保存失败';
 
   @override
   String get forkARepository => '叉了一个仓库';

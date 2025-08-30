@@ -417,6 +417,36 @@ abstract class AppLocalizations {
   /// **'This repository does not exist or is private'**
   String get repoNoExistOrPrivate;
 
+  /// No description provided for @cannotSaveImageWithNoPermissionToGallery.
+  ///
+  /// In en, this message translates to:
+  /// **'Permission to access gallery is required to save images'**
+  String get cannotSaveImageWithNoPermissionToGallery;
+
+  /// No description provided for @saveImage.
+  ///
+  /// In en, this message translates to:
+  /// **'Save Image'**
+  String get saveImage;
+
+  /// No description provided for @savingImage.
+  ///
+  /// In en, this message translates to:
+  /// **'Saving image...'**
+  String get savingImage;
+
+  /// No description provided for @imageSaved.
+  ///
+  /// In en, this message translates to:
+  /// **'Image saved to gallery'**
+  String get imageSaved;
+
+  /// No description provided for @imageSaveFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to save image'**
+  String get imageSaveFailed;
+
   /// Text showing that a repository was forked
   ///
   /// In en, this message translates to:

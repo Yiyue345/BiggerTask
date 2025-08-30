@@ -150,6 +150,16 @@ class _SearchPageState extends State<SearchPage> {
               });
             });
             break;
+          case 'code':
+            Methods.searchCode(token: Global.token, query: currentText, page: _page).then((response) {
+              setState(() {
+                final items = response?.items ?? <CodeSearchItem>[];
+                _items['code']!.addAll(items);
+                _isLoading = false;
+                _hasMore = response?.items.length == 30; // 假设每页最多30个结果
+              });
+            });
+            break;
         }
 
 

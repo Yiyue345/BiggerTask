@@ -11,6 +11,8 @@
         </array>
       </dict>
     </array>
+    <key>NSPhotoLibraryAddUsageDescription</key>
+    <string>需要访问相册权限以保存图片</string>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
 	<key>CFBundleDisplayName</key>

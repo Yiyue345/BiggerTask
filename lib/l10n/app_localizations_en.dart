@@ -196,6 +196,22 @@ class AppLocalizationsEn extends AppLocalizations {
       'This repository does not exist or is private';
 
   @override
+  String get cannotSaveImageWithNoPermissionToGallery =>
+      'Permission to access gallery is required to save images';
+
+  @override
+  String get saveImage => 'Save Image';
+
+  @override
+  String get savingImage => 'Saving image...';
+
+  @override
+  String get imageSaved => 'Image saved to gallery';
+
+  @override
+  String get imageSaveFailed => 'Failed to save image';
+
+  @override
   String get forkARepository => 'Forked a repository';
 
   @override

@@ -79,24 +79,20 @@ Repository _$RepositoryFromJson(Map<String, dynamic> json) => Repository(
   pushedAt: json['pushed_at'] as String,
   createdAt: json['created_at'] as String,
   updatedAt: json['updated_at'] as String,
-  permissions:
-      json['permissions'] == null
-          ? null
-          : Permissions.fromJson(json['permissions'] as Map<String, dynamic>),
-  securityAndAnalysis:
-      json['security_and_analysis'] == null
-          ? null
-          : SecurityAndAnalysis.fromJson(
-            json['security_and_analysis'] as Map<String, dynamic>,
-          ),
-  parent:
-      json['parent'] == null
-          ? null
-          : Repository.fromJson(json['parent'] as Map<String, dynamic>),
-  source:
-      json['source'] == null
-          ? null
-          : Repository.fromJson(json['source'] as Map<String, dynamic>),
+  permissions: json['permissions'] == null
+      ? null
+      : Permissions.fromJson(json['permissions'] as Map<String, dynamic>),
+  securityAndAnalysis: json['security_and_analysis'] == null
+      ? null
+      : SecurityAndAnalysis.fromJson(
+          json['security_and_analysis'] as Map<String, dynamic>,
+        ),
+  parent: json['parent'] == null
+      ? null
+      : Repository.fromJson(json['parent'] as Map<String, dynamic>),
+  source: json['source'] == null
+      ? null
+      : Repository.fromJson(json['source'] as Map<String, dynamic>),
 );
 
 Map<String, dynamic> _$RepositoryToJson(Repository instance) =>
@@ -234,34 +230,31 @@ Map<String, dynamic> _$PermissionsToJson(Permissions instance) =>
       'pull': instance.pull,
     };
 
-SecurityAndAnalysis _$SecurityAndAnalysisFromJson(Map<String, dynamic> json) =>
-    SecurityAndAnalysis(
-      advancedSecurity:
-          json['advanced_security'] == null
-              ? null
-              : SecurityFeature.fromJson(
-                json['advanced_security'] as Map<String, dynamic>,
-              ),
-      secretScanning:
-          json['secret_scanning'] == null
-              ? null
-              : SecurityFeature.fromJson(
-                json['secret_scanning'] as Map<String, dynamic>,
-              ),
-      secretScanningPushProtection:
-          json['secret_scanning_push_protection'] == null
-              ? null
-              : SecurityFeature.fromJson(
-                json['secret_scanning_push_protection'] as Map<String, dynamic>,
-              ),
-      secretScanningNonProviderPatterns:
-          json['secret_scanning_non_provider_patterns'] == null
-              ? null
-              : SecurityFeature.fromJson(
-                json['secret_scanning_non_provider_patterns']
-                    as Map<String, dynamic>,
-              ),
-    );
+SecurityAndAnalysis _$SecurityAndAnalysisFromJson(
+  Map<String, dynamic> json,
+) => SecurityAndAnalysis(
+  advancedSecurity: json['advanced_security'] == null
+      ? null
+      : SecurityFeature.fromJson(
+          json['advanced_security'] as Map<String, dynamic>,
+        ),
+  secretScanning: json['secret_scanning'] == null
+      ? null
+      : SecurityFeature.fromJson(
+          json['secret_scanning'] as Map<String, dynamic>,
+        ),
+  secretScanningPushProtection: json['secret_scanning_push_protection'] == null
+      ? null
+      : SecurityFeature.fromJson(
+          json['secret_scanning_push_protection'] as Map<String, dynamic>,
+        ),
+  secretScanningNonProviderPatterns:
+      json['secret_scanning_non_provider_patterns'] == null
+      ? null
+      : SecurityFeature.fromJson(
+          json['secret_scanning_non_provider_patterns'] as Map<String, dynamic>,
+        ),
+);
 
 Map<String, dynamic> _$SecurityAndAnalysisToJson(
   SecurityAndAnalysis instance,

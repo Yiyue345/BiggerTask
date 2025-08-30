@@ -60,6 +60,11 @@
   "noReleases": "暂无发行版",
   "unNamed": "未命名",
   "repoNoExistOrPrivate": "该仓库不存在或不可见",
+  "cannotSaveImageWithNoPermissionToGallery": "需要相册权限才能保存图片",
+  "saveImage": "保存图片",
+  "savingImage": "正在保存图片...",
+  "imageSaved": "图片已保存到相册",
+  "imageSaveFailed": "图片保存失败",
 
   "forkARepository": "复刻了一个仓库",
   "starARepository": "标星了一个仓库",

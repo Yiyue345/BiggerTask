@@ -1,13 +1,18 @@
 import 'dart:async';
+import 'dart:typed_data';
 
 import 'package:biggertask/common/static.dart';
+import 'package:biggertask/l10n/app_localizations.dart';
 import 'package:biggertask/models/event.dart';
 import 'package:biggertask/models/github_user.dart';
 import 'package:biggertask/models/repository.dart';
 import 'package:biggertask/models/repository_content.dart';
 import 'package:biggertask/models/search.dart';
 import 'package:dio/dio.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:gal/gal.dart';
+
 
 class Methods {
 
@@ -366,6 +371,35 @@ class Methods {
     }
   }
 
+  static Future<SearchCodeResponse?> searchCode({required String? token, required String query, int page = 1, int perPage = 30}) async {
+    if (token == null || token.isEmpty) {
+      return null;
+    }
+
+    try {
+      _dioManager.setAuthToken(token);
+      final response = await _dioManager.dio.get(
+        'https://api.github.com/search/code',
+        queryParameters: {
+          'q': query,
+          'page': page,
+          'per_page': perPage,
+        },
+      );
+
+      if (response.statusCode == 200) {
+        final SearchCodeResponse searchResponse = SearchCodeResponse.fromJson(response.data);
+        return searchResponse;
+      } else {
+        throw Exception('Failed to search code: ${response.statusCode}');
+      }
+    } catch (e) {
+      Fluttertoast.showToast(msg: 'Error searching code: $e');
+      print('Error searching code: $e');
+      return null;
+    }
+  }
+
   static Future<List<Release>> getReleases({required String? token, required String repoFullName, int page = 1, int perPage = 30}) async {
     try {
       _dioManager.setAuthToken(token);
@@ -520,6 +554,39 @@ class Methods {
     } catch (e) {
       print('Error fetching contributor count: $e');
       return 0;
+    }
+  }
+
+  static Future<void> saveImage({required BuildContext context, required String imageUrl, required String imageName}) async {
+    try {
+      if (!await Gal.hasAccess()) {
+        if (!await Gal.requestAccess()) {
+          Fluttertoast.showToast(msg: AppLocalizations.of(context)!.cannotSaveImageWithNoPermissionToGallery);
+          return;
+        }
+      }
+
+      
+      Fluttertoast.showToast(msg: AppLocalizations.of(context)!.savingImage);
+
+      Dio dio = Dio();
+      final response = await dio.get(
+        imageUrl,
+        options: Options(
+          responseType: ResponseType.bytes,
+        ),
+      );
+
+      await Gal.putImageBytes(
+        Uint8List.fromList(response.data),
+        name: imageName,
+      );
+
+      Fluttertoast.showToast(msg: AppLocalizations.of(context)!.imageSaved);
+
+    } catch (e) {
+      Fluttertoast.showToast(msg: '${AppLocalizations.of(context)!.imageSaveFailed}: $e');
+      print('Error saving image: $e');
     }
   }
 }

@@ -121,7 +121,13 @@ class RepositoryEventTile extends StatelessWidget {
   late final int mostUsedLanguageBytes;
 
   Future<void> _fetchRepository() async {
-    repository = await Methods.getRepository(fullName: repoName, token: Global.token);
+    final future = [
+      Methods.getRepository(fullName: repoName, token: Global.token),
+      Methods.getRepositoryLanguages(repoFullName: repoName, token: Global.token)
+    ];
+
+    final results = await Future.wait(future);
+    repository = results[0] as Repository?;
 
     if (repository != null) {
       await starController.initializeRepo(
@@ -130,7 +136,7 @@ class RepositoryEventTile extends StatelessWidget {
           repository!.stargazersCount
       );
     }
-    languages = await Methods.getRepositoryLanguages(repoFullName: repoName, token: Global.token);
+    languages = results[1] as Map<String, int>;
 
     if (languages.isNotEmpty) {
       totalBytes = languages.values.reduce((a, b) => a + b);

@@ -53,8 +53,10 @@ class _UserInfoRouteState extends State<UserInfoRoute> {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
-                    GitHubNameCard(user: _user,),
-
+                    GitHubNameCard(
+                      user: _user,
+                      onAvatarTap: _onAvatarTap,
+                    ),
                     Padding(
                       padding: EdgeInsets.only(top: 8),
                     ),
@@ -133,5 +135,74 @@ class _UserInfoRouteState extends State<UserInfoRoute> {
     setState(() {
       _isLoading = false;
     });
+  }
+
+  void _onAvatarTap() {
+    Navigator.push(
+        context,
+        PageRouteBuilder(
+          pageBuilder: (context, animation, secondaryAnimation) {
+            return FadeTransition(
+                opacity: animation,
+                child: Scaffold(
+                  backgroundColor: Colors.black,
+                  body: Center(
+                    child: InkWell(
+                      onTap: () {
+                        Get.back();
+                      },
+                      onLongPress: () async {
+                        await showModalBottomSheet(
+                            context: context,
+                            builder: (context) => Container(
+                              decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.vertical(top: Radius.circular(20))
+                              ),
+                              padding: EdgeInsets.all(20),
+                              child: Column(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  InkWell(
+                                    onTap: () async {
+                                      await Methods.saveImage(
+                                          context: context,
+                                          imageUrl: _user!.avatarUrl,
+                                          imageName: 'github_avatar_${DateTime.now().millisecondsSinceEpoch}'
+                                      );
+                                      Get.back();
+                                    },
+                                    child: Padding(
+                                      padding: EdgeInsets.symmetric(vertical: 8, horizontal: 4),
+                                      child: Row(
+                                        children: [
+                                          ClipRRect(
+                                            borderRadius: BorderRadius.circular(12),
+                                            child: Image.network(_user!.avatarUrl, width: 40, height: 40,),
+                                          ),
+                                          SizedBox(
+                                            width: 20,
+                                          ),
+                                          Text(AppLocalizations.of(context)!.saveImage),
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+
+                                ],
+                              ),
+                            )
+                        );
+                      },
+                      child: Hero(
+                          tag: 'avatar',
+                          child: Image(image: NetworkImage(_user!.avatarUrl),)
+                      ),
+                    ),
+                  ),
+                )
+            );
+          },
+        )
+    );
   }
 }

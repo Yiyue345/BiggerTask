@@ -39,104 +39,111 @@ class _MyInfoRouteState extends State<MyInfoRoute> {
         child: ListView(
           children: [
             Center(
-              child: Global.isLogin && Global.gitHubUser != null
-                  ? Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  GitHubNameCard(user: Global.gitHubUser,),
-
-                  Padding(
-                    padding: EdgeInsets.only(top: 8),
-                  ),
-                  if (Global.gitHubUser?.bio != null)...[
-                    Divider(
-                      color: Theme.of(context).colorScheme.primary,
-                      height: 0,
-                    ),
-                    ListTile(
-                      leading: Icon(
-                          Icons.info_outline,
-                        size: 22,
-                      ),
-                      title: Text(
-                        Global.gitHubUser!.bio!,
-                        style: TextStyle(
-                          fontSize: 14
-                        ),
-                      ),
-                      // tileColor: Colors.grey[200],
-                    ),
-                    Divider(
-                      color: Theme.of(context).colorScheme.primary,
-                      height: 0,
-                    ),
-                  ],
-                  ListTile(
-                    leading: Icon(OctIcons.repo,),
-                    title: Text(AppLocalizations.of(context)!.repositories),
-                    onTap: () {
-                      Get.to(() => RepositoriesRoute(user: Global.gitHubUser!));
-                    },
-                      trailing: Text(
-                        (Global.gitHubUser!.publicRepos + (Global.gitHubUser!.privateRepos == null ? 0 : Global.gitHubUser!.privateRepos! + 1)).toString(),
-                      )
-                  ),
-                  ListTile(
-                    leading: Icon(OctIcons.star),
-                    title: Text(AppLocalizations.of(context)!.stars),
-                    trailing: FutureBuilder(
-                        future: Methods.getStarredCount(token: Global.token, user: Global.gitHubUser!),
-                        builder: (context, snapshot) {
-                          if (snapshot.connectionState == ConnectionState.done) {
-                            return Text(snapshot.data.toString());
-                          } else {
-                            return Text('');
-                          }
-                        }
-                    ),
-                    onTap: () {
-                      Get.to(() => StarredReposRoute(user: Global.gitHubUser!));
-                    },
-                  ),
-                  ListTile(
-                    leading: Icon(Icons.exit_to_app,),
-                    title: Text(AppLocalizations.of(context)!.exit),
-                    onTap: () async {
-                      bool? exit = await showDialog(
-                          context: context,
-                          builder: (context) {
-                            return AlertDialog(
-                              title: Text(AppLocalizations.of(context)!.exitTitle),
-                              content: Text(AppLocalizations.of(context)!.exitMessage),
-                              actions: [
-                                TextButton(
-                                  onPressed: () {
-                                    Navigator.of(context).pop(false);
-                                  },
-                                  child: Text(AppLocalizations.of(context)!.cancel),
-                                ),
-                                TextButton(
-                                  onPressed: () {
-                                    Navigator.of(context).pop(true);
-                                  },
-                                  child: Text(AppLocalizations.of(context)!.confirm),
-                                )
-                              ],
-                            );
-                          }
-                      );
-
-                      if (exit == true) {
-                        _exit();
-                      }
-                    },
-                  )
-                ],
-              )
-                  : ElevatedButton(
-                  onPressed: _login,
-                  child: Text(AppLocalizations.of(context)!.login)
+              child: Column(
+        mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            if (!Global.isLogin || Global.gitHubUser == null)
+              GitHubNameCard(
+                user: Global.gitHubUser,
+                onAvatarTap: _login,
+                onNameTap: _login,
               ),
+
+            if (Global.isLogin && Global.gitHubUser != null) ...[
+              GitHubNameCard(
+                user: Global.gitHubUser,
+                onAvatarTap: _onAvatarTap,
+              ),
+              Padding(
+                padding: EdgeInsets.only(top: 8),
+              ),
+              if (Global.gitHubUser?.bio != null)...[
+                Divider(
+                  color: Theme.of(context).colorScheme.primary,
+                  height: 0,
+                ),
+                ListTile(
+                  leading: Icon(
+                    Icons.info_outline,
+                    size: 22,
+                  ),
+                  title: Text(
+                    Global.gitHubUser!.bio!,
+                    style: TextStyle(
+                        fontSize: 14
+                    ),
+                  ),
+                  // tileColor: Colors.grey[200],
+                ),
+                Divider(
+                  color: Theme.of(context).colorScheme.primary,
+                  height: 0,
+                ),
+              ],
+              ListTile(
+                  leading: Icon(OctIcons.repo,),
+                  title: Text(AppLocalizations.of(context)!.repositories),
+                  onTap: () {
+                    Get.to(() => RepositoriesRoute(user: Global.gitHubUser!));
+                  },
+                  trailing: Text(
+                    (Global.gitHubUser!.publicRepos + (Global.gitHubUser!.privateRepos == null ? 0 : Global.gitHubUser!.privateRepos! + 1)).toString(),
+                  )
+              ),
+              ListTile(
+                leading: Icon(OctIcons.star),
+                title: Text(AppLocalizations.of(context)!.stars),
+                trailing: FutureBuilder(
+                    future: Methods.getStarredCount(token: Global.token, user: Global.gitHubUser!),
+                    builder: (context, snapshot) {
+                      if (snapshot.connectionState == ConnectionState.done) {
+                        return Text(snapshot.data.toString());
+                      } else {
+                        return Text('');
+                      }
+                    }
+                ),
+                onTap: () {
+                  Get.to(() => StarredReposRoute(user: Global.gitHubUser!));
+                },
+              ),
+              ListTile(
+                leading: Icon(Icons.exit_to_app,),
+                title: Text(AppLocalizations.of(context)!.exit),
+                onTap: () async {
+                  bool? exit = await showDialog(
+                      context: context,
+                      builder: (context) {
+                        return AlertDialog(
+                          title: Text(AppLocalizations.of(context)!.exitTitle),
+                          content: Text(AppLocalizations.of(context)!.exitMessage),
+                          actions: [
+                            TextButton(
+                              onPressed: () {
+                                Navigator.of(context).pop(false);
+                              },
+                              child: Text(AppLocalizations.of(context)!.cancel),
+                            ),
+                            TextButton(
+                              onPressed: () {
+                                Navigator.of(context).pop(true);
+                              },
+                              child: Text(AppLocalizations.of(context)!.confirm),
+                            )
+                          ],
+                        );
+                      }
+                  );
+
+                  if (exit == true) {
+                    _exit();
+                  }
+                },
+              )
+            ]
+
+          ],
+        ),
             )
           ],
         )
@@ -220,6 +227,75 @@ class _MyInfoRouteState extends State<MyInfoRoute> {
     setState(() {
 
     });
+  }
+
+  void _onAvatarTap() {
+    Navigator.push(
+        context,
+        PageRouteBuilder(
+          pageBuilder: (context, animation, secondaryAnimation) {
+            return FadeTransition(
+                opacity: animation,
+                child: Scaffold(
+                  backgroundColor: Colors.black,
+                  body: Center(
+                    child: InkWell(
+                      onTap: () {
+                        Get.back();
+                      },
+                      onLongPress: () async {
+                        await showModalBottomSheet(
+                            context: context,
+                            builder: (context) => Container(
+                              decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.vertical(top: Radius.circular(20))
+                              ),
+                              padding: EdgeInsets.all(20),
+                              child: Column(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  InkWell(
+                                    onTap: () async {
+                                      await Methods.saveImage(
+                                          context: context,
+                                          imageUrl: Global.gitHubUser!.avatarUrl,
+                                          imageName: 'github_avatar_${DateTime.now().millisecondsSinceEpoch}'
+                                      );
+                                      Get.back();
+                                    },
+                                    child: Padding(
+                                      padding: EdgeInsets.symmetric(vertical: 8, horizontal: 4),
+                                      child: Row(
+                                        children: [
+                                          ClipRRect(
+                                            borderRadius: BorderRadius.circular(12),
+                                            child: Image.network(Global.gitHubUser!.avatarUrl, width: 40, height: 40,),
+                                          ),
+                                          SizedBox(
+                                            width: 20,
+                                          ),
+                                          Text(AppLocalizations.of(context)!.saveImage),
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+
+                                ],
+                              ),
+                            )
+                        );
+                      },
+                      child: Hero(
+                          tag: 'avatar',
+                          child: Image(image: NetworkImage(Global.gitHubUser!.avatarUrl),)
+                      ),
+                    ),
+                  ),
+                )
+            );
+          },
+        )
+    );
   }
 
 }

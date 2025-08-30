@@ -12,28 +12,68 @@ import 'package:url_launcher/url_launcher.dart';
 
 class GitHubNameCard extends StatelessWidget {
   final GitHubUser? user;
+  final Function()? onAvatarTap;
+  final Function()? onNameTap;
 
-  GitHubNameCard({super.key, required this.user});
+  GitHubNameCard({
+    super.key,
+    required this.user,
+    this.onAvatarTap,
+    this.onNameTap
+  });
 
   @override
   Widget build(BuildContext context) {
+    if (user == null) {
+      return Row(
+        children: [
+          Padding(
+            padding: EdgeInsets.symmetric(horizontal: 16),
+            child: CircleAvatar(
+              radius: 40,
+              backgroundImage: null,
+              child: GestureDetector(
+                onTap: onAvatarTap,
+                child: Icon(
+                  Icons.account_circle,
+                  size: 80,
+                ),
+              )
+            ),
+
+          ),
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              GestureDetector(
+                onTap: onNameTap,
+                child: Text(
+                  user?.login ?? AppLocalizations.of(context)!.noLogin,
+                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+                ),
+              )
+            ],
+          ),
+
+        ],
+      );
+    }
 
     return Row(
       children: [
         Padding(
           padding: EdgeInsets.symmetric(horizontal: 16),
-          child:
-          CircleAvatar(
-            radius: 40,
-            backgroundImage: user?.avatarUrl != null
-                ? NetworkImage(user!.avatarUrl)
-                : null,
-            child: user?.avatarUrl == null
-                ? Icon(
-              Icons.account_circle,
-              size: 80,
-            )
-                : null,
+          child: Hero(
+              tag: 'avatar',
+              child: CircleAvatar(
+                radius: 40,
+                backgroundImage: user?.avatarUrl != null
+                    ? NetworkImage(user!.avatarUrl)
+                    : null,
+                child: GestureDetector(
+                  onTap: onAvatarTap,
+                ),
+              )
           ),
 
         ),

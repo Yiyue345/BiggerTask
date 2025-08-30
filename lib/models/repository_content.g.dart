@@ -8,10 +8,9 @@ part of 'repository_content.dart';
 
 RepositoryContent _$RepositoryContentFromJson(Map<String, dynamic> json) =>
     RepositoryContent(
-      links:
-          json['_links'] == null
-              ? null
-              : ContentLinks.fromJson(json['_links'] as Map<String, dynamic>),
+      links: json['_links'] == null
+          ? null
+          : ContentLinks.fromJson(json['_links'] as Map<String, dynamic>),
       content: json['content'] as String?,
       encoding: json['encoding'] as String?,
       downloadUrl: json['download_url'] as String?,

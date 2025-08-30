@@ -1,5 +1,7 @@
 import 'package:biggertask/common/methods.dart';
 import 'package:biggertask/common/static.dart';
+import 'package:biggertask/html_markdown/custom_node.dart';
+import 'package:biggertask/html_markdown/video.dart';
 import 'package:biggertask/l10n/app_localizations.dart';
 import 'package:biggertask/models/event.dart';
 import 'package:biggertask/routes/repo/repository_route.dart';
@@ -104,6 +106,25 @@ class _ReleaseRouteState extends State<ReleaseRoute> {
               MarkdownWidget(
                 data: widget.release.body,
                 shrinkWrap: true,
+                  markdownGenerator: MarkdownGenerator(
+                      generators: [
+                        videoGeneratorWithTag
+                      ],
+                      textGenerator: (node, config, visitor) =>
+                          CustomTextNode(node.textContent, config, visitor),
+                      richTextBuilder: (span) => Text.rich(span)
+                  ),
+                  config: MarkdownConfig(
+                    configs: [
+                      // 让表格可以横向滚动
+                      TableConfig(
+                        wrapper: (child) => SingleChildScrollView(
+                          scrollDirection: Axis.horizontal,
+                          child: child,
+                        ),
+                      ),
+                    ],
+                  )
               )
             ],
           ),

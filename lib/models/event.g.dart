@@ -10,10 +10,9 @@ Event _$EventFromJson(Map<String, dynamic> json) => Event(
   actor: Actor.fromJson(json['actor'] as Map<String, dynamic>),
   createdAt: json['created_at'] as String,
   id: json['id'] as String?,
-  org:
-      json['org'] == null
-          ? null
-          : Organization.fromJson(json['org'] as Map<String, dynamic>),
+  org: json['org'] == null
+      ? null
+      : Organization.fromJson(json['org'] as Map<String, dynamic>),
   payload: Payload.fromJson(json['payload'] as Map<String, dynamic>),
   public: json['public'] as bool?,
   repo: EventRepository.fromJson(json['repo'] as Map<String, dynamic>),
@@ -70,31 +69,26 @@ Map<String, dynamic> _$OrganizationToJson(Organization instance) =>
 
 Payload _$PayloadFromJson(Map<String, dynamic> json) => Payload(
   action: json['action'] as String?,
-  comment:
-      json['comment'] == null
-          ? null
-          : Comment.fromJson(json['comment'] as Map<String, dynamic>),
-  issue:
-      json['issue'] == null
-          ? null
-          : Issue.fromJson(json['issue'] as Map<String, dynamic>),
-  pages:
-      (json['pages'] as List<dynamic>?)
-          ?.map((e) => Page.fromJson(e as Map<String, dynamic>))
-          .toList(),
-  forkee:
-      json['forkee'] == null
-          ? null
-          : EventRepository.fromJson(json['forkee'] as Map<String, dynamic>),
+  comment: json['comment'] == null
+      ? null
+      : Comment.fromJson(json['comment'] as Map<String, dynamic>),
+  issue: json['issue'] == null
+      ? null
+      : Issue.fromJson(json['issue'] as Map<String, dynamic>),
+  pages: (json['pages'] as List<dynamic>?)
+      ?.map((e) => Page.fromJson(e as Map<String, dynamic>))
+      .toList(),
+  forkee: json['forkee'] == null
+      ? null
+      : EventRepository.fromJson(json['forkee'] as Map<String, dynamic>),
   ref: json['ref'] as String?,
   refType: json['ref_type'] as String?,
   masterBranch: json['master_branch'] as String?,
   description: json['description'] as String?,
   pusherType: json['pusher_type'] as String?,
-  release:
-      json['release'] == null
-          ? null
-          : Release.fromJson(json['release'] as Map<String, dynamic>),
+  release: json['release'] == null
+      ? null
+      : Release.fromJson(json['release'] as Map<String, dynamic>),
 );
 
 Map<String, dynamic> _$PayloadToJson(Payload instance) => <String, dynamic>{
@@ -121,22 +115,19 @@ Comment _$CommentFromJson(Map<String, dynamic> json) => Comment(
   id: (json['id'] as num?)?.toInt(),
   issueUrl: json['issue_url'] as String?,
   nodeId: json['node_id'] as String?,
-  performedViaGithubApp:
-      json['performed_via_github_app'] == null
-          ? null
-          : GitHubApp.fromJson(
-            json['performed_via_github_app'] as Map<String, dynamic>,
-          ),
-  reactions:
-      json['reactions'] == null
-          ? null
-          : Reactions.fromJson(json['reactions'] as Map<String, dynamic>),
+  performedViaGithubApp: json['performed_via_github_app'] == null
+      ? null
+      : GitHubApp.fromJson(
+          json['performed_via_github_app'] as Map<String, dynamic>,
+        ),
+  reactions: json['reactions'] == null
+      ? null
+      : Reactions.fromJson(json['reactions'] as Map<String, dynamic>),
   updatedAt: json['updated_at'] as String?,
   url: json['url'] as String?,
-  user:
-      json['user'] == null
-          ? null
-          : EventUser.fromJson(json['user'] as Map<String, dynamic>),
+  user: json['user'] == null
+      ? null
+      : EventUser.fromJson(json['user'] as Map<String, dynamic>),
 );
 
 Map<String, dynamic> _$CommentToJson(Comment instance) => <String, dynamic>{
@@ -182,10 +173,9 @@ GitHubApp _$GitHubAppFromJson(Map<String, dynamic> json) => GitHubApp(
   installationsCount: (json['installations_count'] as num?)?.toInt(),
   name: json['name'] as String?,
   nodeId: json['node_id'] as String?,
-  owner:
-      json['owner'] == null
-          ? null
-          : EventUser.fromJson(json['owner'] as Map<String, dynamic>),
+  owner: json['owner'] == null
+      ? null
+      : EventUser.fromJson(json['owner'] as Map<String, dynamic>),
   pem: json['pem'] as String?,
   permissions: (json['permissions'] as Map<String, dynamic>?)?.map(
     (k, e) => MapEntry(k, e as String),
@@ -243,14 +233,12 @@ Map<String, dynamic> _$ReactionsToJson(Reactions instance) => <String, dynamic>{
 
 Issue _$IssueFromJson(Map<String, dynamic> json) => Issue(
   activeLockReason: json['active_lock_reason'] as String?,
-  assignee:
-      json['assignee'] == null
-          ? null
-          : EventUser.fromJson(json['assignee'] as Map<String, dynamic>),
-  assignees:
-      (json['assignees'] as List<dynamic>?)
-          ?.map((e) => EventUser.fromJson(e as Map<String, dynamic>))
-          .toList(),
+  assignee: json['assignee'] == null
+      ? null
+      : EventUser.fromJson(json['assignee'] as Map<String, dynamic>),
+  assignees: (json['assignees'] as List<dynamic>?)
+      ?.map((e) => EventUser.fromJson(e as Map<String, dynamic>))
+      .toList(),
   authorAssociation: json['author_association'] as String?,
   body: json['body'] as String?,
   bodyHtml: json['body_html'] as String?,
@@ -262,37 +250,32 @@ Issue _$IssueFromJson(Map<String, dynamic> json) => Issue(
   eventsUrl: json['events_url'] as String?,
   htmlUrl: json['html_url'] as String?,
   id: (json['id'] as num?)?.toInt(),
-  labels:
-      (json['labels'] as List<dynamic>?)
-          ?.map((e) => Label.fromJson(e as Map<String, dynamic>))
-          .toList(),
+  labels: (json['labels'] as List<dynamic>?)
+      ?.map((e) => Label.fromJson(e as Map<String, dynamic>))
+      .toList(),
   labelsUrl: json['labels_url'] as String?,
   locked: json['locked'] as bool?,
-  milestone:
-      json['milestone'] == null
-          ? null
-          : Milestone.fromJson(json['milestone'] as Map<String, dynamic>),
+  milestone: json['milestone'] == null
+      ? null
+      : Milestone.fromJson(json['milestone'] as Map<String, dynamic>),
   nodeId: json['node_id'] as String?,
   number: (json['number'] as num?)?.toInt(),
-  performedViaGithubApp:
-      json['performed_via_github_app'] == null
-          ? null
-          : GitHubApp.fromJson(
-            json['performed_via_github_app'] as Map<String, dynamic>,
-          ),
-  pullRequest:
-      json['pull_request'] == null
-          ? null
-          : PullRequest.fromJson(json['pull_request'] as Map<String, dynamic>),
+  performedViaGithubApp: json['performed_via_github_app'] == null
+      ? null
+      : GitHubApp.fromJson(
+          json['performed_via_github_app'] as Map<String, dynamic>,
+        ),
+  pullRequest: json['pull_request'] == null
+      ? null
+      : PullRequest.fromJson(json['pull_request'] as Map<String, dynamic>),
   state: json['state'] as String?,
   timelineUrl: json['timeline_url'] as String?,
   title: json['title'] as String?,
   updatedAt: json['updated_at'] as String?,
   url: json['url'] as String?,
-  user:
-      json['user'] == null
-          ? null
-          : EventUser.fromJson(json['user'] as Map<String, dynamic>),
+  user: json['user'] == null
+      ? null
+      : EventUser.fromJson(json['user'] as Map<String, dynamic>),
 );
 
 Map<String, dynamic> _$IssueToJson(Issue instance) => <String, dynamic>{
@@ -412,10 +395,9 @@ Milestone _$MilestoneFromJson(Map<String, dynamic> json) => Milestone(
   closedAt: json['closed_at'] as String?,
   closedIssues: (json['closed_issues'] as num?)?.toInt(),
   createdAt: json['created_at'] as String?,
-  creator:
-      json['creator'] == null
-          ? null
-          : EventUser.fromJson(json['creator'] as Map<String, dynamic>),
+  creator: json['creator'] == null
+      ? null
+      : EventUser.fromJson(json['creator'] as Map<String, dynamic>),
   description: json['description'] as String?,
   dueOn: json['due_on'] as String?,
   htmlUrl: json['html_url'] as String?,
@@ -486,10 +468,9 @@ Release _$ReleaseFromJson(Map<String, dynamic> json) => Release(
   createdAt: json['created_at'] as String,
   publishedAt: json['published_at'] as String?,
   author: EventUser.fromJson(json['author'] as Map<String, dynamic>),
-  assets:
-      (json['assets'] as List<dynamic>)
-          .map((e) => ReleaseAsset.fromJson(e as Map<String, dynamic>))
-          .toList(),
+  assets: (json['assets'] as List<dynamic>)
+      .map((e) => ReleaseAsset.fromJson(e as Map<String, dynamic>))
+      .toList(),
 );
 
 Map<String, dynamic> _$ReleaseToJson(Release instance) => <String, dynamic>{
