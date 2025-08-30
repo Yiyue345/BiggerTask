@@ -8,6 +8,8 @@ import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:markdown_widget/markdown_widget.dart';
 import 'package:biggertask/html_markdown/video.dart';
+import 'package:get/get.dart';
+import 'package:photo_view/photo_view.dart';
 
 class FileRoute extends StatefulWidget {
   final String repoFullName;
@@ -137,40 +139,81 @@ class _FileRouteState extends State<FileRoute> {
         );
       case 'png' || 'jpg' || 'jpeg' || 'gif' || 'bmp' || 'webp':
         return Center(
-          child: InteractiveViewer(
-              child: Image.network(
-                file.downloadUrl!,
-                loadingBuilder: (context, child, loadingProgress) {
-                  if (loadingProgress == null) return child;
-                  return Center(
-                    child: CircularProgressIndicator(
-                      value: loadingProgress.expectedTotalBytes != null
-                          ? loadingProgress.cumulativeBytesLoaded /
-                          loadingProgress.expectedTotalBytes!
-                          : null,
+          child: GestureDetector(
+            onLongPress: () async {
+              await showModalBottomSheet(
+                  context: context,
+                  builder: (context) => Container(
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.vertical(top: Radius.circular(20))
                     ),
-                  );
-                },
-                  errorBuilder: (context, error, stackTrace) {
-                    return Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
+                    padding: EdgeInsets.all(20),
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
                       children: [
-                        Icon(Icons.error, size: 48, color: Colors.red),
-                        SizedBox(height: 8),
-                        Text('Failed to load image'),
-                        SizedBox(height: 8),
-                        ElevatedButton(
-                          onPressed: () {
-                            setState(() {
-                              // 触发重新构建来重试加载
-                            });
+                        InkWell(
+                          onTap: () async {
+                            await Methods.saveImage(
+                                context: context,
+                                imageUrl: file.downloadUrl!,
+                                imageName: 'github_image_${DateTime.now().millisecondsSinceEpoch}'
+                            );
+                            Get.back();
                           },
-                          child: Text('Retry'),
+                          child: Padding(
+                            padding: EdgeInsets.symmetric(vertical: 8, horizontal: 4),
+                            child: Row(
+                              children: [
+                                ClipRRect(
+                                  borderRadius: BorderRadius.circular(12),
+                                  child: Image.network(file.downloadUrl!, width: 40, height: 40,),
+                                ),
+                                SizedBox(
+                                  width: 20,
+                                ),
+                                Text(AppLocalizations.of(context)!.saveImage),
+                              ],
+                            ),
+                          ),
                         ),
+
                       ],
-                    );
-                  }
-              )
+                    ),
+                  )
+              );
+            },
+            child: PhotoView(
+              imageProvider: NetworkImage(file.downloadUrl!),
+              initialScale: PhotoViewComputedScale.contained,
+              minScale: PhotoViewComputedScale.contained * 0.8,
+              maxScale: PhotoViewComputedScale.covered * 2.0,
+                loadingBuilder: (context, event) => Center(
+                  child: CircularProgressIndicator(
+                    value: event?.expectedTotalBytes != null
+                        ? event!.cumulativeBytesLoaded / event.expectedTotalBytes!
+                        : null,
+                  ),
+                ),
+                errorBuilder: (context, error, stackTrace) {
+                  return Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Icon(Icons.error, size: 48, color: Colors.red),
+                      SizedBox(height: 8),
+                      Text('Failed to load image'),
+                      SizedBox(height: 8),
+                      ElevatedButton(
+                        onPressed: () {
+                          setState(() {
+                            // 触发重新构建来重试加载
+                          });
+                        },
+                        child: Text('Retry'),
+                      ),
+                    ],
+                  );
+                }
+            ),
           ),
         );
       default:

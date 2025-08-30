@@ -8,6 +8,7 @@ import 'package:biggertask/widgets/github_namecard.dart';
 import 'package:flutter/material.dart';
 import 'package:icons_plus/icons_plus.dart';
 import 'package:get/get.dart';
+import 'package:photo_view/photo_view.dart';
 
 class UserInfoRoute extends StatefulWidget {
   UserInfoRoute({super.key, required this.username});
@@ -195,7 +196,12 @@ class _UserInfoRouteState extends State<UserInfoRoute> {
                       },
                       child: Hero(
                           tag: 'avatar',
-                          child: Image(image: NetworkImage(_user!.avatarUrl),)
+                          child: PhotoView(
+                            imageProvider: NetworkImage(_user!.avatarUrl),
+                            initialScale: PhotoViewComputedScale.contained,
+                            minScale: PhotoViewComputedScale.contained * 0.8,
+                            maxScale: PhotoViewComputedScale.covered * 2.0,
+                          )
                       ),
                     ),
                   ),

@@ -12,6 +12,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:icons_plus/icons_plus.dart';
+import 'package:photo_view/photo_view.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:get/get.dart';
 
@@ -287,7 +288,12 @@ class _MyInfoRouteState extends State<MyInfoRoute> {
                       },
                       child: Hero(
                           tag: 'avatar',
-                          child: Image(image: NetworkImage(Global.gitHubUser!.avatarUrl),)
+                          child: PhotoView(
+                              imageProvider: NetworkImage(Global.gitHubUser!.avatarUrl),
+                            initialScale: PhotoViewComputedScale.contained,
+                            minScale: PhotoViewComputedScale.contained * 0.8,
+                            maxScale: PhotoViewComputedScale.covered * 2.0,
+                          )
                       ),
                     ),
                   ),
