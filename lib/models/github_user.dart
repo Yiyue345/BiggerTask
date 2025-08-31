@@ -195,3 +195,185 @@ class GithubPlan {
 
   Map<String, dynamic> toJson() => _$GithubPlanToJson(this);
 }
+
+@JsonSerializable()
+class SimpleOrganization {
+  final String login;
+  final int id;
+  @JsonKey(name: 'node_id')
+  final String nodeId;
+  final String url;
+  @JsonKey(name: 'repos_url')
+  final String reposUrl;
+  @JsonKey(name: 'events_url')
+  final String eventsUrl;
+  @JsonKey(name: 'hooks_url')
+  final String hooksUrl;
+  @JsonKey(name: 'issues_url')
+  final String issuesUrl;
+  @JsonKey(name: 'members_url')
+  final String membersUrl;
+  @JsonKey(name: 'public_members_url')
+  final String publicMembersUrl;
+  @JsonKey(name: 'avatar_url')
+  final String avatarUrl;
+  final String? description;
+
+  SimpleOrganization({
+    required this.login,
+    required this.id,
+    required this.nodeId,
+    required this.url,
+    required this.reposUrl,
+    required this.eventsUrl,
+    required this.hooksUrl,
+    required this.issuesUrl,
+    required this.membersUrl,
+    required this.publicMembersUrl,
+    required this.avatarUrl,
+    this.description,
+  });
+
+  factory SimpleOrganization.fromJson(Map<String, dynamic> json) =>
+      _$SimpleOrganizationFromJson(json);
+
+  Map<String, dynamic> toJson() => _$SimpleOrganizationToJson(this);
+}
+
+@JsonSerializable()
+class Organization extends SimpleOrganization {
+  @JsonKey(name: 'billing_email')
+  final String? billingEmail;
+  final String? blog;
+  final int? collaborators;
+  final String? company;
+  @JsonKey(name: 'created_at')
+  final String createdAt;
+  @JsonKey(name: 'default_repository_permission')
+  final String? defaultRepositoryPermission;
+  @JsonKey(name: 'disk_usage')
+  final int? diskUsage;
+  final String? email;
+  final int? followers;
+  final int? following;
+  @JsonKey(name: 'has_organization_projects')
+  final bool? hasOrganizationProjects;
+  @JsonKey(name: 'has_repository_projects')
+  final bool? hasRepositoryProjects;
+  @JsonKey(name: 'is_verified')
+  final bool? isVerified;
+  final String? location;
+  @JsonKey(name: 'members_allowed_repository_creation_type')
+  final String? membersAllowedRepositoryCreationType;
+  @JsonKey(name: 'members_can_create_internal_repositories')
+  final bool? membersCanCreateInternalRepositories;
+  @JsonKey(name: 'members_can_create_pages')
+  final bool? membersCanCreatePages;
+  @JsonKey(name: 'members_can_create_private_pages')
+  final bool? membersCanCreatePrivatePages;
+  @JsonKey(name: 'members_can_create_private_repositories')
+  final bool? membersCanCreatePrivateRepositories;
+  @JsonKey(name: 'members_can_create_public_pages')
+  final bool? membersCanCreatePublicPages;
+  @JsonKey(name: 'members_can_create_public_repositories')
+  final bool? membersCanCreatePublicRepositories;
+  @JsonKey(name: 'members_can_create_repositories')
+  final bool? membersCanCreateRepositories;
+  final String? name;
+  @JsonKey(name: 'owned_private_repos')
+  final int? ownedPrivateRepos;
+  final OrganizationPlan? plan;
+  @JsonKey(name: 'private_gists')
+  final int? privateGists;
+  @JsonKey(name: 'public_gists')
+  final int? publicGists;
+  @JsonKey(name: 'public_repos')
+  final int? publicRepos;
+  @JsonKey(name: 'total_private_repos')
+  final int? totalPrivateRepos;
+  @JsonKey(name: 'twitter_username')
+  final String? twitterUsername;
+  @JsonKey(name: 'two_factor_requirement_enabled')
+  final bool? twoFactorRequirementEnabled;
+  final String type;
+  @JsonKey(name: 'updated_at')
+  final String? updatedAt;
+
+  Organization({
+    required super.login,
+    required super.id,
+    required super.nodeId,
+    required super.url,
+    required super.reposUrl,
+    required super.eventsUrl,
+    required super.hooksUrl,
+    required super.issuesUrl,
+    required super.membersUrl,
+    required super.publicMembersUrl,
+    required super.avatarUrl,
+    super.description,
+    this.billingEmail,
+    this.blog,
+    this.collaborators,
+    this.company,
+    required this.createdAt,
+    this.defaultRepositoryPermission,
+    this.diskUsage,
+    this.email,
+    this.followers,
+    this.following,
+    this.hasOrganizationProjects,
+    this.hasRepositoryProjects,
+    this.isVerified,
+    this.location,
+    this.membersAllowedRepositoryCreationType,
+    this.membersCanCreateInternalRepositories,
+    this.membersCanCreatePages,
+    this.membersCanCreatePrivatePages,
+    this.membersCanCreatePrivateRepositories,
+    this.membersCanCreatePublicPages,
+    this.membersCanCreatePublicRepositories,
+    this.membersCanCreateRepositories,
+    this.name,
+    this.ownedPrivateRepos,
+    this.plan,
+    this.privateGists,
+    this.publicGists,
+    this.publicRepos,
+    this.totalPrivateRepos,
+    this.twitterUsername,
+    this.twoFactorRequirementEnabled,
+    required this.type,
+    this.updatedAt,
+  });
+
+  factory Organization.fromJson(Map<String, dynamic> json) =>
+      _$OrganizationFromJson(json);
+
+  @override
+  Map<String, dynamic> toJson() => _$OrganizationToJson(this);
+}
+
+@JsonSerializable()
+class OrganizationPlan {
+  @JsonKey(name: 'filled_seats')
+  final int filledSeats;
+  final String name;
+  @JsonKey(name: 'private_repos')
+  final int privateRepos;
+  final int seats;
+  final int space;
+
+  OrganizationPlan({
+    required this.filledSeats,
+    required this.name,
+    required this.privateRepos,
+    required this.seats,
+    required this.space,
+  });
+
+  factory OrganizationPlan.fromJson(Map<String, dynamic> json) =>
+      _$OrganizationPlanFromJson(json);
+
+  Map<String, dynamic> toJson() => _$OrganizationPlanToJson(this);
+}

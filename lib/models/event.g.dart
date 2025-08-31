@@ -12,7 +12,7 @@ Event _$EventFromJson(Map<String, dynamic> json) => Event(
   id: json['id'] as String?,
   org: json['org'] == null
       ? null
-      : Organization.fromJson(json['org'] as Map<String, dynamic>),
+      : EventOrganization.fromJson(json['org'] as Map<String, dynamic>),
   payload: Payload.fromJson(json['payload'] as Map<String, dynamic>),
   public: json['public'] as bool?,
   repo: EventRepository.fromJson(json['repo'] as Map<String, dynamic>),
@@ -48,16 +48,17 @@ Map<String, dynamic> _$ActorToJson(Actor instance) => <String, dynamic>{
   'url': instance.url,
 };
 
-Organization _$OrganizationFromJson(Map<String, dynamic> json) => Organization(
-  avatarUrl: json['avatar_url'] as String?,
-  displayLogin: json['display_login'] as String?,
-  gravatarId: json['gravatar_id'] as String?,
-  id: (json['id'] as num?)?.toInt(),
-  login: json['login'] as String?,
-  url: json['url'] as String?,
-);
+EventOrganization _$EventOrganizationFromJson(Map<String, dynamic> json) =>
+    EventOrganization(
+      avatarUrl: json['avatar_url'] as String?,
+      displayLogin: json['display_login'] as String?,
+      gravatarId: json['gravatar_id'] as String?,
+      id: (json['id'] as num?)?.toInt(),
+      login: json['login'] as String?,
+      url: json['url'] as String?,
+    );
 
-Map<String, dynamic> _$OrganizationToJson(Organization instance) =>
+Map<String, dynamic> _$EventOrganizationToJson(EventOrganization instance) =>
     <String, dynamic>{
       'avatar_url': instance.avatarUrl,
       'display_login': instance.displayLogin,

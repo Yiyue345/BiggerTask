@@ -70,6 +70,20 @@ class AppLocalizationsZh extends AppLocalizations {
   }
 
   @override
+  String get organizations => '组织';
+
+  @override
+  String get members => '成员';
+
+  @override
+  String memberCount(int members) {
+    return '$members 成员';
+  }
+
+  @override
+  String get noMore => '没有更多数据了';
+
+  @override
   String get settings => '设置';
 
   @override
@@ -400,6 +414,20 @@ class AppLocalizationsZhMs extends AppLocalizationsZh {
   String followingCount(int followings) {
     return '$followings 正在关注';
   }
+
+  @override
+  String get organizations => '组织';
+
+  @override
+  String get members => '成员';
+
+  @override
+  String memberCount(int members) {
+    return '$members 成员';
+  }
+
+  @override
+  String get noMore => '没有更多了';
 
   @override
   String get settings => '设定';

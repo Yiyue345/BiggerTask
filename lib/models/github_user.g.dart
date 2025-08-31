@@ -193,3 +193,162 @@ Map<String, dynamic> _$GithubPlanToJson(GithubPlan instance) =>
       'private_repos': instance.privateRepos,
       'collaborators': instance.collaborators,
     };
+
+SimpleOrganization _$SimpleOrganizationFromJson(Map<String, dynamic> json) =>
+    SimpleOrganization(
+      login: json['login'] as String,
+      id: (json['id'] as num).toInt(),
+      nodeId: json['node_id'] as String,
+      url: json['url'] as String,
+      reposUrl: json['repos_url'] as String,
+      eventsUrl: json['events_url'] as String,
+      hooksUrl: json['hooks_url'] as String,
+      issuesUrl: json['issues_url'] as String,
+      membersUrl: json['members_url'] as String,
+      publicMembersUrl: json['public_members_url'] as String,
+      avatarUrl: json['avatar_url'] as String,
+      description: json['description'] as String?,
+    );
+
+Map<String, dynamic> _$SimpleOrganizationToJson(SimpleOrganization instance) =>
+    <String, dynamic>{
+      'login': instance.login,
+      'id': instance.id,
+      'node_id': instance.nodeId,
+      'url': instance.url,
+      'repos_url': instance.reposUrl,
+      'events_url': instance.eventsUrl,
+      'hooks_url': instance.hooksUrl,
+      'issues_url': instance.issuesUrl,
+      'members_url': instance.membersUrl,
+      'public_members_url': instance.publicMembersUrl,
+      'avatar_url': instance.avatarUrl,
+      'description': instance.description,
+    };
+
+Organization _$OrganizationFromJson(Map<String, dynamic> json) => Organization(
+  login: json['login'] as String,
+  id: (json['id'] as num).toInt(),
+  nodeId: json['node_id'] as String,
+  url: json['url'] as String,
+  reposUrl: json['repos_url'] as String,
+  eventsUrl: json['events_url'] as String,
+  hooksUrl: json['hooks_url'] as String,
+  issuesUrl: json['issues_url'] as String,
+  membersUrl: json['members_url'] as String,
+  publicMembersUrl: json['public_members_url'] as String,
+  avatarUrl: json['avatar_url'] as String,
+  description: json['description'] as String?,
+  billingEmail: json['billing_email'] as String?,
+  blog: json['blog'] as String?,
+  collaborators: (json['collaborators'] as num?)?.toInt(),
+  company: json['company'] as String?,
+  createdAt: json['created_at'] as String,
+  defaultRepositoryPermission: json['default_repository_permission'] as String?,
+  diskUsage: (json['disk_usage'] as num?)?.toInt(),
+  email: json['email'] as String?,
+  followers: (json['followers'] as num?)?.toInt(),
+  following: (json['following'] as num?)?.toInt(),
+  hasOrganizationProjects: json['has_organization_projects'] as bool?,
+  hasRepositoryProjects: json['has_repository_projects'] as bool?,
+  isVerified: json['is_verified'] as bool?,
+  location: json['location'] as String?,
+  membersAllowedRepositoryCreationType:
+      json['members_allowed_repository_creation_type'] as String?,
+  membersCanCreateInternalRepositories:
+      json['members_can_create_internal_repositories'] as bool?,
+  membersCanCreatePages: json['members_can_create_pages'] as bool?,
+  membersCanCreatePrivatePages:
+      json['members_can_create_private_pages'] as bool?,
+  membersCanCreatePrivateRepositories:
+      json['members_can_create_private_repositories'] as bool?,
+  membersCanCreatePublicPages: json['members_can_create_public_pages'] as bool?,
+  membersCanCreatePublicRepositories:
+      json['members_can_create_public_repositories'] as bool?,
+  membersCanCreateRepositories:
+      json['members_can_create_repositories'] as bool?,
+  name: json['name'] as String?,
+  ownedPrivateRepos: (json['owned_private_repos'] as num?)?.toInt(),
+  plan: json['plan'] == null
+      ? null
+      : OrganizationPlan.fromJson(json['plan'] as Map<String, dynamic>),
+  privateGists: (json['private_gists'] as num?)?.toInt(),
+  publicGists: (json['public_gists'] as num?)?.toInt(),
+  publicRepos: (json['public_repos'] as num?)?.toInt(),
+  totalPrivateRepos: (json['total_private_repos'] as num?)?.toInt(),
+  twitterUsername: json['twitter_username'] as String?,
+  twoFactorRequirementEnabled: json['two_factor_requirement_enabled'] as bool?,
+  type: json['type'] as String,
+  updatedAt: json['updated_at'] as String?,
+);
+
+Map<String, dynamic> _$OrganizationToJson(Organization instance) =>
+    <String, dynamic>{
+      'login': instance.login,
+      'id': instance.id,
+      'node_id': instance.nodeId,
+      'url': instance.url,
+      'repos_url': instance.reposUrl,
+      'events_url': instance.eventsUrl,
+      'hooks_url': instance.hooksUrl,
+      'issues_url': instance.issuesUrl,
+      'members_url': instance.membersUrl,
+      'public_members_url': instance.publicMembersUrl,
+      'avatar_url': instance.avatarUrl,
+      'description': instance.description,
+      'billing_email': instance.billingEmail,
+      'blog': instance.blog,
+      'collaborators': instance.collaborators,
+      'company': instance.company,
+      'created_at': instance.createdAt,
+      'default_repository_permission': instance.defaultRepositoryPermission,
+      'disk_usage': instance.diskUsage,
+      'email': instance.email,
+      'followers': instance.followers,
+      'following': instance.following,
+      'has_organization_projects': instance.hasOrganizationProjects,
+      'has_repository_projects': instance.hasRepositoryProjects,
+      'is_verified': instance.isVerified,
+      'location': instance.location,
+      'members_allowed_repository_creation_type':
+          instance.membersAllowedRepositoryCreationType,
+      'members_can_create_internal_repositories':
+          instance.membersCanCreateInternalRepositories,
+      'members_can_create_pages': instance.membersCanCreatePages,
+      'members_can_create_private_pages': instance.membersCanCreatePrivatePages,
+      'members_can_create_private_repositories':
+          instance.membersCanCreatePrivateRepositories,
+      'members_can_create_public_pages': instance.membersCanCreatePublicPages,
+      'members_can_create_public_repositories':
+          instance.membersCanCreatePublicRepositories,
+      'members_can_create_repositories': instance.membersCanCreateRepositories,
+      'name': instance.name,
+      'owned_private_repos': instance.ownedPrivateRepos,
+      'plan': instance.plan,
+      'private_gists': instance.privateGists,
+      'public_gists': instance.publicGists,
+      'public_repos': instance.publicRepos,
+      'total_private_repos': instance.totalPrivateRepos,
+      'twitter_username': instance.twitterUsername,
+      'two_factor_requirement_enabled': instance.twoFactorRequirementEnabled,
+      'type': instance.type,
+      'updated_at': instance.updatedAt,
+    };
+
+OrganizationPlan _$OrganizationPlanFromJson(Map<String, dynamic> json) =>
+    OrganizationPlan(
+      filledSeats: (json['filled_seats'] as num).toInt(),
+      name: json['name'] as String,
+      privateRepos: (json['private_repos'] as num).toInt(),
+      seats: (json['seats'] as num).toInt(),
+      space: (json['space'] as num).toInt(),
+    );
+
+Map<String, dynamic> _$OrganizationPlanToJson(OrganizationPlan instance) =>
+    <String, dynamic>{
+      'filled_seats': instance.filledSeats,
+      'name': instance.name,
+      'private_repos': instance.privateRepos,
+      'seats': instance.seats,
+      'space': instance.space,
+    };

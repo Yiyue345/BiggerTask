@@ -2,6 +2,7 @@ import 'package:biggertask/common/methods.dart';
 import 'package:biggertask/common/static.dart';
 import 'package:biggertask/l10n/app_localizations.dart';
 import 'package:biggertask/models/github_user.dart';
+import 'package:biggertask/routes/organizations_route.dart';
 import 'package:biggertask/routes/repo/repos_route.dart';
 import 'package:biggertask/routes/repo/starred_repos_route.dart';
 import 'package:biggertask/widgets/github_namecard.dart';
@@ -23,9 +24,20 @@ class _UserInfoRouteState extends State<UserInfoRoute> {
   late GitHubUser? _user;
   bool _isLoading = true;
 
+  int starsCount = 0;
+
   void _initUser() async {
     _isLoading = true;
-    _user = await Methods.getUserInfo(widget.username, Global.token);
+    final futures = <Future>[
+      Methods.getUserInfo(widget.username, Global.token),
+      Methods.getStarredCount(token: Global.token, username: widget.username)
+    ];
+
+    final results = await Future.wait(futures);
+
+    _user = results[0] as GitHubUser?;
+    starsCount = results[1] as int;
+
     _isLoading = false;
     setState(() {});
   }
@@ -101,20 +113,27 @@ class _UserInfoRouteState extends State<UserInfoRoute> {
                     ListTile(
                       leading: Icon(OctIcons.star),
                       title: Text(AppLocalizations.of(context)!.stars),
-                      trailing: FutureBuilder(
-                          future: Methods.getStarredCount(token: Global.token, user: _user!),
-                          builder: (context, snapshot) {
-                            if (snapshot.connectionState == ConnectionState.done) {
-                              return Text(snapshot.data.toString());
-                            } else {
-                              return Text('');
-                            }
-                          }
-                      ),
+                      trailing: Text(starsCount.toString()),
                       onTap: () {
                         Get.to(() => StarredReposRoute(user: _user!));
                       },
-                    )
+                    ),
+                    if (_user!.type == 'Organization')
+                      ListTile(
+                        leading: Icon(OctIcons.people),
+                        title: Text(AppLocalizations.of(context)!.members),
+                        onTap: () {
+                          Get.to(() => OrganizationMembersRoute(organization: _user!.login));
+                        },
+                      )
+                    else if (_user!.type == 'User')
+                      ListTile(
+                        leading: Icon(OctIcons.organization),
+                        title: Text(AppLocalizations.of(context)!.organizations),
+                        onTap: () {
+                          Get.to(() => OrganizationsRoute(username: _user!.login));
+                        },
+                      )
                   ],
                 ),
               )
@@ -128,7 +147,15 @@ class _UserInfoRouteState extends State<UserInfoRoute> {
     setState(() {
       _isLoading = true;
     });
-    final user = await Methods.getUserInfo(_user!.login, Global.token);
+    final futures = <Future>[
+      Methods.getUserInfo(widget.username, Global.token),
+      Methods.getStarredCount(token: Global.token, username: widget.username)
+    ];
+
+    final results = await Future.wait(futures);
+
+    final user = results[0] as GitHubUser?;
+    starsCount = results[1] as int;
     if (user != null) {
       _user = user;
     }

@@ -10,7 +10,7 @@ class Event {
   // 形如 2025-07-07T07:42:56Z
   final String createdAt;
   final String? id;
-  final Organization? org;
+  final EventOrganization? org;
   final Payload payload;
   final bool? public;
   final EventRepository repo;
@@ -67,7 +67,7 @@ class Actor {
 }
 
 @JsonSerializable()
-class Organization {
+class EventOrganization {
   @JsonKey(name: 'avatar_url')
   final String? avatarUrl;
   @JsonKey(name: 'display_login')
@@ -78,7 +78,7 @@ class Organization {
   final String? login;
   final String? url;
 
-  Organization({
+  EventOrganization({
     this.avatarUrl,
     this.displayLogin,
     this.gravatarId,
@@ -87,8 +87,8 @@ class Organization {
     this.url,
   });
 
-  factory Organization.fromJson(Map<String, dynamic> json) => _$OrganizationFromJson(json);
-  Map<String, dynamic> toJson() => _$OrganizationToJson(this);
+  factory EventOrganization.fromJson(Map<String, dynamic> json) => _$EventOrganizationFromJson(json);
+  Map<String, dynamic> toJson() => _$EventOrganizationToJson(this);
 }
 
 @JsonSerializable()

@@ -233,8 +233,8 @@ class Methods {
     }
   }
 
-  static Future<int> getStarredCount({required String? token, GitHubUser? user}) async {
-    if (token == null || user == null) {
+  static Future<int> getStarredCount({required String? token, required String username}) async {
+    if (token == null) {
       return 0;
     }
     try {
@@ -242,7 +242,7 @@ class Methods {
       int count = 0;
       int page = 1;
       do {
-        response = await Methods.getStarredRepositories(token: token, username: user.login, page: page, perPage: 100);
+        response = await Methods.getStarredRepositories(token: token, username: username, page: page, perPage: 100);
         page++;
         count += response.length;
       }
@@ -427,12 +427,16 @@ class Methods {
     int count = 0;
     try {
       _dioManager.setAuthToken(token);
-      List response = await getReleases(token: token, repoFullName: repoFullName, page: 1, perPage: 100);
-      while (response.isNotEmpty) {
+      List response = [];
+      do {
+        response = await getReleases(token: token, repoFullName: repoFullName, page: 1, perPage: 100);
+
         count += response.length;
         // 获取下一页
-        response = await getReleases(token: token, repoFullName: repoFullName, page: (count ~/ 100) + 1, perPage: 100); // ~/是整除
+        response = await getReleases(token: token, repoFullName: repoFullName, page: (count / 100).ceil() + 1, perPage: 100); // ~/是整除
       }
+      while (response.length == 100);
+
       return count;
 
     } catch (e) {
@@ -587,6 +591,91 @@ class Methods {
     } catch (e) {
       Fluttertoast.showToast(msg: '${AppLocalizations.of(context)!.imageSaveFailed}: $e');
       print('Error saving image: $e');
+    }
+  }
+
+  static Future<List<SimpleGitHubUser>> getOrganizationMembers({
+    required String? token,
+    required String orgName,
+    String role = 'all', // all, admin, member
+    int page = 1,
+    int perPage = 30
+  }) async {
+    if (token == null || token.isEmpty) {
+      return [];
+    }
+    try {
+      _dioManager.setAuthToken(token);
+      final response = await _dioManager.dio.get(
+        'https://api.github.com/orgs/$orgName/members',
+        queryParameters: {
+          'page': page,
+          'per_page': perPage,
+          'role': role,
+        },
+      );
+
+      if (response.statusCode == 200) {
+        List<dynamic> data = response.data;
+        return data.map((item) => SimpleGitHubUser.fromJson(item)).toList();
+      } else {
+        throw Exception('Failed to load organization members: ${response.statusCode}');
+      }
+    } catch (e) {
+      print('Error fetching organization members: $e');
+      return [];
+    }
+  }
+
+  static Future<List<SimpleOrganization>> getMyOrganizations({required String? token, int page = 1, int perPage = 30}) async {
+    if (token == null || token.isEmpty) {
+      return [];
+    }
+    try {
+      _dioManager.setAuthToken(token);
+      final response = await _dioManager.dio.get(
+        'https://api.github.com/user/orgs',
+        queryParameters: {
+          'page': page,
+          'per_page': perPage,
+        },
+      );
+
+      if (response.statusCode == 200) {
+        List<dynamic> data = response.data;
+        return data.map((item) => SimpleOrganization.fromJson(item)).toList();
+      } else {
+        throw Exception('Failed to load organizations: ${response.statusCode}');
+      }
+    } catch (e) {
+      print('Error fetching organizations: $e');
+      return [];
+    }
+  }
+
+  static Future<List<SimpleOrganization>> getUserOrganizations({required String? token, required String username, int page = 1, int perPage = 30}) async {
+    if (token == null || token.isEmpty) {
+      return [];
+    }
+    try {
+      _dioManager.setAuthToken(token);
+      final response = await _dioManager.dio.get(
+        'https://api.github.com/users/$username/orgs',
+        queryParameters: {
+          'page': page,
+          'per_page': perPage,
+        },
+      );
+
+      if (response.statusCode == 200) {
+        List<dynamic> data = response.data;
+        return data.map((item) => SimpleOrganization.fromJson(item)).toList();
+      } else {
+        throw Exception('Failed to load organizations: ${response.statusCode}');
+      }
+    } catch (e) {
+      print('Error fetching organizations: $e');
+      return [];
     }
   }
 }

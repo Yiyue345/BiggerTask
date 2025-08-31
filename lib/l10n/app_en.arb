@@ -37,6 +37,22 @@
       }
     }
   },
+  "organizations": "Organizations",
+  "members": "Members",
+  "@members": {
+    "description": "Label for members of an organization or team"
+  },
+  "memberCount": "{members, plural, =1{1 member} other{{members} members}}",
+  "@memberCount": {
+    "description": "Text showing the number of members",
+    "placeholders": {
+      "members": {
+        "type": "int"
+      }
+    }
+  },
+  "noMore": "No more data",
+
 
 
   "settings": "Settings",

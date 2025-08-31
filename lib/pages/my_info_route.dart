@@ -4,6 +4,7 @@ import 'dart:math';
 import 'package:biggertask/common/static.dart';
 import 'package:biggertask/l10n/app_localizations.dart';
 import 'package:biggertask/models/github_user.dart';
+import 'package:biggertask/routes/organizations_route.dart';
 import 'package:biggertask/routes/repo/repos_route.dart';
 import 'package:biggertask/routes/repo/starred_repos_route.dart';
 import 'package:biggertask/widgets/github_login.dart';
@@ -95,7 +96,7 @@ class _MyInfoRouteState extends State<MyInfoRoute> {
                 leading: Icon(OctIcons.star),
                 title: Text(AppLocalizations.of(context)!.stars),
                 trailing: FutureBuilder(
-                    future: Methods.getStarredCount(token: Global.token, user: Global.gitHubUser!),
+                    future: Methods.getStarredCount(token: Global.token, username: Global.gitHubUser!.login),
                     builder: (context, snapshot) {
                       if (snapshot.connectionState == ConnectionState.done) {
                         return Text(snapshot.data.toString());
@@ -106,6 +107,13 @@ class _MyInfoRouteState extends State<MyInfoRoute> {
                 ),
                 onTap: () {
                   Get.to(() => StarredReposRoute(user: Global.gitHubUser!));
+                },
+              ),
+              ListTile(
+                leading: Icon(OctIcons.organization),
+                title: Text(AppLocalizations.of(context)!.organizations),
+                onTap: () {
+                  Get.to(() => OrganizationsRoute(username: Global.gitHubUser!.login,));
                 },
               ),
               ListTile(

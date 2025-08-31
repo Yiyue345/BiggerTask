@@ -208,8 +208,30 @@ class GitHubNameCard extends StatelessWidget {
 
 class GitHubUserTile extends StatefulWidget{
   final SimpleGitHubUser? user;
+  final SimpleOrganization? organization;
 
-  GitHubUserTile({super.key, required this.user});
+  GitHubUserTile({super.key, required this.user, this.organization});
+
+  GitHubUserTile.fromOrganization({super.key, required this.organization})
+      : user = SimpleGitHubUser(
+      avatarUrl: organization!.avatarUrl,
+      eventsUrl: organization.eventsUrl,
+      followersUrl: '',
+      followingUrl: '',
+      gistsUrl: '',
+      htmlUrl: '',
+      id: organization.id,
+      login: organization.login,
+      nodeId: organization.nodeId,
+      organizationsUrl: '',
+      receivedEventsUrl: '',
+      reposUrl: organization.reposUrl,
+      siteAdmin: false,
+      starredUrl: '',
+      subscriptionsUrl: '',
+      type: 'Organization',
+      url: organization.url
+  );
 
   @override
   State<StatefulWidget> createState() => _GitHubUserTileState();

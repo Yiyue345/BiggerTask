@@ -110,7 +110,10 @@ class _RepositoriesRouteState extends State<RepositoriesRoute> {
                 AppLocalizations.of(context)!.whose(_user.login),
                 style: TextStyle(fontSize: 12)
             ),
-            Text(AppLocalizations.of(context)!.repositories, style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold)),
+            Text(
+                AppLocalizations.of(context)!.repositories,
+                style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold)
+            ),
           ],
         ),
       ),

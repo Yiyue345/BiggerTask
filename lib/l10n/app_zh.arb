@@ -20,6 +20,10 @@
   "followings": "关注",
   "followersCount": "{followers} 粉丝",
   "followingCount": "{followings} 关注",
+  "organizations": "组织",
+  "members": "成员",
+  "memberCount": "{members} 成员",
+  "noMore": "没有更多数据了",
 
   "settings": "设置",
   "cancel": "取消",

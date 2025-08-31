@@ -82,6 +82,26 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
+  String get organizations => 'Organizations';
+
+  @override
+  String get members => 'Members';
+
+  @override
+  String memberCount(int members) {
+    String _temp0 = intl.Intl.pluralLogic(
+      members,
+      locale: localeName,
+      other: '$members members',
+      one: '1 member',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get noMore => 'No more data';
+
+  @override
   String get settings => 'Settings';
 
   @override

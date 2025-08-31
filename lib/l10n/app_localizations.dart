@@ -213,6 +213,30 @@ abstract class AppLocalizations {
   /// **'{followings, plural, =1{1 following} other{{followings} followings}}'**
   String followingCount(int followings);
 
+  /// No description provided for @organizations.
+  ///
+  /// In en, this message translates to:
+  /// **'Organizations'**
+  String get organizations;
+
+  /// Label for members of an organization or team
+  ///
+  /// In en, this message translates to:
+  /// **'Members'**
+  String get members;
+
+  /// Text showing the number of members
+  ///
+  /// In en, this message translates to:
+  /// **'{members, plural, =1{1 member} other{{members} members}}'**
+  String memberCount(int members);
+
+  /// No description provided for @noMore.
+  ///
+  /// In en, this message translates to:
+  /// **'No more data'**
+  String get noMore;
+
   /// No description provided for @settings.
   ///
   /// In en, this message translates to:
