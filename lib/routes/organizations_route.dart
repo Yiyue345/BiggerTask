@@ -112,7 +112,6 @@ class _OrganizationsRouteState extends State<OrganizationsRoute> {
                     return Padding(
                       padding: const EdgeInsets.all(16.0),
                       child: Center(
-                        // todo: no more repos
                         child: Text(AppLocalizations.of(context)!.noMore, style: TextStyle(color: Colors.grey)),
                       ),
                     );
@@ -244,7 +243,6 @@ class _OrganizationMembersRouteState extends State<OrganizationMembersRoute> {
                     return Padding(
                       padding: const EdgeInsets.all(16.0),
                       child: Center(
-                        // todo: no more repos
                         child: Text(AppLocalizations.of(context)!.noMore, style: TextStyle(color: Colors.grey)),
                       ),
                     );

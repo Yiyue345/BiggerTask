@@ -15,6 +15,8 @@
   "userInfo": "用户信息",
   "contributors": "贡献者",
   "starRepositories": "标星仓库",
+  "public": "公共",
+  "private": "私人",
 
   "followers": "粉丝",
   "followings": "关注",
@@ -120,6 +122,9 @@
   "accentColorLabel": "强调色",
   "bothColorLabel": "主色与强调色",
   "customColorLabel": "自定义",
-  "wheelColorLabel": "色轮"
+  "wheelColorLabel": "色轮",
+
+  "codePreviewSettings": "代码预览设置",
+  ""
 
 }

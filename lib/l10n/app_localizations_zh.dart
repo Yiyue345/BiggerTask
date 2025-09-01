@@ -54,6 +54,12 @@ class AppLocalizationsZh extends AppLocalizations {
   String get starRepositories => '标星仓库';
 
   @override
+  String get public => '公共';
+
+  @override
+  String get private => '私人';
+
+  @override
   String get followers => '粉丝';
 
   @override
@@ -398,6 +404,12 @@ class AppLocalizationsZhMs extends AppLocalizationsZh {
 
   @override
   String get starRepositories => '星星仓库';
+
+  @override
+  String get public => '公共';
+
+  @override
+  String get private => '私人';
 
   @override
   String get followers => '追随者';

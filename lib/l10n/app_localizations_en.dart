@@ -54,6 +54,12 @@ class AppLocalizationsEn extends AppLocalizations {
   String get starRepositories => 'Starred Repositories';
 
   @override
+  String get public => 'Public';
+
+  @override
+  String get private => 'Private';
+
+  @override
   String get followers => 'Followers';
 
   @override

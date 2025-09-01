@@ -3,6 +3,7 @@ import 'package:biggertask/common/static.dart';
 import 'package:biggertask/html_markdown/custom_node.dart';
 import 'package:biggertask/l10n/app_localizations.dart';
 import 'package:biggertask/models/repository_content.dart';
+import 'package:biggertask/routes/code_settings_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -81,15 +82,6 @@ class _FileRouteState extends State<FileRoute> {
         ),
         actions: [
           IconButton(
-              onPressed: () {
-
-              },
-              icon: Icon(
-                  Icons.settings,
-                color: Theme.of(context).colorScheme.onSecondary,
-              )
-          ),
-          IconButton(
               onPressed: _copySelectedLines,
               icon: Icon(
                 Icons.copy,
@@ -101,7 +93,22 @@ class _FileRouteState extends State<FileRoute> {
         backgroundColor: Theme.of(context).colorScheme.secondary,
       )
           : AppBar(
-        title: Text(widget.filePath.split('/').last),
+        title: SingleChildScrollView(
+          scrollDirection: Axis.horizontal,
+          reverse: true,
+          child: Text(widget.filePath),
+        ),
+        actions: [
+          IconButton(
+              onPressed: () {
+                Get.to(() => CodeSettingsRoute());
+              },
+              icon: Icon(
+                Icons.settings,
+                color: Theme.of(context).colorScheme.secondary,
+              )
+          ),
+        ],
       ),
       body: _isLoading
           ? const Center(child: CircularProgressIndicator())

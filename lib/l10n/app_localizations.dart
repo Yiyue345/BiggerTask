@@ -189,6 +189,18 @@ abstract class AppLocalizations {
   /// **'Starred Repositories'**
   String get starRepositories;
 
+  /// No description provided for @public.
+  ///
+  /// In en, this message translates to:
+  /// **'Public'**
+  String get public;
+
+  /// No description provided for @private.
+  ///
+  /// In en, this message translates to:
+  /// **'Private'**
+  String get private;
+
   /// No description provided for @followers.
   ///
   /// In en, this message translates to:

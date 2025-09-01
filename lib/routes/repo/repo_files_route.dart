@@ -59,9 +59,13 @@ class _RepoFilesRouteState extends State<RepoFilesRoute> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.currentPath != null
-            ? widget.currentPath!
-            : ''
+        title: SingleChildScrollView(
+          scrollDirection: Axis.horizontal,
+          reverse: true,
+          child: Text(widget.currentPath != null
+              ? widget.currentPath!
+              : ''
+          ),
         ),
       ),
       body: _isLoading

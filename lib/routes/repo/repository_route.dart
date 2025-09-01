@@ -108,12 +108,12 @@ class _RepositoryRouteState extends State<RepositoryRoute> {
                         if (widget.repository.private)...[
                           Icon(OctIcons.lock, size: 17,),
                           SizedBox(width: 4),
-                          Text('Private', style: TextStyle(color: Theme.of(context).colorScheme.secondary)),
+                          Text(AppLocalizations.of(context)!.private, style: TextStyle(color: Theme.of(context).colorScheme.secondary)),
                         ]
                         else...[
                           Icon(OctIcons.repo, size: 17,),
                           SizedBox(width: 4),
-                          Text('Public', style: TextStyle(color: Theme.of(context).colorScheme.secondary)),
+                          Text(AppLocalizations.of(context)!.public, style: TextStyle(color: Theme.of(context).colorScheme.secondary)),
                         ],
                         SizedBox(width: 8,),
                         Icon(OctIcons.repo_forked, size: 17,),
@@ -121,6 +121,47 @@ class _RepositoryRouteState extends State<RepositoryRoute> {
                         Text(
                           widget.repository.forksCount.toString(),
                           style: TextStyle(color: Theme.of(context).colorScheme.secondary),
+                        ),
+
+                        // 标星按钮
+                        TextButton.icon(
+                          onPressed: _isStarred == null
+                              ? null
+                              : () async {
+                            await _showStarDialog();
+                            await _checkStarredStatus();
+                            setState(() {
+
+                            });
+                          },
+                          icon: Icon(
+                            OctIcons.star,
+                            size: 16,
+                          ),
+                          label: Text('${widget.repository.stargazersCount}'),
+                          style: ButtonStyle(
+                              foregroundColor: WidgetStatePropertyAll(
+                                  _isStarred == null
+                                      ? Colors.grey
+                                      : _isStarred!
+                                      ? Colors.yellow[700] : Theme.of(context).colorScheme.secondary
+                              ),
+                              minimumSize: WidgetStatePropertyAll(Size.zero),
+                              visualDensity: VisualDensity.compact,
+                              overlayColor: WidgetStatePropertyAll(Colors.transparent),
+                              side: WidgetStatePropertyAll(
+                                  BorderSide(
+                                    color: _isStarred == null
+                                        ? Colors.transparent
+                                        : _isStarred!
+                                        ? Colors.orange[500]!
+                                        : Colors.transparent,
+                                    width: 3.0,
+                                  )
+                              )
+
+
+                          ),
                         ),
 
                       ],
@@ -174,61 +215,7 @@ class _RepositoryRouteState extends State<RepositoryRoute> {
                   ),
                 )
               ,
-              // 标星按钮
-              SizedBox(
-                height: 40,
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    SizedBox(width: 8,),
-                    TextButton.icon(
-                      onPressed: _isStarred == null
-                          ? null
-                          : () async {
-                        await _showStarDialog();
-                        await _checkStarredStatus();
-                        setState(() {
 
-                        });
-                      },
-                      icon: Icon(
-                        OctIcons.star,
-                        size: 16,
-                      ),
-                      label: Text('${widget.repository.stargazersCount}'),
-                      style: ButtonStyle(
-                          foregroundColor: WidgetStatePropertyAll(
-                              _isStarred == null
-                                  ? Colors.grey
-                                  : _isStarred!
-                                  ? Colors.white : Colors.grey
-                          ),
-                          backgroundColor: WidgetStatePropertyAll(
-                              _isStarred == null
-                                  ? Colors.transparent
-                                  : _isStarred!
-                                  ? Colors.yellow[700] : Colors.transparent
-                          ),
-                          minimumSize: WidgetStatePropertyAll(Size(0, 0)),
-                          side: WidgetStatePropertyAll(
-                              BorderSide(
-                                color: _isStarred == null
-                                    ? Colors.transparent
-                                    : _isStarred!
-                                    ? Colors.orange[500]!
-                                    : Colors.transparent,
-                                width: 3.0,
-                              )
-                          )
-
-
-                      ),
-                    ),
-
-                  ],
-                ),
-
-              ),
               ListTile(
                 leading: Icon(OctIcons.tag),
                 title: Text(AppLocalizations.of(context)!.release),
