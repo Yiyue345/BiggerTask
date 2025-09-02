@@ -31,6 +31,7 @@ class _RepositoryRouteState extends State<RepositoryRoute> {
   // late final Future<RepositoryReadme?> _readmeFuture;
   late RepositoryReadme? readme;
   int _contributersCount = 0;
+  int _releaseCount = 0;
   bool _isLoading = true;
 
   @override
@@ -50,7 +51,8 @@ class _RepositoryRouteState extends State<RepositoryRoute> {
       Methods.getRepositoryContributorsCount(
           token: Global.token,
           repoFullName: widget.repository.fullName
-      )
+      ),
+      Methods.getReleaseCount(token: Global.token, repoFullName: widget.repository.fullName)
     ];
 
     final results = await Future.wait(futures);
@@ -58,6 +60,7 @@ class _RepositoryRouteState extends State<RepositoryRoute> {
     readme = results[1] as RepositoryReadme?;
 
     _contributersCount = results[2] as int;
+    _releaseCount = results[3] as int;
     setState(() {
       _isLoading = false;
     });
@@ -149,16 +152,7 @@ class _RepositoryRouteState extends State<RepositoryRoute> {
                               minimumSize: WidgetStatePropertyAll(Size.zero),
                               visualDensity: VisualDensity.compact,
                               overlayColor: WidgetStatePropertyAll(Colors.transparent),
-                              side: WidgetStatePropertyAll(
-                                  BorderSide(
-                                    color: _isStarred == null
-                                        ? Colors.transparent
-                                        : _isStarred!
-                                        ? Colors.orange[500]!
-                                        : Colors.transparent,
-                                    width: 3.0,
-                                  )
-                              )
+
 
 
                           ),
@@ -216,24 +210,15 @@ class _RepositoryRouteState extends State<RepositoryRoute> {
                 )
               ,
 
-              ListTile(
-                leading: Icon(OctIcons.tag),
-                title: Text(AppLocalizations.of(context)!.release),
-                trailing: FutureBuilder(
-                    future: Methods.getReleaseCount(token: Global.token, repoFullName: widget.repository.fullName),
-                    builder: (context, snapshot) {
-                      if (snapshot.connectionState == ConnectionState.done && !snapshot.hasError) {
-                        return Text(snapshot.data.toString());
-                      }
-                      else {
-                        return SizedBox();
-                      }
-                    }
+              if (_releaseCount > 0)
+                ListTile(
+                  leading: Icon(OctIcons.tag),
+                  title: Text(AppLocalizations.of(context)!.release),
+                  trailing: Text(_releaseCount.toString()),
+                  onTap: () {
+                    Get.to(() => ReleaseListRoute(repoFullName: widget.repository.fullName));
+                  },
                 ),
-                onTap: () {
-                  Get.to(() => ReleaseListRoute(repoFullName: widget.repository.fullName));
-                },
-              ),
               ListTile(
                 leading: Icon(OctIcons.code),
                 title: Text(AppLocalizations.of(context)!.code),

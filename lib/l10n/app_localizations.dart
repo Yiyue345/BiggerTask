@@ -740,6 +740,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Wheel'**
   String get wheelColorLabel;
+
+  /// No description provided for @codePreviewSettings.
+  ///
+  /// In en, this message translates to:
+  /// **'Code Preview Settings'**
+  String get codePreviewSettings;
 }
 
 class _AppLocalizationsDelegate

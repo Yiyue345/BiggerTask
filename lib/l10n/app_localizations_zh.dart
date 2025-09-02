@@ -354,6 +354,9 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get wheelColorLabel => '色轮';
+
+  @override
+  String get codePreviewSettings => '代码预览设置';
 }
 
 /// The translations for Chinese, as used in Montserrat (`zh_MS`).
@@ -706,4 +709,7 @@ class AppLocalizationsZhMs extends AppLocalizationsZh {
 
   @override
   String get wheelColorLabel => '色轮';
+
+  @override
+  String get codePreviewSettings => '代码预览设置';
 }

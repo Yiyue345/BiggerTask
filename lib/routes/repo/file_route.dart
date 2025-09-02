@@ -11,11 +11,13 @@ import 'package:markdown_widget/markdown_widget.dart';
 import 'package:biggertask/html_markdown/video.dart';
 import 'package:get/get.dart';
 import 'package:photo_view/photo_view.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class FileRoute extends StatefulWidget {
   final String repoFullName;
   final String filePath;
   late final String fileType;
+
 
   FileRoute({
     super.key,
@@ -31,6 +33,8 @@ class FileRoute extends StatefulWidget {
 
 class _FileRouteState extends State<FileRoute> {
 
+  final CodeSettingsController controller = Get.put(CodeSettingsController());
+
   late final RepositoryContent file;
   bool _isLoading = true;
   bool _isChoosing = false;
@@ -38,6 +42,11 @@ class _FileRouteState extends State<FileRoute> {
   int _selectedEndLine = -1;
   List<String> lines = [];
   final Map<int, GlobalKey> _lineKeys = {};
+
+  double? _maxLineWidth;
+  final TextPainter _textPainter = TextPainter(
+    textDirection: TextDirection.ltr,
+  );
 
   Future<void> _loadFile() async {
     file = (await Methods.getRepoContent(
@@ -52,13 +61,45 @@ class _FileRouteState extends State<FileRoute> {
     });
 
     lines = file.decodedContent?.split('\n') ?? [];
+    _maxLineWidth = null; // 重置最大行宽缓存
 
+    controller.showLineNumber.value = controller.sharedPreferences.getBool('showLineNumber') ?? true;
+    controller.lineWrap.value = controller.sharedPreferences.getBool('lineWrap') ?? false;
+
+  }
+
+  double _calculateMaxLineWidth() {
+    if (_maxLineWidth != null) return _maxLineWidth!;
+
+    double maxWidth = 0;
+    final textStyle = TextStyle(
+      fontFamily: 'monospace',
+      fontSize: 12,
+    );
+
+    for (String line in lines) {
+      _textPainter.text = TextSpan(
+        text: line.isEmpty ? ' ' : line,
+        style: textStyle,
+      );
+      _textPainter.layout();
+      maxWidth = maxWidth < _textPainter.width ? _textPainter.width : maxWidth;
+    }
+
+    _maxLineWidth = maxWidth + (controller.showLineNumber.value ? 88 : 28); // 考虑行号和间距
+    return _maxLineWidth!;
   }
 
   @override
   void initState() {
     super.initState();
     _loadFile();
+  }
+
+  @override
+  void dispose() {
+    _textPainter.dispose();
+    super.dispose();
   }
 
   @override
@@ -76,7 +117,7 @@ class _FileRouteState extends State<FileRoute> {
               });
             },
             icon: Icon(
-                Icons.close,
+              Icons.close,
               color: Theme.of(context).colorScheme.onSecondary,
             )
         ),
@@ -101,7 +142,10 @@ class _FileRouteState extends State<FileRoute> {
         actions: [
           IconButton(
               onPressed: () {
-                Get.to(() => CodeSettingsRoute());
+                Get.to(() => CodeSettingsRoute(
+                  showLineNumber: controller.showLineNumber.value,
+                  lineWrap: controller.lineWrap.value,
+                ));
               },
               icon: Icon(
                 Icons.settings,
@@ -231,92 +275,118 @@ class _FileRouteState extends State<FileRoute> {
           _lineKeys[i] ??= GlobalKey();
         }
 
-        return ListView.builder(
-            shrinkWrap: true,
-            itemCount: lines.length,
-            itemBuilder: (context, index) {
-              final line = lines[index];
-              return Material(
-                color: Colors.transparent,
-                child: InkWell(
-                  key: _lineKeys[index],
-                  onLongPress: () {
-                    setState(() {
-                      _isChoosing = true;
-                      _selectedStartLine = index;
-                      _selectedEndLine = index;
-                    });
-                  },
-                  onTap: () {
-                    if (_isChoosing) {
-                      if (index < _selectedStartLine) {
-                        setState(() {
-                          _selectedStartLine = index;
-                        });
-                      }
-                      else if (index > _selectedEndLine) {
-                        setState(() {
-                          _selectedEndLine = index;
-                        });
-                      }
-                    }
-                  },
-                  child: IntrinsicHeight( // 高度一致
-                    child: Stack(
-                      children: [
-                        Row(
-                          children: [
-                            Container(
-                              width: 30,
-                              alignment: Alignment.topRight,
-                              decoration: BoxDecoration(
-                                  color: Theme.of(context).colorScheme.secondary,
-                                  border: Border(
-                                      right: BorderSide(
-                                          color: Colors.grey,
-                                          width: 1
-                                      )
-                                  )
-                              ),
-                              child: Text(
-                                '${index + 1} ',
-                                style: TextStyle(
-                                    color: Theme.of(context).colorScheme.secondary.computeLuminance() > 0.5 ? Colors.black54 : Colors.white54,
-                                    fontSize: 12
-                                ),
-                              ),
-                            ),
-                            SizedBox(width: 8),
-                            Expanded(
-                              child: Text(
-                                line.isEmpty ? ' ' : line,
-                                style: TextStyle(
-                                  fontFamily: 'monospace',
-                                  fontSize: 12,
-                                  // color: Colors.black87,
-                                ),
-                              ),
+        return Obx(() => controller.lineWrap.value
+            ? _buildWrappedListView()
+            : _buildScrollableListView()
+        );
+    }
+  }
 
-                            ),
+  Widget _buildWrappedListView() {
+    return ListView.builder(
+      shrinkWrap: true,
+      itemCount: lines.length,
+      itemBuilder: (context, index) => _buildCodeLine(index),
+    );
+  }
 
-                          ],
-                        ),
-                        if (_isChoosing && index >= _selectedStartLine && index <= _selectedEndLine)
-                          IgnorePointer(
-                            child: Container(
-                              decoration: BoxDecoration(
-                                color: Theme.of(context).colorScheme.secondary.withValues(alpha: 0.2),
-                              ),
-                            ),
-                          ),
-                      ],
+  Widget _buildScrollableListView() {
+    return SingleChildScrollView(
+      scrollDirection: Axis.horizontal,
+      child: SizedBox(
+        width: _calculateMaxLineWidth(),
+        child: ListView.builder(
+          shrinkWrap: true,
+          itemCount: lines.length,
+            itemBuilder: (context, index) => _buildCodeLine(index)
+        ),
+
+      ),
+    );
+  }
+
+  Widget _buildCodeLine(int index) {
+    final line = lines[index];
+    return Material(
+      color: Colors.transparent,
+      child: InkWell(
+        key: _lineKeys[index],
+        onLongPress: () {
+          setState(() {
+            _isChoosing = true;
+            _selectedStartLine = index;
+            _selectedEndLine = index;
+          });
+        },
+        onTap: () {
+          if (_isChoosing) {
+            if (index < _selectedStartLine) {
+              setState(() {
+                _selectedStartLine = index;
+              });
+            }
+            else if (index > _selectedEndLine) {
+              setState(() {
+                _selectedEndLine = index;
+              });
+            }
+          }
+        },
+        child: IntrinsicHeight( // 高度一致
+          child: Stack(
+            children: [
+              Row(
+                children: [
+                  Obx(() => controller.showLineNumber.value
+                      ? Container(
+                    width: 30,
+                    alignment: Alignment.topRight,
+                    decoration: BoxDecoration(
+                        color: Theme.of(context).colorScheme.secondary,
+                        border: Border(
+                            right: BorderSide(
+                                color: Colors.grey,
+                                width: 1
+                            )
+                        )
+                    ),
+                    child: Text(
+                      '${index + 1} ',
+                      style: TextStyle(
+                          color: Theme.of(context).colorScheme.secondary.computeLuminance() > 0.5 ? Colors.black54 : Colors.white54,
+                          fontSize: 12
+                      ),
+                    ),
+                  )
+                      : SizedBox.shrink()),
+                  SizedBox(width: 8),
+                  Expanded(
+                    child: Text(
+                      line.isEmpty ? ' ' : line,
+                      style: TextStyle(
+                        fontFamily: 'monospace',
+                        fontSize: 12,
+                        // color: Colors.black87,
+                      ),
+                    ),
+
+                  ),
+
+                ],
+              ),
+              if (_isChoosing && index >= _selectedStartLine && index <= _selectedEndLine)
+                IgnorePointer(
+                  child: Container(
+                    decoration: BoxDecoration(
+                      color: Theme.of(context).colorScheme.secondary.withValues(alpha: 0.2),
                     ),
                   ),
                 ),
-              );
-            }
-        );
-    }
+            ],
+          ),
+        ),
+      ),
+    );
   }
 
   void _copySelectedLines() async {

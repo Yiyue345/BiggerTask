@@ -282,6 +282,9 @@
     "description": "Label for a color option that includes both primary and accent colors"
   },
   "customColorLabel": "Custom",
-  "wheelColorLabel": "Wheel"
+  "wheelColorLabel": "Wheel",
+
+  "codePreviewSettings": "Code Preview Settings"
+
 
 }

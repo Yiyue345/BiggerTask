@@ -406,4 +406,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get wheelColorLabel => 'Wheel';
+
+  @override
+  String get codePreviewSettings => 'Code Preview Settings';
 }

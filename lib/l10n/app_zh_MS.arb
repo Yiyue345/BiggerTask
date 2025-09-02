@@ -123,6 +123,9 @@
   "accentColorLabel": "强调色",
   "bothColorLabel": "主要的色和强调色",
   "customColorLabel": "自定义",
-  "wheelColorLabel": "色轮"
+  "wheelColorLabel": "色轮",
+
+  "codePreviewSettings": "代码预览设置"
+
 
 }

@@ -1,6 +1,7 @@
 import 'package:biggertask/common/methods.dart';
 import 'package:biggertask/common/static.dart';
 import 'package:biggertask/models/repository_content.dart';
+import 'package:biggertask/routes/code_settings_route.dart';
 import 'package:biggertask/routes/repo/file_route.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -22,6 +23,8 @@ class RepoFilesRoute extends StatefulWidget {
 class _RepoFilesRouteState extends State<RepoFilesRoute> {
   bool _isLoading = true;
   List<RepositoryContent> _items = [];
+
+  final CodeSettingsController controller = Get.put(CodeSettingsController());
 
   @override
   void initState() {
