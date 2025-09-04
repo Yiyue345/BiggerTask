@@ -329,6 +329,12 @@ class AppLocalizationsZh extends AppLocalizations {
   String get unSavedThemeChangesMessage => '您有未保存的更改，确定要直接退出吗？';
 
   @override
+  String get cannotDeleteLastTheme => '至少需要保留一个主题';
+
+  @override
+  String get longPressToDeleteTheme => '长按以删除主题';
+
+  @override
   String get advancedThemeSettings => '高级主题设置';
 
   @override
@@ -682,6 +688,12 @@ class AppLocalizationsZhMs extends AppLocalizationsZh {
 
   @override
   String get unSavedThemeChangesMessage => '您有未保存的更改。您想在不保存的情况下退出吗？';
+
+  @override
+  String get cannotDeleteLastTheme => '主题至少要保留一个';
+
+  @override
+  String get longPressToDeleteTheme => '长按删除主题';
 
   @override
   String get advancedThemeSettings => '先进主题设置';

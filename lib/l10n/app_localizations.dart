@@ -687,6 +687,18 @@ abstract class AppLocalizations {
   /// **'You have unsaved changes. Do you want to exit without saving?'**
   String get unSavedThemeChangesMessage;
 
+  /// No description provided for @cannotDeleteLastTheme.
+  ///
+  /// In en, this message translates to:
+  /// **'At least one theme must be kept'**
+  String get cannotDeleteLastTheme;
+
+  /// No description provided for @longPressToDeleteTheme.
+  ///
+  /// In en, this message translates to:
+  /// **'Long press to delete theme'**
+  String get longPressToDeleteTheme;
+
   /// No description provided for @advancedThemeSettings.
   ///
   /// In en, this message translates to:

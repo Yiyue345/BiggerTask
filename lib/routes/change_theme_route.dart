@@ -34,6 +34,8 @@ class _ThemeRouteState extends State<ThemeRoute> {
   late final SharedPreferences prefs;
   bool _isEdited = false;
 
+  Map<int, int> _indexToDbId = {};
+
   Future<void> _initThemeDatabase() async {
     var databasesPath = await getDatabasesPath();
     prefs = await SharedPreferences.getInstance();
@@ -86,8 +88,14 @@ class _ThemeRouteState extends State<ThemeRoute> {
         // 读取已有的主题数据
         final List<Map<String, dynamic>> themes = await db.query('theme');
         if (themes.isNotEmpty) {
-          themeController.colorSchemes = themes.map((theme) {
-            return ColorScheme(
+          themeController.colorSchemes.clear();
+          _indexToDbId.clear();
+
+          for (int i = 0; i < themes.length; i++) {
+            final theme = themes[i];
+            _indexToDbId[i] = theme['id'];
+
+            final colorScheme = ColorScheme(
               brightness: Brightness.light,
               primary: Color(int.parse(theme['primaryColor'])),
               onPrimary: Color(int.parse(theme['onPrimaryColor'])),
@@ -96,11 +104,13 @@ class _ThemeRouteState extends State<ThemeRoute> {
               error: Color(int.parse(theme['errorColor'])),
               onError: Color(int.parse(theme['onErrorColor'])),
               surface: Color(int.parse(theme['surfaceColor'])),
-              onSurface: Color(int.parse(theme['onSurfaceColor']))
+              onSurface: Color(int.parse(theme['onSurfaceColor'])),
             );
-          }).toList();
 
-          _colorSchemes = themeController.colorSchemes;
+            themeController.colorSchemes.add(colorScheme);
+          }
+
+          _colorSchemes = List.from(themeController.colorSchemes);
         }
 
         setState(() {
@@ -152,7 +162,7 @@ class _ThemeRouteState extends State<ThemeRoute> {
           colorScheme.error == themeController.error.value &&
           colorScheme.onError == themeController.onError.value
       );
-      _colorSchemes = themeController.colorSchemes;
+      _colorSchemes = List.from(themeController.colorSchemes);
     }
   }
 
@@ -225,6 +235,43 @@ class _ThemeRouteState extends State<ThemeRoute> {
           child: Scaffold(
             appBar: AppBar(
               title: Text(AppLocalizations.of(context)!.theme),
+              actions: [
+                IconButton(
+                  onLongPress: () async {
+                    // final List<Map<String, dynamic>> themes = await themeDatabase.query('theme');
+                    // for (int i = 0; i < themes.length; i++) {
+                    //   final theme = themes[i];
+                    //   _indexToDbId[i] = theme['id'];
+                    // }
+                    setState(() {
+                      if (_colorSchemes.length <= 1) {
+                        Fluttertoast.showToast(msg: AppLocalizations.of(context)!.cannotDeleteLastTheme);
+                        return;
+                      }
+                      if (themeController.selectedThemeIndex.value == _colorSchemes.length - 1) {
+                        themeController.selectedThemeIndex.value = _colorSchemes.length - 2;
+                        _colorSchemes.removeAt(themeController.selectedThemeIndex.value + 1);
+                      }
+                      else {
+                        _colorSchemes.removeAt(themeController.selectedThemeIndex.value);
+                      }
+                      primary = _colorSchemes[themeController.selectedThemeIndex.value].primary;
+                      onPrimary = _colorSchemes[themeController.selectedThemeIndex.value].onPrimary;
+                      secondary = _colorSchemes[themeController.selectedThemeIndex.value].secondary;
+                      onSecondary = _colorSchemes[themeController.selectedThemeIndex.value].onSecondary;
+                      surface = _colorSchemes[themeController.selectedThemeIndex.value].surface;
+                      onSurface = _colorSchemes[themeController.selectedThemeIndex.value].onSurface;
+                      error = _colorSchemes[themeController.selectedThemeIndex.value].error;
+                      onError = _colorSchemes[themeController.selectedThemeIndex.value].onError;
+                    });
+                    _isEdited = true;
+                  },
+                    onPressed: () async {
+                      Fluttertoast.showToast(msg: AppLocalizations.of(context)!.longPressToDeleteTheme);
+                    },
+                    icon: Icon(Icons.delete)
+                )
+              ],
             ),
             body: SingleChildScrollView(
               child: Center(
@@ -266,6 +313,7 @@ class _ThemeRouteState extends State<ThemeRoute> {
                                     onTap: () {
                                       setState(() {
                                         _colorSchemes.add(ColorScheme.fromSeed(seedColor: Colors.blue));
+                                        _isEdited = true;
                                       });
                                     },
                                     child: Icon(
@@ -460,8 +508,6 @@ class _ThemeRouteState extends State<ThemeRoute> {
                               ],
                             ),
                           ),
-
-
                         ],
                       )
                           : ColorPicker(
@@ -528,6 +574,9 @@ class _ThemeRouteState extends State<ThemeRoute> {
   ];
 
   Future<void> _saveChanges() async {
+
+    await themeDatabase.delete('theme');
+
     themeController.updateTheme(
         primary: primary,
         onPrimary: onPrimary,
@@ -539,34 +588,26 @@ class _ThemeRouteState extends State<ThemeRoute> {
         onSurface: onSurface
     );
 
-    themeController.colorSchemes = _colorSchemes;
+    themeController.colorSchemes = List.from(_colorSchemes);
 
     for (int i = 0; i < _colorSchemes.length; i++) {
-      await themeDatabase.execute('''
-        INSERT OR REPLACE INTO theme (
-          id,
-          primaryColor,
-          onPrimaryColor,
-          secondaryColor,
-          onSecondaryColor,
-          errorColor,
-          onErrorColor,
-          surfaceColor,
-          onSurfaceColor
-        ) VALUES (
-          ${i + 1},
-          '${_colorSchemes[i].primary.toARGB32()}',
-          '${_colorSchemes[i].onPrimary.toARGB32()}',
-          '${_colorSchemes[i].secondary.toARGB32()}',
-          '${_colorSchemes[i].onSecondary.toARGB32()}',
-          '${_colorSchemes[i].error.toARGB32()}',
-          '${_colorSchemes[i].onError.toARGB32()}',
-          '${_colorSchemes[i].surface.toARGB32()}',
-          '${_colorSchemes[i].onSurface.toARGB32()}'
-        )
-      ''');
+      await themeDatabase.insert('theme', {
+        'primaryColor': '${_colorSchemes[i].primary.toARGB32()}',
+        'onPrimaryColor': '${_colorSchemes[i].onPrimary.toARGB32()}',
+        'secondaryColor': '${_colorSchemes[i].secondary.toARGB32()}',
+        'onSecondaryColor': '${_colorSchemes[i].onSecondary.toARGB32()}',
+        'errorColor': '${_colorSchemes[i].error.toARGB32()}',
+        'onErrorColor': '${_colorSchemes[i].onError.toARGB32()}',
+        'surfaceColor': '${_colorSchemes[i].surface.toARGB32()}',
+        'onSurfaceColor': '${_colorSchemes[i].onSurface.toARGB32()}',
+      });
     }
 
+    final themes = await themeDatabase.query('theme', orderBy: 'id');
+    _indexToDbId.clear();
+    for (int i = 0; i < themes.length; i++) {
+      _indexToDbId[i] = themes[i]['id'] as int;
+    }
 
     await prefs.setInt('primary', primary.toARGB32());
     await prefs.setInt('onPrimary', onPrimary.toARGB32());
@@ -582,6 +623,8 @@ class _ThemeRouteState extends State<ThemeRoute> {
     _isEdited = false;
   }
 
+
+  // 更新主题中的某个颜色
   void _syncThemeList(
       {required int index, Brightness? brightness, Color? primary, Color? onPrimary, Color? secondary, Color? onSecondary, Color? surface, Color? onSurface, Color? error, Color? onError}) {
     _colorSchemes[index] = ColorScheme(

@@ -112,6 +112,8 @@
   "saveChangesOfTheme": "保存主题更改",
   "unSavedThemeChangesTitle": "未保存的更改",
   "unSavedThemeChangesMessage": "您有未保存的更改。您想在不保存的情况下退出吗？",
+  "cannotDeleteLastTheme": "主题至少要保留一个",
+  "longPressToDeleteTheme": "长按删除主题",
 
   "advancedThemeSettings": "先进主题设置",
   "autoSelectOtherColors": "自动设置其他颜色",

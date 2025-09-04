@@ -381,6 +381,12 @@ class AppLocalizationsEn extends AppLocalizations {
       'You have unsaved changes. Do you want to exit without saving?';
 
   @override
+  String get cannotDeleteLastTheme => 'At least one theme must be kept';
+
+  @override
+  String get longPressToDeleteTheme => 'Long press to delete theme';
+
+  @override
   String get advancedThemeSettings => 'Advanced Theme Settings';
 
   @override

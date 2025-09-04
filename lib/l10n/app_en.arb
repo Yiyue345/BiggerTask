@@ -267,6 +267,9 @@
   "@unSavedThemeChangesMessage": {
     "description": "Message of the dialog warning about unsaved theme changes"
   },
+  "cannotDeleteLastTheme": "At least one theme must be kept",
+  "longPressToDeleteTheme": "Long press to delete theme",
+
 
 
   "advancedThemeSettings": "Advanced Theme Settings",
