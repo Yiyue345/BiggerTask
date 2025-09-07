@@ -2,6 +2,7 @@ import 'package:biggertask/html_markdown/custom_node.dart';
 import 'package:biggertask/html_markdown/video.dart';
 import 'package:biggertask/l10n/app_localizations.dart';
 import 'package:biggertask/models/github_user.dart';
+import 'package:biggertask/routes/repo/commits_route.dart';
 import 'package:biggertask/routes/repo/contributors_route.dart';
 import 'package:biggertask/routes/repo/release_list_route.dart';
 import 'package:biggertask/routes/repo/repo_files_route.dart';
@@ -152,9 +153,6 @@ class _RepositoryRouteState extends State<RepositoryRoute> {
                               minimumSize: WidgetStatePropertyAll(Size.zero),
                               visualDensity: VisualDensity.compact,
                               overlayColor: WidgetStatePropertyAll(Colors.transparent),
-
-
-
                           ),
                         ),
 
@@ -226,7 +224,7 @@ class _RepositoryRouteState extends State<RepositoryRoute> {
                   Get.to(() => RepoFilesRoute(repoFullName: widget.repository.fullName));
                 },
               ),
-                if (_contributersCount > 1)
+              if (_contributersCount > 1)
                 ListTile(
                   leading: Icon(OctIcons.person),
                   title: Text(AppLocalizations.of(context)!.contributors),
@@ -235,6 +233,13 @@ class _RepositoryRouteState extends State<RepositoryRoute> {
                     Get.to(() => ContributorsRoute(repoFullName: widget.repository.fullName));
                   },
                 ),
+              ListTile(
+                leading: Icon(OctIcons.git_commit),
+                title: Text(AppLocalizations.of(context)!.commits),
+                onTap: () {
+                  Get.to(() => CommitsRoute(repoFullName: widget.repository.fullName));
+                }
+              ),
 
               if (readme != null && readme!.content.isNotEmpty)
                 Padding(

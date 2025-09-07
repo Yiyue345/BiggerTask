@@ -85,7 +85,7 @@
   "minuteAgo": "{minutes} 分钟前",
   "hourAgo": "{hours} 小时前",
   "dayAgo": "{days} 天前",
-  "monthAgo": "{months} 个月前",
+  "monthAgo": "{months} 月前",
   "yearAgo": "{years} 年前",
 
   "bottomNavigationExplore": "探索",
@@ -96,6 +96,10 @@
   "languageChinese": "中文",
   "languageChineseMicrosoft": "中文（微软）",
   "languageEnglish": "英文",
+  "languageFrench": "法语",
+  "languageGerman": "德语",
+  "languageRussian": "俄语",
+  "languageJapanese": "日语",
 
   "choosePrimaryColor": "选择主色",
   "chooseSecondaryColor": "选择强调色",
@@ -126,6 +130,8 @@
   "customColorLabel": "自定义",
   "wheelColorLabel": "色轮",
 
-  "codePreviewSettings": "代码预览设置"
+  "codePreviewSettings": "代码预览设置",
+  "showLineNumber": "显示行号",
+  "lineWrap": "自动换行"
 
 }

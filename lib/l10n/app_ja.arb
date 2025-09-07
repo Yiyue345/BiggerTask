@@ -1,0 +1,290 @@
+{
+  "@@locale": "ja",
+  "appTitle": "BiggerTask",
+  "search": "検索",
+  "repositories": "リポジトリ",
+  "commits": "コミット",
+  "issues": "イシュー",
+  "pullRequests": "プルリクエスト",
+  "code": "コード",
+  "topics": "トピック",
+  "users": "ユーザー",
+  "stars": "スター",
+  "forks": "フォーク",
+  "release": "リリース",
+  "userInfo": "ユーザー情報",
+  "contributors": "コントリビューター",
+  "starRepositories": "スター付きリポジトリ",
+  "public": "パブリック",
+  "private": "プライベート",
+
+  "followers": "フォロワー",
+  "followings": "フォロー中",
+  "followersCount": "{followers}人のフォロワー",
+  "@followersCount": {
+    "description": "Text showing the number of followers",
+    "placeholders": {
+      "followers": {
+        "type": "int"
+      }
+    }
+  },
+  "followingCount": "{followings}人をフォロー中",
+  "@followingCount": {
+    "description": "Text showing the number of followings",
+    "placeholders": {
+      "followings": {
+        "type": "int"
+      }
+    }
+  },
+  "organizations": "組織",
+  "members": "メンバー",
+  "@members": {
+    "description": "Label for members of an organization or team"
+  },
+  "memberCount": "{members}人のメンバー",
+  "@memberCount": {
+    "description": "Text showing the number of members",
+    "placeholders": {
+      "members": {
+        "type": "int"
+      }
+    }
+  },
+  "noMore": "これ以上データはありません",
+
+  "settings": "設定",
+  "cancel": "キャンセル",
+  "confirm": "OK",
+  "login": "ログイン",
+  "loginFailed": "ログインに失敗しました：{error}",
+  "loginError": "ログインエラーが発生しました：{error}",
+  "noLogin": "ログインしていません",
+  "exit": "サインアウト",
+  "exitTitle": "サインアウト",
+  "@exitTitle": {
+    "description": "Title of the sign out confirmation dialog"
+  },
+  "exitMessage": "本当にサインアウトしますか？",
+  "@exitMessage": {
+    "description": "Message of the sign out confirmation dialog"
+  },
+  "forkedFrom": "{parentName}からフォーク",
+  "@forkedFrom": {
+    "description": "Text showing which repository this is forked from",
+    "placeholders": {
+      "parentName": {
+        "type": "String",
+        "example": "owner/repo"
+      }
+    }
+  },
+  "star": "スター",
+  "unStar": "スターを外す",
+  "unStarMessage": "このリポジトリのスターを外しますか？",
+  "starMessage": "このリポジトリにスターを付けますか？",
+  "whose": "{who}の",
+  "@whose": {
+    "description": "Text showing whose name it is",
+    "placeholders": {
+      "who": {
+        "type": "String",
+        "example": "owner"
+      }
+    }
+  },
+  "searchForSomething": "{what}を検索",
+  "@searchForSomething": {
+    "description": "Text shown in the search bar when searching for something",
+    "placeholders": {
+      "what": {
+        "type": "String",
+        "example": "repositories, users, issues"
+      }
+    }
+  },
+  "gitHubLogin": "GitHubログイン",
+  "noBio": "プロフィールがありません",
+
+  "loading": "読み込み中...",
+  "loadFailed": "読み込みに失敗しました",
+  "savedSuccessfully": "正常に保存されました！",
+  "copiedSuccessfully": "正常にコピーされました！",
+
+  "noEventText": "イベントが見つかりません",
+  "@noEventText": {
+    "description": "Text shown when there are no events to display on home page"
+  },
+
+  "theme": "テーマ",
+
+  "previousPage": "前のページ",
+  "nextPage": "次のページ",
+
+  "noReadme": "READMEファイルが見つかりません",
+  "readmeLoadFailed": "READMEの読み込みに失敗しました",
+  "noDescription": "説明がありません",
+  "noMoreRepos": "これ以上リポジトリはありません",
+  "noReleases": "リリースが見つかりません",
+  "unNamed": "名前なし",
+  "repoNoExistOrPrivate": "このリポジトリは存在しないかプライベートです",
+  "cannotSaveImageWithNoPermissionToGallery": "画像を保存するにはギャラリーへのアクセス許可が必要です",
+  "saveImage": "画像を保存",
+  "savingImage": "画像を保存中...",
+  "imageSaved": "画像をギャラリーに保存しました",
+  "imageSaveFailed": "画像の保存に失敗しました",
+
+  "forkARepository": "リポジトリをフォークしました",
+  "@forkARepository": {
+    "description": "Text showing that a repository was forked"
+  },
+  "starARepository": "リポジトリにスターを付けました",
+  "@starARepository": {
+    "description": "Text showing that a repository was starred"
+  },
+  "createARepository": "リポジトリを作成しました",
+  "@createARepository": {
+    "description": "Text showing that a repository was created"
+  },
+  "createABranch": "ブランチを作成しました",
+  "@createABranch": {
+    "description": "Text showing that a branch was created"
+  },
+  "createATag": "タグを作成しました",
+  "@createATag": {
+    "description": "Text showing that a tag was created"
+  },
+  "deleteABranch": "ブランチを削除しました",
+  "@deleteABranch": {
+    "description": "Text showing that a branch was deleted"
+  },
+  "deleteATag": "タグを削除しました",
+  "@deleteATag": {
+    "description": "Text showing that a tag was deleted"
+  },
+  "releaseANewVersion": "新しいバージョンをリリースしました",
+  "@releaseANewVersion": {
+    "description": "Text showing that a new version was released"
+  },
+
+  "now": "たった今",
+  "minuteAgo": "{minutes}分前",
+  "@minuteAgo": {
+    "description": "Text showing how long ago something happened in minutes",
+    "placeholders": {
+      "minutes": {
+        "type": "int"
+      }
+    }
+  },
+  "hourAgo": "{hours}時間前",
+  "@hourAgo": {
+    "description": "Text showing how long ago something happened in hours",
+    "placeholders": {
+      "hours": {
+        "type": "int"
+      }
+    }
+  },
+  "dayAgo": "{days}日前",
+  "@dayAgo": {
+    "description": "Text showing how long ago something happened in days",
+    "placeholders": {
+      "days": {
+        "type": "int"
+      }
+    }
+  },
+  "monthAgo": "{months}ヶ月前",
+  "@monthAgo": {
+    "description": "Text showing how long ago something happened in months",
+    "placeholders": {
+      "months": {
+        "type": "int"
+      }
+    }
+  },
+  "yearAgo": "{years}年前",
+  "@yearAgo": {
+    "description": "Text showing how long ago something happened in years",
+    "placeholders": {
+      "years": {
+        "type": "int"
+      }
+    }
+  },
+
+  "bottomNavigationExplore": "探索",
+  "bottomNavigationMine": "プロフィール",
+
+  "language": "言語",
+  "languageSystem": "システムデフォルト",
+  "@languageSystem": {
+    "description": "Language option to follow the system language"
+  },
+  "languageChinese": "中国語",
+  "@languageChinese": {
+    "description": "Language option for Chinese"
+  },
+  "languageChineseMicrosoft": "中国語（マイクロソフト）",
+  "languageEnglish": "英語",
+  "@languageEnglish": {
+    "description": "Language option for English"
+  },
+  "languageFrench": "フランス語",
+  "languageGerman": "ドイツ語",
+  "languageRussian": "ロシア語",
+  "languageJapanese": "日本語",
+
+  "choosePrimaryColor": "プライマリカラーを選択",
+  "chooseSecondaryColor": "アクセントカラーを選択",
+  "@chooseSecondaryColor": {
+    "description": "Prompt to choose the accent color used in the app"
+  },
+  "chooseSurfaceColor": "サーフェスカラーを選択",
+  "chooseErrorColor": "エラーカラーを選択",
+  "@chooseErrorColor": {
+    "description": "Prompt to choose the color used for error messages"
+  },
+  "chooseOnPrimaryColor": "プライマリカラー上のテキストカラー",
+  "@chooseOnPrimaryColor": {
+    "description": "Prompt to choose the text color that appears on the primary color background"
+  },
+  "chooseOnSecondaryColor": "アクセントカラー上のテキストカラー",
+  "chooseOnSurfaceColor": "サーフェスカラー上のテキストカラー",
+  "chooseOnErrorColor": "エラーカラー上のテキストカラー",
+  "colorShade": "カラーシェード",
+  "opacity": "不透明度",
+
+  "saveChangesOfTheme": "テーマの変更を保存",
+  "unSavedThemeChangesTitle": "未保存の変更",
+  "@unSavedTitle": {
+    "description": "Title of the dialog warning about unsaved theme changes"
+  },
+  "unSavedThemeChangesMessage": "未保存の変更があります。保存せずに終了しますか？",
+  "@unSavedThemeChangesMessage": {
+    "description": "Message of the dialog warning about unsaved theme changes"
+  },
+  "cannotDeleteLastTheme": "最低1つのテーマを残しておく必要があります",
+  "longPressToDeleteTheme": "長押しでテーマを削除",
+
+  "advancedThemeSettings": "高度なテーマ設定",
+  "autoSelectOtherColors": "他の色を自動設定",
+  "autoSelectTextColors": "テキストカラーを自動設定",
+
+  "enableDarkMode": "ダークモード",
+
+  "primaryColorLabel": "プライマリカラー",
+  "accentColorLabel": "アクセントカラー",
+  "bothColorLabel": "プライマリとアクセントカラー",
+  "@bothColorLabel": {
+    "description": "Label for a color option that includes both primary and accent colors"
+  },
+  "customColorLabel": "カスタム",
+  "wheelColorLabel": "ホイール",
+
+  "codePreviewSettings": "コードプレビュー設定",
+  "showLineNumber": "行番号を表示",
+  "lineWrap": "行の折り返し"
+}

@@ -1,0 +1,291 @@
+{
+  "@@locale": "fr",
+  "appTitle": "BiggerTask",
+  "search": "Rechercher",
+  "repositories": "Dépôts",
+  "commits": "Commits",
+  "issues": "Problèmes",
+  "pullRequests": "Demandes de tirage",
+  "code": "Code",
+  "topics": "Sujets",
+  "users": "Utilisateurs",
+  "stars": "Étoiles",
+  "forks": "Forks",
+  "release": "Versions",
+  "userInfo": "Infos utilisateur",
+  "contributors": "Contributeurs",
+  "starRepositories": "Dépôts étoilés",
+  "public": "Public",
+  "private": "Privé",
+
+  "followers": "Abonnés",
+  "followings": "Abonnements",
+  "followersCount": "{followers, plural, =1{1 abonné} other{{followers} abonnés}}",
+  "@followersCount": {
+    "description": "Text showing the number of followers",
+    "placeholders": {
+      "followers": {
+        "type": "int"
+      }
+    }
+  },
+  "followingCount": "{followings, plural, =1{1 abonnement} other{{followings} abonnements}}",
+  "@followingCount": {
+    "description": "Text showing the number of followings",
+    "placeholders": {
+      "followings": {
+        "type": "int"
+      }
+    }
+  },
+  "organizations": "Organisations",
+  "members": "Membres",
+  "@members": {
+    "description": "Label for members of an organization or team"
+  },
+  "memberCount": "{members, plural, =1{1 membre} other{{members} membres}}",
+  "@memberCount": {
+    "description": "Text showing the number of members",
+    "placeholders": {
+      "members": {
+        "type": "int"
+      }
+    }
+  },
+  "noMore": "Plus de données",
+
+  "settings": "Paramètres",
+  "cancel": "Annuler",
+  "confirm": "OK",
+  "login": "Connexion",
+  "loginFailed": "Échec de la connexion : {error}",
+  "loginError": "Erreur de connexion : {error}",
+  "noLogin": "Non connecté",
+  "exit": "Se déconnecter",
+  "exitTitle": "Se déconnecter",
+  "@exitTitle": {
+    "description": "Title of the sign out confirmation dialog"
+  },
+  "exitMessage": "Êtes-vous sûr de vouloir vous déconnecter ?",
+  "@exitMessage": {
+    "description": "Message of the sign out confirmation dialog"
+  },
+  "forkedFrom": "Forké depuis {parentName}",
+  "@forkedFrom": {
+    "description": "Text showing which repository this is forked from",
+    "placeholders": {
+      "parentName": {
+        "type": "String",
+        "example": "owner/repo"
+      }
+    }
+  },
+  "star": "Étoiler",
+  "unStar": "Retirer l'étoile",
+  "unStarMessage": "Êtes-vous sûr de vouloir retirer l'étoile de ce dépôt ?",
+  "starMessage": "Êtes-vous sûr de vouloir étoiler ce dépôt ?",
+  "whose": "de {who}",
+  "@whose": {
+    "description": "Text showing whose name it is",
+    "placeholders": {
+      "who": {
+        "type": "String",
+        "example": "owner"
+      }
+    }
+  },
+  "searchForSomething": "Rechercher {what}",
+  "@searchForSomething": {
+    "description": "Text shown in the search bar when searching for something",
+    "placeholders": {
+      "what": {
+        "type": "String",
+        "example": "repositories, users, issues"
+      }
+    }
+  },
+  "gitHubLogin": "Connexion GitHub",
+  "noBio": "Aucune bio fournie",
+
+  "loading": "Chargement...",
+  "loadFailed": "Échec du chargement",
+  "savedSuccessfully": "Enregistré avec succès !",
+  "copiedSuccessfully": "Copié avec succès !",
+
+  "noEventText": "Aucun événement trouvé",
+  "@noEventText": {
+    "description": "Text shown when there are no events to display on home page"
+  },
+
+  "theme": "Thème",
+
+  "previousPage": "Page précédente",
+  "nextPage": "Page suivante",
+
+  "noReadme": "Aucun fichier README trouvé",
+  "readmeLoadFailed": "Échec du chargement du README",
+  "noDescription": "Aucune description fournie",
+  "noMoreRepos": "Plus de dépôts",
+  "noReleases": "Aucune version trouvée",
+  "unNamed": "Sans nom",
+  "repoNoExistOrPrivate": "Ce dépôt n'existe pas ou est privé",
+  "cannotSaveImageWithNoPermissionToGallery": "Permission d'accès à la galerie requise pour sauvegarder les images",
+  "saveImage": "Sauvegarder l'image",
+  "savingImage": "Sauvegarde de l'image...",
+  "imageSaved": "Image sauvegardée dans la galerie",
+  "imageSaveFailed": "Échec de la sauvegarde de l'image",
+
+  "forkARepository": "A forké un dépôt",
+  "@forkARepository": {
+    "description": "Text showing that a repository was forked"
+  },
+  "starARepository": "A étoilé un dépôt",
+  "@starARepository": {
+    "description": "Text showing that a repository was starred"
+  },
+  "createARepository": "A créé un dépôt",
+  "@createARepository": {
+    "description": "Text showing that a repository was created"
+  },
+  "createABranch": "A créé une branche",
+  "@createABranch": {
+    "description": "Text showing that a branch was created"
+  },
+  "createATag": "A créé un tag",
+  "@createATag": {
+    "description": "Text showing that a tag was created"
+  },
+  "deleteABranch": "A supprimé une branche",
+  "@deleteABranch": {
+    "description": "Text showing that a branch was deleted"
+  },
+  "deleteATag": "A supprimé un tag",
+  "@deleteATag": {
+    "description": "Text showing that a tag was deleted"
+  },
+  "releaseANewVersion": "A publié une nouvelle version",
+  "@releaseANewVersion": {
+    "description": "Text showing that a new version was released"
+  },
+
+  "now": "À l'instant",
+  "minuteAgo": "{minutes, plural, =1{Il y a 1 minute} other{Il y a {minutes} minutes}}",
+  "@minuteAgo": {
+    "description": "Text showing how long ago something happened in minutes",
+    "placeholders": {
+      "minutes": {
+        "type": "int"
+      }
+    }
+  },
+  "hourAgo": "{hours, plural, =1{Il y a 1 heure} other{Il y a {hours} heures}}",
+  "@hourAgo": {
+    "description": "Text showing how long ago something happened in hours",
+    "placeholders": {
+      "hours": {
+        "type": "int"
+      }
+    }
+  },
+  "dayAgo": "{days, plural, =1{Il y a 1 jour} other{Il y a {days} jours}}",
+  "@dayAgo": {
+    "description": "Text showing how long ago something happened in days",
+    "placeholders": {
+      "days": {
+        "type": "int"
+      }
+    }
+  },
+  "monthAgo": "{months, plural, =1{Il y a 1 mois} other{Il y a {months} mois}}",
+  "@monthAgo": {
+    "description": "Text showing how long ago something happened in months",
+    "placeholders": {
+      "months": {
+        "type": "int"
+      }
+    }
+  },
+  "yearAgo": "{years, plural, =1{Il y a 1 an} other{Il y a {years} ans}}",
+  "@yearAgo": {
+    "description": "Text showing how long ago something happened in years",
+    "placeholders": {
+      "years": {
+        "type": "int"
+      }
+    }
+  },
+
+  "bottomNavigationExplore": "Explorer",
+  "bottomNavigationMine": "Profil",
+
+  "language": "Langue",
+  "languageSystem": "Par défaut du système",
+  "@languageSystem": {
+    "description": "Language option to follow the system language"
+  },
+  "languageChinese": "Chinois",
+  "@languageChinese": {
+    "description": "Language option for Chinese"
+  },
+  "languageChineseMicrosoft": "Chinois (Microsoft)",
+  "languageEnglish": "Anglais",
+  "@languageEnglish": {
+    "description": "Language option for English"
+  },
+  "languageFrench": "Français",
+  "languageGerman": "Allemand",
+  "languageRussian": "Russe",
+  "languageJapanese": "Japonais",
+
+
+  "choosePrimaryColor": "Choisir la couleur principale",
+  "chooseSecondaryColor": "Choisir la couleur d'accentuation",
+  "@chooseSecondaryColor": {
+    "description": "Prompt to choose the accent color used in the app"
+  },
+  "chooseSurfaceColor": "Choisir la couleur de surface",
+  "chooseErrorColor": "Choisir la couleur d'erreur",
+  "@chooseErrorColor": {
+    "description": "Prompt to choose the color used for error messages"
+  },
+  "chooseOnPrimaryColor": "Couleur du texte sur couleur principale",
+  "@chooseOnPrimaryColor": {
+    "description": "Prompt to choose the text color that appears on the primary color background"
+  },
+  "chooseOnSecondaryColor": "Couleur du texte sur couleur d'accentuation",
+  "chooseOnSurfaceColor": "Couleur du texte sur couleur de surface",
+  "chooseOnErrorColor": "Couleur du texte sur couleur d'erreur",
+  "colorShade": "Nuance de couleur",
+  "opacity": "Opacité",
+
+  "saveChangesOfTheme": "Sauvegarder les modifications du thème",
+  "unSavedThemeChangesTitle": "Modifications non sauvegardées",
+  "@unSavedTitle": {
+    "description": "Title of the dialog warning about unsaved theme changes"
+  },
+  "unSavedThemeChangesMessage": "Vous avez des modifications non sauvegardées. Voulez-vous quitter sans sauvegarder ?",
+  "@unSavedThemeChangesMessage": {
+    "description": "Message of the dialog warning about unsaved theme changes"
+  },
+  "cannotDeleteLastTheme": "Au moins un thème doit être conservé",
+  "longPressToDeleteTheme": "Appui long pour supprimer le thème",
+
+  "advancedThemeSettings": "Paramètres de thème avancés",
+  "autoSelectOtherColors": "Définir automatiquement les autres couleurs",
+  "autoSelectTextColors": "Définir automatiquement les couleurs de texte",
+
+  "enableDarkMode": "Mode sombre",
+
+  "primaryColorLabel": "Couleur principale",
+  "accentColorLabel": "Couleur d'accentuation",
+  "bothColorLabel": "Couleurs principale et d'accentuation",
+  "@bothColorLabel": {
+    "description": "Label for a color option that includes both primary and accent colors"
+  },
+  "customColorLabel": "Personnalisé",
+  "wheelColorLabel": "Roue",
+
+  "codePreviewSettings": "Paramètres d'aperçu du code",
+  "showLineNumber": "Afficher les numéros de ligne",
+  "lineWrap": "Retour à la ligne"
+}

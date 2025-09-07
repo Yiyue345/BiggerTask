@@ -237,6 +237,10 @@
   "@languageEnglish": {
     "description": "Language option for English"
   },
+  "languageFrench": "French",
+  "languageGerman": "German",
+  "languageRussian": "Russian",
+  "languageJapanese": "Japanese",
 
   "choosePrimaryColor": "Choose Primary Color",
   "chooseSecondaryColor": "Choose Accent Color",
@@ -287,7 +291,8 @@
   "customColorLabel": "Custom",
   "wheelColorLabel": "Wheel",
 
-  "codePreviewSettings": "Code Preview Settings"
-
+  "codePreviewSettings": "Code Preview Settings",
+  "showLineNumber": "Show Line Numbers",
+  "lineWrap": "Line Wrap"
 
 }

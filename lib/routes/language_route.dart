@@ -27,10 +27,42 @@ class LanguageRoute extends StatelessWidget {
               : null,
             ),
             ListTile(
+              title: Text(l10n.languageGerman),
+              onTap: () => controller.changeLocale('de'),
+              trailing: !controller.isFollowingSystem.value &&
+                  _isCurrentLocale('de')
+                  ? Icon(Icons.check, color: Theme.of(context).colorScheme.primary)
+                  : null,
+            ),
+            ListTile(
               title: Text(l10n.languageEnglish),
               onTap: () => controller.changeLocale('en'),
               trailing: !controller.isFollowingSystem.value && 
                   _isCurrentLocale('en')
+                  ? Icon(Icons.check, color: Theme.of(context).colorScheme.primary)
+                  : null,
+            ),
+            ListTile(
+              title: Text(l10n.languageFrench),
+              onTap: () => controller.changeLocale('fr'),
+              trailing: !controller.isFollowingSystem.value &&
+                  _isCurrentLocale('fr')
+                  ? Icon(Icons.check, color: Theme.of(context).colorScheme.primary)
+                  : null,
+            ),
+            ListTile(
+              title: Text(l10n.languageJapanese),
+              onTap: () => controller.changeLocale('ja'),
+              trailing: !controller.isFollowingSystem.value &&
+                  _isCurrentLocale('ja')
+                  ? Icon(Icons.check, color: Theme.of(context).colorScheme.primary)
+                  : null,
+            ),
+            ListTile(
+              title: Text(l10n.languageRussian),
+              onTap: () => controller.changeLocale('ru'),
+              trailing: !controller.isFollowingSystem.value &&
+                  _isCurrentLocale('ru')
                   ? Icon(Icons.check, color: Theme.of(context).colorScheme.primary)
                   : null,
             ),

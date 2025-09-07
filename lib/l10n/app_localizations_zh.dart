@@ -260,7 +260,7 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String monthAgo(int months) {
-    return '$months 个月前';
+    return '$months 月前';
   }
 
   @override
@@ -288,6 +288,18 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get languageEnglish => '英文';
+
+  @override
+  String get languageFrench => '法语';
+
+  @override
+  String get languageGerman => '德语';
+
+  @override
+  String get languageRussian => '俄语';
+
+  @override
+  String get languageJapanese => '日语';
 
   @override
   String get choosePrimaryColor => '选择主色';
@@ -363,6 +375,12 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get codePreviewSettings => '代码预览设置';
+
+  @override
+  String get showLineNumber => '显示行号';
+
+  @override
+  String get lineWrap => '自动换行';
 }
 
 /// The translations for Chinese, as used in Montserrat (`zh_MS`).
@@ -621,7 +639,7 @@ class AppLocalizationsZhMs extends AppLocalizationsZh {
 
   @override
   String monthAgo(int months) {
-    return '$months 个月前';
+    return '$months 月前';
   }
 
   @override
@@ -645,10 +663,22 @@ class AppLocalizationsZhMs extends AppLocalizationsZh {
   String get languageChinese => '中文';
 
   @override
-  String get languageChineseMicrosoft => '中文（微软）';
+  String get languageChineseMicrosoft => '微软中文';
 
   @override
   String get languageEnglish => '英文';
+
+  @override
+  String get languageFrench => '法语';
+
+  @override
+  String get languageGerman => '德语';
+
+  @override
+  String get languageRussian => '俄语';
+
+  @override
+  String get languageJapanese => '日语';
 
   @override
   String get choosePrimaryColor => '选择主要的色';
@@ -724,4 +754,10 @@ class AppLocalizationsZhMs extends AppLocalizationsZh {
 
   @override
   String get codePreviewSettings => '代码预览设置';
+
+  @override
+  String get showLineNumber => '行号';
+
+  @override
+  String get lineWrap => '换行';
 }

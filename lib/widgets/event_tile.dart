@@ -212,7 +212,12 @@ class RepositoryEventTile extends StatelessWidget {
           if (snapshot.connectionState == ConnectionState.done) {
             if (repository == null) {
               return ListTile(
-                title: Text(AppLocalizations.of(context)!.repoNoExistOrPrivate),
+                title: Text(
+                    AppLocalizations.of(context)!.repoNoExistOrPrivate,
+                  style: TextStyle(
+                    fontSize: 14
+                  ),
+                ),
               );
             }
             return ListTile(
@@ -406,7 +411,8 @@ class CommonRepositoryEventTile extends StatelessWidget {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Row(
+                  Flexible(
+                      child: Row(
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       CircleAvatar(
@@ -434,14 +440,17 @@ class CommonRepositoryEventTile extends StatelessWidget {
                         ),
                       ),
                       SizedBox(width: 8,),
-                      Text(
+                      Flexible(
+                          child: Text(
                         action,
                         style: TextStyle(
                             color: Theme.of(context).colorScheme.onSecondaryFixedVariant,
                             fontSize: 12
                         ),
-                      ),
+                        overflow: TextOverflow.ellipsis,
+                      ))
                     ],
+                  )
                   ),
 
                   Text(

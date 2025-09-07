@@ -3,6 +3,7 @@ import 'dart:typed_data';
 
 import 'package:biggertask/common/static.dart';
 import 'package:biggertask/l10n/app_localizations.dart';
+import 'package:biggertask/models/commit.dart';
 import 'package:biggertask/models/event.dart';
 import 'package:biggertask/models/github_user.dart';
 import 'package:biggertask/models/repository.dart';
@@ -676,6 +677,70 @@ class Methods {
     } catch (e) {
       print('Error fetching organizations: $e');
       return [];
+    }
+  }
+
+  static Future<List<Commit>> getCommits({
+    required String? token,
+    required String repoFullName,
+    String? path,
+    int page = 1,
+    int perPage = 30,
+    String? author,
+    String? since,
+    String? until,
+  }) async {
+    if (token == null || token.isEmpty) {
+      return [];
+    }
+    try {
+      _dioManager.setAuthToken(token);
+      final response = await _dioManager.dio.get(
+        'https://api.github.com/repos/$repoFullName/commits',
+        queryParameters: {
+          if (path != null && path.isNotEmpty) 'path': path,
+          'page': page,
+          'per_page': perPage,
+          if (author != null && author.isNotEmpty) 'author': author,
+          if (since != null && since.isNotEmpty) 'since': since,
+          if (until != null && until.isNotEmpty) 'until': until,
+        },
+      );
+
+      if (response.statusCode == 200) {
+        List<dynamic> data = response.data;
+        return data.map((item) => Commit.fromJson(item)).toList();
+      } else {
+        throw Exception('Failed to load commits: ${response.statusCode}');
+      }
+    } catch (e) {
+      print('Error fetching commits: $e');
+      return [];
+    }
+  }
+
+  static Future<Commit?> getCommit({
+    required String? token,
+    required String repoFullName,
+    required String commitSha,
+  }) async {
+    if (token == null || token.isEmpty) {
+      return null;
+    }
+    try {
+      _dioManager.setAuthToken(token);
+      final response = await _dioManager.dio.get(
+        'https://api.github.com/repos/$repoFullName/commits/$commitSha',
+      );
+
+      if (response.statusCode == 200) {
+        return Commit.fromJson(response.data);
+      } else {
+        throw Exception('Failed to load commit: ${response.statusCode}');
+      }
+    } catch (e) {
+      print('Error fetching commit: $e');
+      return null;
     }
   }
 }

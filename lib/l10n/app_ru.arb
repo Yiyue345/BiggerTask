@@ -1,0 +1,291 @@
+{
+  "@@locale": "ru",
+  "appTitle": "BiggerTask",
+  "search": "Поиск",
+  "repositories": "Репозитории",
+  "commits": "Коммиты",
+  "issues": "Задачи",
+  "pullRequests": "Pull Request'ы",
+  "code": "Код",
+  "topics": "Темы",
+  "users": "Пользователи",
+  "stars": "Звёзды",
+  "forks": "Форки",
+  "release": "Релизы",
+  "userInfo": "Информация о пользователе",
+  "contributors": "Участники",
+  "starRepositories": "Помеченные репозитории",
+  "public": "Публичный",
+  "private": "Приватный",
+
+  "followers": "Подписчики",
+  "followings": "Подписки",
+  "followersCount": "{followers, plural, =1{1 подписчик} few{{followers} подписчика} other{{followers} подписчиков}}",
+  "@followersCount": {
+    "description": "Text showing the number of followers",
+    "placeholders": {
+      "followers": {
+        "type": "int"
+      }
+    }
+  },
+  "followingCount": "{followings, plural, =1{1 подписка} few{{followings} подписки} other{{followings} подписок}}",
+  "@followingCount": {
+    "description": "Text showing the number of followings",
+    "placeholders": {
+      "followings": {
+        "type": "int"
+      }
+    }
+  },
+  "organizations": "Организации",
+  "members": "Участники",
+  "@members": {
+    "description": "Label for members of an organization or team"
+  },
+  "memberCount": "{members, plural, =1{1 участник} few{{members} участника} other{{members} участников}}",
+  "@memberCount": {
+    "description": "Text showing the number of members",
+    "placeholders": {
+      "members": {
+        "type": "int"
+      }
+    }
+  },
+  "noMore": "Больше нет данных",
+
+  "settings": "Настройки",
+  "cancel": "Отмена",
+  "confirm": "ОК",
+  "login": "Войти",
+  "loginFailed": "Ошибка входа: {error}",
+  "loginError": "Произошла ошибка входа: {error}",
+  "noLogin": "Не авторизован",
+  "exit": "Выйти",
+  "exitTitle": "Выйти",
+  "@exitTitle": {
+    "description": "Title of the sign out confirmation dialog"
+  },
+  "exitMessage": "Вы уверены, что хотите выйти?",
+  "@exitMessage": {
+    "description": "Message of the sign out confirmation dialog"
+  },
+  "forkedFrom": "Форк от {parentName}",
+  "@forkedFrom": {
+    "description": "Text showing which repository this is forked from",
+    "placeholders": {
+      "parentName": {
+        "type": "String",
+        "example": "owner/repo"
+      }
+    }
+  },
+  "star": "Отметить",
+  "unStar": "Убрать отметку",
+  "unStarMessage": "Вы уверены, что хотите убрать отметку с этого репозитория?",
+  "starMessage": "Вы уверены, что хотите отметить этот репозиторий?",
+  "whose": "{who}",
+  "@whose": {
+    "description": "Text showing whose name it is",
+    "placeholders": {
+      "who": {
+        "type": "String",
+        "example": "owner"
+      }
+    }
+  },
+  "searchForSomething": "Поиск {what}",
+  "@searchForSomething": {
+    "description": "Text shown in the search bar when searching for something",
+    "placeholders": {
+      "what": {
+        "type": "String",
+        "example": "repositories, users, issues"
+      }
+    }
+  },
+  "gitHubLogin": "Вход в GitHub",
+  "noBio": "Биография отсутствует",
+
+  "loading": "Загрузка...",
+  "loadFailed": "Ошибка загрузки",
+  "savedSuccessfully": "Успешно сохранено!",
+  "copiedSuccessfully": "Успешно скопировано!",
+
+  "noEventText": "События не найдены",
+  "@noEventText": {
+    "description": "Text shown when there are no events to display on home page"
+  },
+
+  "theme": "Тема",
+
+  "previousPage": "Предыдущая страница",
+  "nextPage": "Следующая страница",
+
+  "noReadme": "Файл README не найден",
+  "readmeLoadFailed": "Не удалось загрузить README",
+  "noDescription": "Описание отсутствует",
+  "noMoreRepos": "Больше нет репозиториев",
+  "noReleases": "Релизы не найдены",
+  "unNamed": "Без названия",
+  "repoNoExistOrPrivate": "Этот репозиторий не существует или является приватным",
+  "cannotSaveImageWithNoPermissionToGallery": "Требуется разрешение доступа к галерее для сохранения изображений",
+  "saveImage": "Сохранить изображение",
+  "savingImage": "Сохранение изображения...",
+  "imageSaved": "Изображение сохранено в галерею",
+  "imageSaveFailed": "Не удалось сохранить изображение",
+
+  "forkARepository": "Сделал форк репозитория",
+  "@forkARepository": {
+    "description": "Text showing that a repository was forked"
+  },
+  "starARepository": "Отметил репозиторий",
+  "@starARepository": {
+    "description": "Text showing that a repository was starred"
+  },
+  "createARepository": "Создал репозиторий",
+  "@createARepository": {
+    "description": "Text showing that a repository was created"
+  },
+  "createABranch": "Создал ветку",
+  "@createABranch": {
+    "description": "Text showing that a branch was created"
+  },
+  "createATag": "Создал тег",
+  "@createATag": {
+    "description": "Text showing that a tag was created"
+  },
+  "deleteABranch": "Удалил ветку",
+  "@deleteABranch": {
+    "description": "Text showing that a branch was deleted"
+  },
+  "deleteATag": "Удалил тег",
+  "@deleteATag": {
+    "description": "Text showing that a tag was deleted"
+  },
+  "releaseANewVersion": "Выпустил новую версию",
+  "@releaseANewVersion": {
+    "description": "Text showing that a new version was released"
+  },
+
+  "now": "Только что",
+  "minuteAgo": "{minutes, plural, =1{1 минуту назад} few{{minutes} минуты назад} other{{minutes} минут назад}}",
+  "@minuteAgo": {
+    "description": "Text showing how long ago something happened in minutes",
+    "placeholders": {
+      "minutes": {
+        "type": "int"
+      }
+    }
+  },
+  "hourAgo": "{hours, plural, =1{1 час назад} few{{hours} часа назад} other{{hours} часов назад}}",
+  "@hourAgo": {
+    "description": "Text showing how long ago something happened in hours",
+    "placeholders": {
+      "hours": {
+        "type": "int"
+      }
+    }
+  },
+  "dayAgo": "{days, plural, =1{1 день назад} few{{days} дня назад} other{{days} дней назад}}",
+  "@dayAgo": {
+    "description": "Text showing how long ago something happened in days",
+    "placeholders": {
+      "days": {
+        "type": "int"
+      }
+    }
+  },
+  "monthAgo": "{months, plural, =1{1 месяц назад} few{{months} месяца назад} other{{months} месяцев назад}}",
+  "@monthAgo": {
+    "description": "Text showing how long ago something happened in months",
+    "placeholders": {
+      "months": {
+        "type": "int"
+      }
+    }
+  },
+  "yearAgo": "{years, plural, =1{1 год назад} few{{years} года назад} other{{years} лет назад}}",
+  "@yearAgo": {
+    "description": "Text showing how long ago something happened in years",
+    "placeholders": {
+      "years": {
+        "type": "int"
+      }
+    }
+  },
+
+  "bottomNavigationExplore": "Обзор",
+  "bottomNavigationMine": "Профиль",
+
+  "language": "Язык",
+  "languageSystem": "Системный по умолчанию",
+  "@languageSystem": {
+    "description": "Language option to follow the system language"
+  },
+  "languageChinese": "Китайский",
+  "@languageChinese": {
+    "description": "Language option for Chinese"
+  },
+  "languageChineseMicrosoft": "Китайский (Microsoft)",
+  "languageEnglish": "Английский",
+  "@languageEnglish": {
+    "description": "Language option for English"
+  },
+  "languageFrench": "Французский",
+  "languageGerman": "Немецкий",
+  "languageRussian": "Русский",
+  "languageJapanese": "Японский",
+
+
+  "choosePrimaryColor": "Выбрать основной цвет",
+  "chooseSecondaryColor": "Выбрать акцентный цвет",
+  "@chooseSecondaryColor": {
+    "description": "Prompt to choose the accent color used in the app"
+  },
+  "chooseSurfaceColor": "Выбрать цвет поверхности",
+  "chooseErrorColor": "Выбрать цвет ошибки",
+  "@chooseErrorColor": {
+    "description": "Prompt to choose the color used for error messages"
+  },
+  "chooseOnPrimaryColor": "Цвет текста на основном цвете",
+  "@chooseOnPrimaryColor": {
+    "description": "Prompt to choose the text color that appears on the primary color background"
+  },
+  "chooseOnSecondaryColor": "Цвет текста на акцентном цвете",
+  "chooseOnSurfaceColor": "Цвет текста на поверхности",
+  "chooseOnErrorColor": "Цвет текста на цвете ошибки",
+  "colorShade": "Оттенок цвета",
+  "opacity": "Непрозрачность",
+
+  "saveChangesOfTheme": "Сохранить изменения темы",
+  "unSavedThemeChangesTitle": "Несохранённые изменения",
+  "@unSavedTitle": {
+    "description": "Title of the dialog warning about unsaved theme changes"
+  },
+  "unSavedThemeChangesMessage": "У вас есть несохранённые изменения. Хотите выйти без сохранения?",
+  "@unSavedThemeChangesMessage": {
+    "description": "Message of the dialog warning about unsaved theme changes"
+  },
+  "cannotDeleteLastTheme": "Должна остаться хотя бы одна тема",
+  "longPressToDeleteTheme": "Длительное нажатие для удаления темы",
+
+  "advancedThemeSettings": "Расширенные настройки темы",
+  "autoSelectOtherColors": "Автоматически установить другие цвета",
+  "autoSelectTextColors": "Автоматически установить цвета текста",
+
+  "enableDarkMode": "Тёмная тема",
+
+  "primaryColorLabel": "Основной цвет",
+  "accentColorLabel": "Акцентный цвет",
+  "bothColorLabel": "Основной и акцентный цвета",
+  "@bothColorLabel": {
+    "description": "Label for a color option that includes both primary and accent colors"
+  },
+  "customColorLabel": "Пользовательский",
+  "wheelColorLabel": "Колесо",
+
+  "codePreviewSettings": "Настройки предпросмотра кода",
+  "showLineNumber": "Показать номера строк",
+  "lineWrap": "Перенос строк"
+}

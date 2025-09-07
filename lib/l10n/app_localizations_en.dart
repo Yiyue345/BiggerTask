@@ -341,6 +341,18 @@ class AppLocalizationsEn extends AppLocalizations {
   String get languageEnglish => 'English';
 
   @override
+  String get languageFrench => 'French';
+
+  @override
+  String get languageGerman => 'German';
+
+  @override
+  String get languageRussian => 'Russian';
+
+  @override
+  String get languageJapanese => 'Japanese';
+
+  @override
   String get choosePrimaryColor => 'Choose Primary Color';
 
   @override
@@ -415,4 +427,10 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get codePreviewSettings => 'Code Preview Settings';
+
+  @override
+  String get showLineNumber => 'Show Line Numbers';
+
+  @override
+  String get lineWrap => 'Line Wrap';
 }

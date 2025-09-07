@@ -1,3 +1,4 @@
+import 'package:biggertask/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -30,12 +31,12 @@ class _CodeSettingsRouteState extends State<CodeSettingsRoute> {
   Widget build(BuildContext context) {
     return Obx(() => Scaffold(
       appBar: AppBar(
-        title: Text('Code Settings'),
+        title: Text(AppLocalizations.of(context)!.codePreviewSettings),
       ),
       body: ListView(
         children: [
           ListTile(
-            title: Text('显示行号'),
+            title: Text(AppLocalizations.of(context)!.showLineNumber),
             trailing: Switch(
                 value: controller.showLineNumber.value,
                 onChanged: (v) {
@@ -47,7 +48,7 @@ class _CodeSettingsRouteState extends State<CodeSettingsRoute> {
             ),
           ),
           ListTile(
-            title: Text('换行'),
+            title: Text(AppLocalizations.of(context)!.lineWrap),
             trailing: Switch(
                 value: controller.lineWrap.value,
                 onChanged: (v) {
