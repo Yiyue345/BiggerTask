@@ -103,7 +103,7 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String loginFailed(Object error) {
-    return 'ログインに失敗しました：$error';
+    return 'ログ��ンに失敗しました：$error';
   }
 
   @override
@@ -170,6 +170,9 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get noEventText => 'イベントが見つかりません';
+
+  @override
+  String get notLoginEventText => 'ログインしていないため、イベントを表示できません';
 
   @override
   String get theme => 'テーマ';
@@ -240,6 +243,9 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get releaseANewVersion => '新しいバージョンをリリースしました';
+
+  @override
+  String get written => '書かれた日時';
 
   @override
   String get now => 'たった今';

@@ -2,7 +2,9 @@ import 'package:biggertask/common/methods.dart';
 import 'package:biggertask/common/static.dart';
 import 'package:biggertask/l10n/app_localizations.dart';
 import 'package:biggertask/models/commit.dart';
+import 'package:biggertask/routes/repo/commit_route.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class CommitsRoute extends StatefulWidget {
   final String repoFullName;
@@ -138,7 +140,12 @@ class _CommitsRouteState extends State<CommitsRoute> {
                     ],
                   ),
                   onTap: () {
-
+                    Get.to(() => CommitRoute(
+                      repoFullName: widget.repoFullName,
+                      commitSha: _commits[index].sha!,
+                      relativeTime: relativeTime,
+                    )
+                    );
                   },
                 );
               }

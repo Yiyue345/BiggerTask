@@ -401,6 +401,12 @@ abstract class AppLocalizations {
   /// **'No events found'**
   String get noEventText;
 
+  /// Text shown when user is not logged in and events cannot be displayed
+  ///
+  /// In en, this message translates to:
+  /// **'Log in to see events'**
+  String get notLoginEventText;
+
   /// No description provided for @theme.
   ///
   /// In en, this message translates to:
@@ -538,6 +544,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Released a new version'**
   String get releaseANewVersion;
+
+  /// No description provided for @written.
+  ///
+  /// In en, this message translates to:
+  /// **'Written on'**
+  String get written;
 
   /// No description provided for @now.
   ///

@@ -116,6 +116,8 @@
   "@noEventText": {
     "description": "Text shown when there are no events to display on home page"
   },
+  "notLoginEventText": "Ereignisse werden nach der Anmeldung angezeigt",
+
 
   "theme": "Design",
 
@@ -168,6 +170,7 @@
     "description": "Text showing that a new version was released"
   },
 
+  "written": "Geschrieben am",
   "now": "Gerade eben",
   "minuteAgo": "{minutes, plural, =1{vor 1 Minute} other{vor {minutes} Minuten}}",
   "@minuteAgo": {

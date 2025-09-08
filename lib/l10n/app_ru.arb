@@ -116,6 +116,8 @@
   "@noEventText": {
     "description": "Text shown when there are no events to display on home page"
   },
+  "notLoginEventText": "События не отображаются, так как вы не вошли в систему",
+
 
   "theme": "Тема",
 
@@ -168,6 +170,7 @@
     "description": "Text showing that a new version was released"
   },
 
+  "written": "Написано",
   "now": "Только что",
   "minuteAgo": "{minutes, plural, =1{1 минуту назад} few{{minutes} минуты назад} other{{minutes} минут назад}}",
   "@minuteAgo": {

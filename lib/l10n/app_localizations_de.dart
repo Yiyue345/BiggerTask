@@ -192,6 +192,10 @@ class AppLocalizationsDe extends AppLocalizations {
   String get noEventText => 'Keine Ereignisse gefunden';
 
   @override
+  String get notLoginEventText =>
+      'Ereignisse werden nach der Anmeldung angezeigt';
+
+  @override
   String get theme => 'Design';
 
   @override
@@ -261,6 +265,9 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get releaseANewVersion => 'Neue Version veröffentlicht';
+
+  @override
+  String get written => 'Geschrieben am';
 
   @override
   String get now => 'Gerade eben';

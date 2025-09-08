@@ -337,28 +337,33 @@ class _FileRouteState extends State<FileRoute> {
             children: [
               Row(
                 children: [
-                  Obx(() => controller.showLineNumber.value
-                      ? Container(
-                    width: 30,
-                    alignment: Alignment.topRight,
-                    decoration: BoxDecoration(
-                        color: Theme.of(context).colorScheme.secondary,
-                        border: Border(
-                            right: BorderSide(
-                                color: Colors.grey,
-                                width: 1
-                            )
-                        )
-                    ),
-                    child: Text(
-                      '${index + 1} ',
-                      style: TextStyle(
-                          color: Theme.of(context).colorScheme.secondary.computeLuminance() > 0.5 ? Colors.black54 : Colors.white54,
-                          fontSize: 12
+                  AnimatedSize(
+                    duration: Duration(milliseconds: 300),
+                    curve: Curves.easeInOut,
+                    child: Obx(() => controller.showLineNumber.value
+                        ? Container(
+                      width: 30,
+                      alignment: Alignment.topRight,
+                      decoration: BoxDecoration(
+                          color: Theme.of(context).colorScheme.secondary,
+                          border: Border(
+                              right: BorderSide(
+                                  color: Colors.grey,
+                                  width: 1
+                              )
+                          )
                       ),
-                    ),
-                  )
-                      : SizedBox.shrink()),
+                      child: Text(
+                        '${index + 1} ',
+                        style: TextStyle(
+                            color: Theme.of(context).colorScheme.secondary.computeLuminance() > 0.5 ? Colors.black54 : Colors.white54,
+                            fontSize: 12
+                        ),
+                      ),
+                    )
+                        : SizedBox(width: 0, height: double.infinity,)),
+                  ),
+
                   SizedBox(width: 8),
                   Expanded(
                     child: Text(
@@ -374,14 +379,16 @@ class _FileRouteState extends State<FileRoute> {
 
                 ],
               ),
-              if (_isChoosing && index >= _selectedStartLine && index <= _selectedEndLine)
-                IgnorePointer(
-                  child: Container(
-                    decoration: BoxDecoration(
-                      color: Theme.of(context).colorScheme.secondary.withValues(alpha: 0.2),
-                    ),
-                  ),
-                ),
+              AnimatedContainer(
+                duration: Duration(milliseconds: 300),
+                curve: Curves.easeInOut,
+                width: double.infinity,
+                height: double.infinity,
+                color: _isChoosing && index >= _selectedStartLine && index <= _selectedEndLine
+                    ? Theme.of(context).colorScheme.secondary.withValues(alpha: 0.2)
+                    : Colors.transparent,
+                child: IgnorePointer(child: SizedBox.expand(),),
+              )
             ],
           ),
         ),

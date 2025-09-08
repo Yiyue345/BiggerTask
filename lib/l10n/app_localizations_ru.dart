@@ -194,6 +194,10 @@ class AppLocalizationsRu extends AppLocalizations {
   String get noEventText => 'События не найдены';
 
   @override
+  String get notLoginEventText =>
+      'События не отображаются, так как вы не вошли в систему';
+
+  @override
   String get theme => 'Тема';
 
   @override
@@ -263,6 +267,9 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get releaseANewVersion => 'Выпустил новую версию';
+
+  @override
+  String get written => 'Написано';
 
   @override
   String get now => 'Только что';

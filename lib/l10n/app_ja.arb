@@ -58,7 +58,7 @@
   "cancel": "キャンセル",
   "confirm": "OK",
   "login": "ログイン",
-  "loginFailed": "ログインに失敗しました：{error}",
+  "loginFailed": "ログ��ンに失敗しました：{error}",
   "loginError": "ログインエラーが発生しました：{error}",
   "noLogin": "ログインしていません",
   "exit": "サインアウト",
@@ -116,6 +116,8 @@
   "@noEventText": {
     "description": "Text shown when there are no events to display on home page"
   },
+  "notLoginEventText": "ログインしていないため、イベントを表示できません",
+
 
   "theme": "テーマ",
 
@@ -168,6 +170,7 @@
     "description": "Text showing that a new version was released"
   },
 
+  "written": "書かれた日時",
   "now": "たった今",
   "minuteAgo": "{minutes}分前",
   "@minuteAgo": {

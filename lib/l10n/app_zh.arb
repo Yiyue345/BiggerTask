@@ -53,6 +53,7 @@
   "copiedSuccessfully": "复制成功！",
 
   "noEventText": "暂时还没有事件哦~",
+  "notLoginEventText": "登录后即可查看事件",
 
   "theme": "主题",
 
@@ -81,6 +82,7 @@
   "deleteATag": "删除了一个标签",
   "releaseANewVersion": "发布了一个版本",
 
+  "written": "撰写于",
   "now": "刚刚",
   "minuteAgo": "{minutes} 分钟前",
   "hourAgo": "{hours} 小时前",

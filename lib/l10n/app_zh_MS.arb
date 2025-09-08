@@ -54,6 +54,8 @@
 
 
   "noEventText": "找不到你的事件",
+  "notLoginEventText": "事件将在登录后显示",
+
 
   "theme": "主题",
 
@@ -82,6 +84,7 @@
   "deleteATag": "删除了一个标签",
   "releaseANewVersion": "释出了一个版本",
 
+  "written": "写在",
   "now": "现在",
   "minuteAgo": "{minutes} 分前",
   "hourAgo": "{hours} 时前",

@@ -172,6 +172,9 @@ class AppLocalizationsZh extends AppLocalizations {
   String get noEventText => '暂时还没有事件哦~';
 
   @override
+  String get notLoginEventText => '登录后即可查看事件';
+
+  @override
   String get theme => '主题';
 
   @override
@@ -239,6 +242,9 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get releaseANewVersion => '发布了一个版本';
+
+  @override
+  String get written => '撰写于';
 
   @override
   String get now => '刚刚';
@@ -551,6 +557,9 @@ class AppLocalizationsZhMs extends AppLocalizationsZh {
   String get noEventText => '找不到你的事件';
 
   @override
+  String get notLoginEventText => '事件将在登录后显示';
+
+  @override
   String get theme => '主题';
 
   @override
@@ -618,6 +627,9 @@ class AppLocalizationsZhMs extends AppLocalizationsZh {
 
   @override
   String get releaseANewVersion => '释出了一个版本';
+
+  @override
+  String get written => '写在';
 
   @override
   String get now => '现在';

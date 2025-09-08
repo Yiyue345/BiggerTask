@@ -58,6 +58,7 @@ class _MyEventsRouteState extends State<MyEventsRoute> with AutomaticKeepAliveCl
 
   @override
   Widget build(BuildContext context) {
+
     final l10n = AppLocalizations.of(context)!;
 
     super.build(context);
@@ -68,7 +69,11 @@ class _MyEventsRouteState extends State<MyEventsRoute> with AutomaticKeepAliveCl
           _events.clear(); // 清空当前数据
           await _fetchData(); // 重新获取数据
         },
-        child: !isLoaded
+        child: !Global.isLogin
+            ? Center(
+            child: Text(AppLocalizations.of(context)!.notLoginEventText),
+        )
+            :!isLoaded
             ? Center(
             child: CircularProgressIndicator()
         )

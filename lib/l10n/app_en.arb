@@ -120,6 +120,11 @@
   "@noEventText": {
     "description": "Text shown when there are no events to display on home page"
   },
+  "notLoginEventText": "Log in to see events",
+  "@notLoginEventText": {
+    "description": "Text shown when user is not logged in and events cannot be displayed"
+  },
+
 
   "theme": "Theme",
 
@@ -172,6 +177,7 @@
     "description": "Text showing that a new version was released"
   },
 
+  "written": "Written on",
   "now": "Just now",
   "minuteAgo": "{minutes, plural, =1{1 minute ago} other{{minutes} minutes ago}}",
   "@minuteAgo": {
