@@ -1,7 +1,6 @@
 import 'package:biggertask/html_markdown/custom_node.dart';
 import 'package:biggertask/html_markdown/video.dart';
 import 'package:biggertask/l10n/app_localizations.dart';
-import 'package:biggertask/models/github_user.dart';
 import 'package:biggertask/routes/repo/commits_route.dart';
 import 'package:biggertask/routes/repo/contributors_route.dart';
 import 'package:biggertask/routes/repo/release_list_route.dart';

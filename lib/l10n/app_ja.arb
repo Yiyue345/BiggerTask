@@ -18,6 +18,27 @@
   "public": "パブリック",
   "private": "プライベート",
 
+  "changes": "変更",
+  "@changes": {
+    "description": "Label for changes tab"
+  },
+  "details": "詳細",
+  "@details": {
+    "description": "Label for details tab"
+  },
+
+  "howManyFilesChanged": "{count}個のファイルが変更されました",
+  "@howManyFilesChanged": {
+    "description": "Text showing how many files were changed",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "howManyAdditions": "{count}個の追加",
+  "howManyDeletions": "{count}個の削除",
+
   "followers": "フォロワー",
   "followings": "フォロー中",
   "followersCount": "{followers}人のフォロワー",

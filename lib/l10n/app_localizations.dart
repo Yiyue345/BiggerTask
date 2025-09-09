@@ -209,6 +209,36 @@ abstract class AppLocalizations {
   /// **'Private'**
   String get private;
 
+  /// Label for changes tab
+  ///
+  /// In en, this message translates to:
+  /// **'CHANGES'**
+  String get changes;
+
+  /// Label for details tab
+  ///
+  /// In en, this message translates to:
+  /// **'DETAILS'**
+  String get details;
+
+  /// Text showing how many files were changed
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{1 file changed} other{{count} files changed}}'**
+  String howManyFilesChanged(int count);
+
+  /// No description provided for @howManyAdditions.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{1 addition} other{{count} additions}}'**
+  String howManyAdditions(num count);
+
+  /// No description provided for @howManyDeletions.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{1 deletion} other{{count} deletions}}'**
+  String howManyDeletions(num count);
+
   /// No description provided for @followers.
   ///
   /// In en, this message translates to:

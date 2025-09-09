@@ -60,6 +60,48 @@ class AppLocalizationsRu extends AppLocalizations {
   String get private => 'Приватный';
 
   @override
+  String get changes => 'ИЗМЕНЕНИЯ';
+
+  @override
+  String get details => 'ДЕТАЛИ';
+
+  @override
+  String howManyFilesChanged(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count файлов изменено',
+      few: '$count файла изменено',
+      one: '1 файл изменён',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String howManyAdditions(num count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count добавлений',
+      few: '$count добавления',
+      one: '1 добавление',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String howManyDeletions(num count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count удалений',
+      few: '$count удаления',
+      one: '1 удаление',
+    );
+    return '$_temp0';
+  }
+
+  @override
   String get followers => 'Подписчики';
 
   @override

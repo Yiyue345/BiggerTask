@@ -10,7 +10,6 @@ import 'package:biggertask/routes/user_info_route.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:icons_plus/icons_plus.dart';
-import 'package:intl/intl.dart';
 import 'package:markdown_widget/markdown_widget.dart';
 
 class EventTile extends StatelessWidget {

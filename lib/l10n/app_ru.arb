@@ -18,6 +18,27 @@
   "public": "Публичный",
   "private": "Приватный",
 
+  "changes": "ИЗМЕНЕНИЯ",
+  "@changes": {
+    "description": "Label for changes tab"
+  },
+  "details": "ДЕТАЛИ",
+  "@details": {
+    "description": "Label for details tab"
+  },
+
+  "howManyFilesChanged": "{count, plural, =1{1 файл изменён} few{{count} файла изменено} other{{count} файлов изменено}}",
+  "@howManyFilesChanged": {
+    "description": "Text showing how many files were changed",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "howManyAdditions": "{count, plural, =1{1 добавление} few{{count} добавления} other{{count} добавлений}}",
+  "howManyDeletions": "{count, plural, =1{1 удаление} few{{count} удаления} other{{count} удалений}}",
+
   "followers": "Подписчики",
   "followings": "Подписки",
   "followersCount": "{followers, plural, =1{1 подписчик} few{{followers} подписчика} other{{followers} подписчиков}}",

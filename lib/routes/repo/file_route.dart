@@ -11,7 +11,6 @@ import 'package:markdown_widget/markdown_widget.dart';
 import 'package:biggertask/html_markdown/video.dart';
 import 'package:get/get.dart';
 import 'package:photo_view/photo_view.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class FileRoute extends StatefulWidget {
   final String repoFullName;

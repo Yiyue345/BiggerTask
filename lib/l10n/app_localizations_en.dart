@@ -60,6 +60,45 @@ class AppLocalizationsEn extends AppLocalizations {
   String get private => 'Private';
 
   @override
+  String get changes => 'CHANGES';
+
+  @override
+  String get details => 'DETAILS';
+
+  @override
+  String howManyFilesChanged(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count files changed',
+      one: '1 file changed',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String howManyAdditions(num count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count additions',
+      one: '1 addition',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String howManyDeletions(num count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count deletions',
+      one: '1 deletion',
+    );
+    return '$_temp0';
+  }
+
+  @override
   String get followers => 'Followers';
 
   @override

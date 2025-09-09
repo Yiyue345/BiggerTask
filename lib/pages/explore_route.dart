@@ -4,7 +4,6 @@ import 'package:biggertask/common/methods.dart';
 import 'package:biggertask/common/static.dart';
 import 'package:biggertask/l10n/app_localizations.dart';
 import 'package:biggertask/models/event.dart';
-import 'package:biggertask/models/repository.dart';
 import 'package:biggertask/widgets/event_tile.dart';
 import 'package:biggertask/widgets/keep_alive_wrapper.dart';
 import 'package:flutter/material.dart';
@@ -173,13 +172,13 @@ class _MyEventsRouteState extends State<MyEventsRoute> with AutomaticKeepAliveCl
     );
   }
 
-  String _formatJson(String json) {
-    try {
-      final jsonObject = jsonDecode(json);
-      const encoder = JsonEncoder.withIndent('  ');
-      return encoder.convert(jsonObject);
-    } catch (e) {
-      return json;
-    }
-  }
+  // String _formatJson(String json) {
+  //   try {
+  //     final jsonObject = jsonDecode(json);
+  //     const encoder = JsonEncoder.withIndent('  ');
+  //     return encoder.convert(jsonObject);
+  //   } catch (e) {
+  //     return json;
+  //   }
+  // }
 }

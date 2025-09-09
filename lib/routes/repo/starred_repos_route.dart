@@ -106,8 +106,12 @@ class _StarredReposRouteState extends State<StarredReposRoute> {
           child: repositories.isEmpty && _isLoading
               ? Center(child: CircularProgressIndicator(),)
               :
-          ListView.builder(
+          ListView.separated(
               itemCount: repositories.length + 1,
+              separatorBuilder: (context, index) => Divider(
+                height: 0,
+                color: Theme.of(context).colorScheme.secondary.withValues(alpha: 0.1),
+              ),
               itemBuilder: (context, index) {
                 if (index < repositories.length) {
                   final repo = repositories[index];

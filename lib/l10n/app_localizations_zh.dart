@@ -60,6 +60,27 @@ class AppLocalizationsZh extends AppLocalizations {
   String get private => '私人';
 
   @override
+  String get changes => '更改';
+
+  @override
+  String get details => '详细信息';
+
+  @override
+  String howManyFilesChanged(int count) {
+    return '$count 个文件更改';
+  }
+
+  @override
+  String howManyAdditions(num count) {
+    return '$count 个增加';
+  }
+
+  @override
+  String howManyDeletions(num count) {
+    return '$count 个删除';
+  }
+
+  @override
   String get followers => '粉丝';
 
   @override
@@ -443,6 +464,27 @@ class AppLocalizationsZhMs extends AppLocalizationsZh {
 
   @override
   String get private => '私人';
+
+  @override
+  String get changes => '变化';
+
+  @override
+  String get details => '细节';
+
+  @override
+  String howManyFilesChanged(int count) {
+    return '$count 个文件已更改';
+  }
+
+  @override
+  String howManyAdditions(num count) {
+    return '$count 个添加';
+  }
+
+  @override
+  String howManyDeletions(num count) {
+    return '$count 个删除';
+  }
 
   @override
   String get followers => '追随者';

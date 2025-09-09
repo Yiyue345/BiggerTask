@@ -18,6 +18,13 @@
   "public": "公共",
   "private": "私人",
 
+  "changes": "变化",
+  "details": "细节",
+
+  "howManyFilesChanged": "{count} 个文件已更改",
+  "howManyAdditions": "{count} 个添加",
+  "howManyDeletions": "{count} 个删除",
+
   "followers": "追随者",
   "followings": "正在关注",
   "followersCount": "{followers} 追随者",

@@ -18,6 +18,27 @@
   "public": "Öffentlich",
   "private": "Privat",
 
+  "changes": "ÄNDERUNGEN",
+  "@changes": {
+    "description": "Label for changes tab"
+  },
+  "details": "DETAILS",
+  "@details": {
+    "description": "Label for details tab"
+  },
+
+  "howManyFilesChanged": "{count, plural, =1{1 Datei geändert} other{{count} Dateien geändert}}",
+  "@howManyFilesChanged": {
+    "description": "Text showing how many files were changed",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "howManyAdditions": "{count, plural, =1{1 Hinzufügung} other{{count} Hinzufügungen}}",
+  "howManyDeletions": "{count, plural, =1{1 Löschung} other{{count} Löschungen}}",
+
   "followers": "Follower",
   "followings": "Folgt",
   "followersCount": "{followers, plural, =1{1 Follower} other{{followers} Follower}}",

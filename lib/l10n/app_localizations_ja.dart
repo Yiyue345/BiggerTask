@@ -60,6 +60,27 @@ class AppLocalizationsJa extends AppLocalizations {
   String get private => 'プライベート';
 
   @override
+  String get changes => '変更';
+
+  @override
+  String get details => '詳細';
+
+  @override
+  String howManyFilesChanged(int count) {
+    return '$count個のファイルが変更されました';
+  }
+
+  @override
+  String howManyAdditions(num count) {
+    return '$count個の追加';
+  }
+
+  @override
+  String howManyDeletions(num count) {
+    return '$count個の削除';
+  }
+
+  @override
   String get followers => 'フォロワー';
 
   @override

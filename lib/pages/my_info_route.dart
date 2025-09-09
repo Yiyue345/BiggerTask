@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'dart:math';
 
 import 'package:biggertask/common/static.dart';
 import 'package:biggertask/l10n/app_localizations.dart';
@@ -61,7 +60,7 @@ class _MyInfoRouteState extends State<MyInfoRoute> {
               ),
               if (Global.gitHubUser?.bio != null)...[
                 Divider(
-                  color: Theme.of(context).colorScheme.primary,
+                  color: Theme.of(context).colorScheme.primary.withValues(alpha: 0.4),
                   height: 0,
                 ),
                 ListTile(
@@ -78,7 +77,7 @@ class _MyInfoRouteState extends State<MyInfoRoute> {
                   // tileColor: Colors.grey[200],
                 ),
                 Divider(
-                  color: Theme.of(context).colorScheme.primary,
+                  color: Theme.of(context).colorScheme.primary.withValues(alpha: 0.4),
                   height: 0,
                 ),
               ],
@@ -91,6 +90,10 @@ class _MyInfoRouteState extends State<MyInfoRoute> {
                   trailing: Text(
                     (Global.gitHubUser!.publicRepos + (Global.gitHubUser!.privateRepos == null ? 0 : Global.gitHubUser!.privateRepos! + 1)).toString(),
                   )
+              ),
+              Divider(
+                height: 0,
+                color: Theme.of(context).colorScheme.secondary.withValues(alpha: 0.1),
               ),
               ListTile(
                 leading: Icon(OctIcons.star),
@@ -109,12 +112,20 @@ class _MyInfoRouteState extends State<MyInfoRoute> {
                   Get.to(() => StarredReposRoute(user: Global.gitHubUser!));
                 },
               ),
+              Divider(
+                height: 0,
+                color: Theme.of(context).colorScheme.secondary.withValues(alpha: 0.1),
+              ),
               ListTile(
                 leading: Icon(OctIcons.organization),
                 title: Text(AppLocalizations.of(context)!.organizations),
                 onTap: () {
                   Get.to(() => OrganizationsRoute(username: Global.gitHubUser!.login,));
                 },
+              ),
+              Divider(
+                height: 0,
+                color: Theme.of(context).colorScheme.secondary.withValues(alpha: 0.1),
               ),
               ListTile(
                 leading: Icon(Icons.exit_to_app,),
@@ -148,7 +159,11 @@ class _MyInfoRouteState extends State<MyInfoRoute> {
                     _exit();
                   }
                 },
-              )
+              ),
+              Divider(
+                height: 0,
+                color: Theme.of(context).colorScheme.secondary.withValues(alpha: 0.1),
+              ),
             ]
 
           ],
