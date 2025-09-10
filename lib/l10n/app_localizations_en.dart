@@ -18,7 +18,13 @@ class AppLocalizationsEn extends AppLocalizations {
   String get repositories => 'Repositories';
 
   @override
+  String get commit => 'Commit';
+
+  @override
   String get commits => 'Commits';
+
+  @override
+  String get issue => 'Issue';
 
   @override
   String get issues => 'Issues';
@@ -64,6 +70,15 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get details => 'DETAILS';
+
+  @override
+  String get parents => 'Parents';
+
+  @override
+  String get open => 'Open';
+
+  @override
+  String get closed => 'Closed';
 
   @override
   String howManyFilesChanged(int count) {
@@ -472,6 +487,9 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get codePreviewSettings => 'Code Preview Settings';
+
+  @override
+  String get preview => 'Preview';
 
   @override
   String get showLineNumber => 'Show Line Numbers';

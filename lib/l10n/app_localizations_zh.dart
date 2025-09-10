@@ -18,7 +18,13 @@ class AppLocalizationsZh extends AppLocalizations {
   String get repositories => '仓库';
 
   @override
+  String get commit => '提交';
+
+  @override
   String get commits => '提交';
+
+  @override
+  String get issue => '议题';
 
   @override
   String get issues => '议题';
@@ -64,6 +70,15 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get details => '详细信息';
+
+  @override
+  String get parents => '父项';
+
+  @override
+  String get open => '打开';
+
+  @override
+  String get closed => '已关闭';
 
   @override
   String howManyFilesChanged(int count) {
@@ -404,6 +419,9 @@ class AppLocalizationsZh extends AppLocalizations {
   String get codePreviewSettings => '代码预览设置';
 
   @override
+  String get preview => '预览';
+
+  @override
   String get showLineNumber => '显示行号';
 
   @override
@@ -424,7 +442,13 @@ class AppLocalizationsZhMs extends AppLocalizationsZh {
   String get repositories => '仓库';
 
   @override
+  String get commit => '承诺';
+
+  @override
   String get commits => '承诺';
+
+  @override
+  String get issue => '问题';
 
   @override
   String get issues => '问题';
@@ -470,6 +494,15 @@ class AppLocalizationsZhMs extends AppLocalizationsZh {
 
   @override
   String get details => '细节';
+
+  @override
+  String get parents => '父母';
+
+  @override
+  String get open => '打开';
+
+  @override
+  String get closed => '已关闭';
 
   @override
   String howManyFilesChanged(int count) {
@@ -808,6 +841,9 @@ class AppLocalizationsZhMs extends AppLocalizationsZh {
 
   @override
   String get codePreviewSettings => '代码预览设置';
+
+  @override
+  String get preview => '预览';
 
   @override
   String get showLineNumber => '行号';

@@ -241,8 +241,13 @@ class _SearchPageState extends State<SearchPage> {
       ),
       body: _items[_selectedType]!.isEmpty
       ? SizedBox()
-          : ListView.builder(
+          : ListView.separated(
         itemCount: _items[_selectedType]!.length + (_hasMore ? 1 : 0),
+          separatorBuilder: (context, index) =>
+              Divider(
+                height: 0,
+                color: Theme.of(context).colorScheme.secondary.withValues(alpha: 0.1),
+              ),
           itemBuilder: (context, index) {
           if (index == _items[_selectedType]!.length) {
             if (_isLoading) {

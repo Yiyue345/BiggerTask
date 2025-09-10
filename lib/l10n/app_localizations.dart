@@ -125,11 +125,23 @@ abstract class AppLocalizations {
   /// **'Repositories'**
   String get repositories;
 
+  /// No description provided for @commit.
+  ///
+  /// In en, this message translates to:
+  /// **'Commit'**
+  String get commit;
+
   /// No description provided for @commits.
   ///
   /// In en, this message translates to:
   /// **'Commits'**
   String get commits;
+
+  /// No description provided for @issue.
+  ///
+  /// In en, this message translates to:
+  /// **'Issue'**
+  String get issue;
 
   /// No description provided for @issues.
   ///
@@ -220,6 +232,24 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'DETAILS'**
   String get details;
+
+  /// No description provided for @parents.
+  ///
+  /// In en, this message translates to:
+  /// **'Parents'**
+  String get parents;
+
+  /// No description provided for @open.
+  ///
+  /// In en, this message translates to:
+  /// **'Open'**
+  String get open;
+
+  /// No description provided for @closed.
+  ///
+  /// In en, this message translates to:
+  /// **'Closed'**
+  String get closed;
 
   /// Text showing how many files were changed
   ///
@@ -832,6 +862,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Code Preview Settings'**
   String get codePreviewSettings;
+
+  /// No description provided for @preview.
+  ///
+  /// In en, this message translates to:
+  /// **'Preview'**
+  String get preview;
 
   /// No description provided for @showLineNumber.
   ///

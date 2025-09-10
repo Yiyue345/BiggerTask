@@ -50,7 +50,9 @@ class _CommitsRouteState extends State<CommitsRoute> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(),
+      appBar: AppBar(
+        title: Text(AppLocalizations.of(context)!.commits),
+      ),
       body: RefreshIndicator(
           child: _commits.isEmpty && !_isLoaded
               ? Center(child: CircularProgressIndicator())
@@ -143,7 +145,6 @@ class _CommitsRouteState extends State<CommitsRoute> {
                     Get.to(() => CommitRoute(
                       repoFullName: widget.repoFullName,
                       commitSha: _commits[index].sha!,
-                      relativeTime: relativeTime,
                     )
                     );
                   },

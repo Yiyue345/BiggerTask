@@ -6,6 +6,7 @@ import 'package:biggertask/l10n/app_localizations.dart';
 import 'package:biggertask/models/commit.dart';
 import 'package:biggertask/models/event.dart';
 import 'package:biggertask/models/github_user.dart';
+import 'package:biggertask/models/issue.dart';
 import 'package:biggertask/models/repository.dart';
 import 'package:biggertask/models/repository_content.dart';
 import 'package:biggertask/models/search.dart';
@@ -741,6 +742,96 @@ class Methods {
     } catch (e) {
       print('Error fetching commit: $e');
       return null;
+    }
+  }
+
+  static Future<Issue?> getIssue({
+    required String? token,
+    required String repoFullName,
+    required int issueNumber,
+  }) async {
+    if (token == null || token.isEmpty) {
+      return null;
+    }
+    try {
+      _dioManager.setAuthToken(token);
+      final response = await _dioManager.dio.get(
+        'https://api.github.com/repos/$repoFullName/issues/$issueNumber',
+      );
+
+      if (response.statusCode == 200) {
+        return Issue.fromJson(response.data);
+      } else {
+        throw Exception('Failed to load issue: ${response.statusCode}');
+      }
+    } catch (e) {
+      print('Error fetching issue: $e');
+      return null;
+    }
+  }
+
+  static Future<List<Issue>> getRepoIssues({
+    required String? token,
+    required String repoFullName,
+    String state = 'open', // open, closed, all
+    int page = 1,
+    int perPage = 30,
+  }) async {
+    if (token == null || token.isEmpty) {
+      return [];
+    }
+    try {
+      _dioManager.setAuthToken(token);
+      final response = await _dioManager.dio.get(
+        'https://api.github.com/repos/$repoFullName/issues',
+        queryParameters: {
+          'state': state,
+          'page': page,
+          'per_page': perPage,
+        },
+      );
+
+      if (response.statusCode == 200) {
+        List<dynamic> data = response.data;
+        return data.map((item) => Issue.fromJson(item)).toList();
+      } else {
+        throw Exception('Failed to load issues: ${response.statusCode}');
+      }
+    } catch (e) {
+      print('Error fetching issues: $e');
+      return [];
+    }
+  }
+
+  static Future<List<Comment>> getIssueComments({
+    required String? token,
+    required String repoFullName,
+    required int issueNumber,
+    int page = 1,
+    int perPage = 30,
+  }) async {
+    if (token == null || token.isEmpty) {
+      return [];
+    }
+    try {
+      _dioManager.setAuthToken(token);
+      final response = await _dioManager.dio.get(
+        'https://api.github.com/repos/$repoFullName/issues/$issueNumber/comments',
+        queryParameters: {
+          'page': page,
+          'per_page': perPage,
+        },
+      );
+
+      if (response.statusCode == 200) {
+        List<dynamic> data = response.data;
+        return data.map((item) => Comment.fromJson(item)).toList();
+      } else {
+        throw Exception('Failed to load issue comments: ${response.statusCode}');
+      }
+    } catch (e) {
+      print('Error fetching issue comments: $e');
+      return [];
     }
   }
 }

@@ -3,6 +3,7 @@ import 'package:biggertask/html_markdown/video.dart';
 import 'package:biggertask/l10n/app_localizations.dart';
 import 'package:biggertask/routes/repo/commits_route.dart';
 import 'package:biggertask/routes/repo/contributors_route.dart';
+import 'package:biggertask/routes/repo/issues_route.dart';
 import 'package:biggertask/routes/repo/release_list_route.dart';
 import 'package:biggertask/routes/repo/repo_files_route.dart';
 import 'package:biggertask/routes/user_info_route.dart';
@@ -16,6 +17,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:icons_plus/icons_plus.dart';
 import 'package:markdown_widget/markdown_widget.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class RepositoryRoute extends StatefulWidget {
   const RepositoryRoute({super.key, required this.repository});
@@ -30,7 +32,7 @@ class _RepositoryRouteState extends State<RepositoryRoute> {
   bool? _isStarred;
   // late final Future<RepositoryReadme?> _readmeFuture;
   late RepositoryReadme? readme;
-  int _contributersCount = 0;
+  int _contributorsCount = 0;
   int _releaseCount = 0;
   bool _isLoading = true;
 
@@ -59,7 +61,7 @@ class _RepositoryRouteState extends State<RepositoryRoute> {
 
     readme = results[1] as RepositoryReadme?;
 
-    _contributersCount = results[2] as int;
+    _contributorsCount = results[2] as int;
     _releaseCount = results[3] as int;
     setState(() {
       _isLoading = false;
@@ -105,6 +107,21 @@ class _RepositoryRouteState extends State<RepositoryRoute> {
                           fontWeight: FontWeight.bold
                       ),
                     ),
+                    if (widget.repository.description != null && widget.repository.description!.isNotEmpty)
+                      Padding(
+                        padding: const EdgeInsets.only(top: 8.0),
+                        child: Text(
+                          widget.repository.description!,
+                          style: TextStyle(
+                              fontSize: 16,
+                              color: Theme.of(context).colorScheme.secondary
+                          ),
+                        ),
+                      ),
+                    SizedBox(height: 12,),
+                    if (widget.repository.homepage != null)
+                      _buildHomepageLink(context),
+
                     Row(
                       children: [
                         SizedBox(width: 4,),
@@ -223,11 +240,11 @@ class _RepositoryRouteState extends State<RepositoryRoute> {
                   Get.to(() => RepoFilesRoute(repoFullName: widget.repository.fullName));
                 },
               ),
-              if (_contributersCount > 1)
+              if (_contributorsCount > 1)
                 ListTile(
                   leading: Icon(OctIcons.person),
                   title: Text(AppLocalizations.of(context)!.contributors),
-                  trailing: Text(_contributersCount.toString()),
+                  trailing: Text(_contributorsCount.toString()),
                   onTap: () {
                     Get.to(() => ContributorsRoute(repoFullName: widget.repository.fullName));
                   },
@@ -239,6 +256,15 @@ class _RepositoryRouteState extends State<RepositoryRoute> {
                   Get.to(() => CommitsRoute(repoFullName: widget.repository.fullName));
                 }
               ),
+
+              if (widget.repository.hasIssues)
+                ListTile(
+                  title: Text(AppLocalizations.of(context)!.issues),
+                  leading: Icon(OctIcons.issue_opened),
+                  onTap: () {
+                    Get.to(() => IssuesRoute(repoFullName: widget.repository.fullName));
+                  }
+                ),
 
               if (readme != null && readme!.content.isNotEmpty)
                 Padding(
@@ -344,6 +370,39 @@ class _RepositoryRouteState extends State<RepositoryRoute> {
           ],
         );
       },
+    );
+  }
+
+  Widget _buildHomepageLink(BuildContext context) {
+    if (widget.repository.homepage == null || widget.repository.homepage!.isEmpty) {
+      return SizedBox.shrink();
+    }
+
+    return Row(
+      children: [
+        Icon(
+          OctIcons.link,
+          size: 16,
+        ),
+        SizedBox(width: 4,),
+        GestureDetector(
+          onTap: () async {
+            final url = widget.repository.homepage!;
+            final uri = Uri.parse(url.startsWith('http') ? url : 'https://$url');
+
+            if (await canLaunchUrl(uri)) {
+              await launchUrl(uri, mode: LaunchMode.externalApplication);
+            }
+          },
+          child: Text(
+            widget.repository.homepage!,
+            style: TextStyle(
+              color: Theme.of(context).colorScheme.secondary,
+              // decoration: TextDecoration.underline,
+            ),
+          ),
+        )
+      ],
     );
   }
 

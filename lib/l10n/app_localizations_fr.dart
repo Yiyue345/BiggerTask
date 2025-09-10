@@ -18,7 +18,13 @@ class AppLocalizationsFr extends AppLocalizations {
   String get repositories => 'Dépôts';
 
   @override
+  String get commit => 'Commit';
+
+  @override
   String get commits => 'Commits';
+
+  @override
+  String get issue => 'Issue';
 
   @override
   String get issues => 'Problèmes';
@@ -64,6 +70,15 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get details => 'DÉTAILS';
+
+  @override
+  String get parents => 'Parents';
+
+  @override
+  String get open => 'Open';
+
+  @override
+  String get closed => 'Closed';
 
   @override
   String howManyFilesChanged(int count) {
@@ -475,6 +490,9 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get codePreviewSettings => 'Paramètres d\'aperçu du code';
+
+  @override
+  String get preview => 'Preview';
 
   @override
   String get showLineNumber => 'Afficher les numéros de ligne';

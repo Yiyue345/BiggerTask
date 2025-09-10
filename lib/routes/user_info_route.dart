@@ -75,7 +75,7 @@ class _UserInfoRouteState extends State<UserInfoRoute> {
                     ),
                     if (_user?.bio != null)...[
                       Divider(
-                        color: Theme.of(context).colorScheme.primary,
+                        color: Theme.of(context).colorScheme.primary.withValues(alpha: 0.4),
                         height: 0,
                       ),
                       ListTile(
@@ -93,7 +93,7 @@ class _UserInfoRouteState extends State<UserInfoRoute> {
                         // tileColor: Colors.grey[200],
                       ),
                       Divider(
-                        color: Theme.of(context).colorScheme.primary,
+                        color: Theme.of(context).colorScheme.primary.withValues(alpha: 0.4),
                         height: 0,
                       ),
                     ],

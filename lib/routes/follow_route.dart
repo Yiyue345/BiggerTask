@@ -61,8 +61,13 @@ class _FollowersRouteState extends State<FollowersRoute> {
           : Center(
         child: RefreshIndicator(
             onRefresh: () => _getFollowers(_page),
-            child: ListView.builder(
+            child: ListView.separated(
                 itemCount: _followers.length + (widget.followersCount > 50 ? 1 : 0),
+                separatorBuilder: (context, index) =>
+                    Divider(
+                      height: 0,
+                      color: Theme.of(context).colorScheme.secondary.withValues(alpha: 0.1),
+                    ),
                 itemBuilder: (context, index) {
                   if (index == _followers.length && widget.followersCount > 50) { // 数量大于 50 就显示翻页按钮
                     return ListTile(
@@ -76,7 +81,9 @@ class _FollowersRouteState extends State<FollowersRoute> {
                               } : null,
                               style: ButtonStyle(
                                   backgroundColor: WidgetStatePropertyAll(Colors.transparent),
-                                  shadowColor: WidgetStatePropertyAll(Colors.transparent)
+                                  shadowColor: WidgetStatePropertyAll(Colors.transparent),
+                                visualDensity: VisualDensity.compact,
+                                overlayColor: WidgetStatePropertyAll(Colors.transparent),
                               ),
                               child: Text(
                                 AppLocalizations.of(context)!.previousPage,
@@ -95,7 +102,9 @@ class _FollowersRouteState extends State<FollowersRoute> {
                             } : null,
                             style: ButtonStyle(
                                 backgroundColor: WidgetStatePropertyAll(Colors.transparent),
-                                shadowColor: WidgetStatePropertyAll(Colors.transparent)
+                                shadowColor: WidgetStatePropertyAll(Colors.transparent),
+                              visualDensity: VisualDensity.compact,
+                              overlayColor: WidgetStatePropertyAll(Colors.transparent),
                             ),
                             child: Text(
                               AppLocalizations.of(context)!.nextPage,
@@ -220,8 +229,13 @@ class _FollowingRouteState extends State<FollowingRoute> with AutomaticKeepAlive
           : Center(
         child: RefreshIndicator(
             onRefresh: () => _getFollowings(_page),
-            child: ListView.builder(
+            child: ListView.separated(
                 itemCount: _followings.length + (widget.followingCount > 50 ? 1 : 0),
+                separatorBuilder: (context, index) =>
+                    Divider(
+                      height: 0,
+                      color: Theme.of(context).colorScheme.secondary.withValues(alpha: 0.1),
+                    ),
                 itemBuilder: (context, index) {
                   if (index == _followings.length && widget.followingCount > 50) { // 数量大于 50 就显示翻页按钮
                     return ListTile(
@@ -235,7 +249,9 @@ class _FollowingRouteState extends State<FollowingRoute> with AutomaticKeepAlive
                             } : null,
                             style: ButtonStyle(
                                 backgroundColor: WidgetStatePropertyAll(Colors.transparent),
-                                shadowColor: WidgetStatePropertyAll(Colors.transparent)
+                                shadowColor: WidgetStatePropertyAll(Colors.transparent),
+                              visualDensity: VisualDensity.compact,
+                              overlayColor: WidgetStatePropertyAll(Colors.transparent),
                             ),
                             child: Text(
                               AppLocalizations.of(context)!.previousPage,
@@ -254,7 +270,9 @@ class _FollowingRouteState extends State<FollowingRoute> with AutomaticKeepAlive
                             } : null,
                             style: ButtonStyle(
                                 backgroundColor: WidgetStatePropertyAll(Colors.transparent),
-                                shadowColor: WidgetStatePropertyAll(Colors.transparent)
+                                shadowColor: WidgetStatePropertyAll(Colors.transparent),
+                              visualDensity: VisualDensity.compact,
+                              overlayColor: WidgetStatePropertyAll(Colors.transparent),
                             ),
                             child: Text(
                               AppLocalizations.of(context)!.nextPage,

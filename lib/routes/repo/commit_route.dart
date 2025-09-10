@@ -16,13 +16,11 @@ import 'package:icons_plus/icons_plus.dart';
 class CommitRoute extends StatefulWidget {
   final String repoFullName;
   final String commitSha;
-  final String relativeTime;
 
   const CommitRoute({
     super.key,
     required this.repoFullName,
     required this.commitSha,
-    required this.relativeTime,
   });
 
   @override
@@ -32,6 +30,7 @@ class CommitRoute extends StatefulWidget {
 class _CommitRouteState extends State<CommitRoute>
 with SingleTickerProviderStateMixin {
   bool _isLoading = true;
+  String relativeTime = '';
   late final Commit? _commit;
   
   final CodeSettingsController controller = Get.put(CodeSettingsController());
@@ -63,6 +62,33 @@ with SingleTickerProviderStateMixin {
       });
       print('Error loading commit: $e');
     }
+
+    final DateTime? createdAt = _commit?.commit?.author?.date != null
+        ? DateTime.parse(_commit!.commit!.author!.date!).toLocal()
+        : null;
+    final Duration? timeAgo;
+    if (createdAt != null) {
+      timeAgo = DateTime.now().difference(createdAt);
+    }
+    else {
+      timeAgo = null;
+    }
+
+    if (timeAgo == null) {
+      relativeTime = '';
+    } else if (timeAgo.inSeconds < 60) {
+      relativeTime = AppLocalizations.of(context)!.now;
+    } else if (timeAgo.inMinutes < 60) {
+      relativeTime = AppLocalizations.of(context)!.minuteAgo(timeAgo.inMinutes);
+    } else if (timeAgo.inHours < 24) {
+      relativeTime = AppLocalizations.of(context)!.hourAgo(timeAgo.inHours);
+    } else if (timeAgo.inDays < 30) {
+      relativeTime = AppLocalizations.of(context)!.dayAgo(timeAgo.inDays);
+    } else if (timeAgo.inDays < 365) {
+      relativeTime = AppLocalizations.of(context)!.monthAgo((timeAgo.inDays / 30).floor());
+    } else {
+      relativeTime = AppLocalizations.of(context)!.yearAgo((timeAgo.inDays / 365).floor());
+    }
   }
 
   @override
@@ -70,6 +96,7 @@ with SingleTickerProviderStateMixin {
 
     return Scaffold(
       appBar: AppBar(
+        title: Text(AppLocalizations.of(context)!.commit),
         actions: [
           IconButton(onPressed: () {
             Get.to(() => CodeSettingsRoute(
@@ -110,7 +137,7 @@ with SingleTickerProviderStateMixin {
                         avatarUrl: _commit.author!.avatarUrl,
                         authorName: _commit.author!.login,
                         commitMessage: _commit.commit!.message!,
-                        relativeTime: widget.relativeTime
+                        relativeTime: relativeTime
                     ),
                   SizedBox(
                     height: 24,
@@ -196,6 +223,29 @@ with SingleTickerProviderStateMixin {
                   }
                 },
               ),
+              if (_commit != null && _commit.parents != null) ...[
+                Divider(
+                  height: 0,
+                  color: Theme.of(context).colorScheme.secondary.withValues(alpha: 0.2),
+                ),
+                ListTile(
+                  title: Text(AppLocalizations.of(context)!.parents),
+                ),
+                ..._commit.parents!.map((parent) => ListTile(
+                  leading: Icon(OctIcons.git_commit),
+                  title: Text(parent.sha!.substring(0, 7)),
+                  onTap: () {
+                    Navigator.push(
+                        context, 
+                        MaterialPageRoute(builder: (context) => CommitRoute(
+                          repoFullName: widget.repoFullName,
+                          commitSha: parent.sha!,
+                        ))
+                    );
+                  },
+                ))
+              ]
+
 
             ],
           )

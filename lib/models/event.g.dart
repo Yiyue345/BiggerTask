@@ -72,10 +72,10 @@ Payload _$PayloadFromJson(Map<String, dynamic> json) => Payload(
   action: json['action'] as String?,
   comment: json['comment'] == null
       ? null
-      : Comment.fromJson(json['comment'] as Map<String, dynamic>),
+      : EventComment.fromJson(json['comment'] as Map<String, dynamic>),
   issue: json['issue'] == null
       ? null
-      : Issue.fromJson(json['issue'] as Map<String, dynamic>),
+      : EventIssue.fromJson(json['issue'] as Map<String, dynamic>),
   pages: (json['pages'] as List<dynamic>?)
       ?.map((e) => Page.fromJson(e as Map<String, dynamic>))
       .toList(),
@@ -106,7 +106,7 @@ Map<String, dynamic> _$PayloadToJson(Payload instance) => <String, dynamic>{
   'release': instance.release,
 };
 
-Comment _$CommentFromJson(Map<String, dynamic> json) => Comment(
+EventComment _$EventCommentFromJson(Map<String, dynamic> json) => EventComment(
   authorAssociation: json['author_association'] as String?,
   body: json['body'] as String?,
   bodyHtml: json['body_html'] as String?,
@@ -131,22 +131,23 @@ Comment _$CommentFromJson(Map<String, dynamic> json) => Comment(
       : EventUser.fromJson(json['user'] as Map<String, dynamic>),
 );
 
-Map<String, dynamic> _$CommentToJson(Comment instance) => <String, dynamic>{
-  'author_association': instance.authorAssociation,
-  'body': instance.body,
-  'body_html': instance.bodyHtml,
-  'body_text': instance.bodyText,
-  'created_at': instance.createdAt,
-  'html_url': instance.htmlUrl,
-  'id': instance.id,
-  'issue_url': instance.issueUrl,
-  'node_id': instance.nodeId,
-  'performed_via_github_app': instance.performedViaGithubApp,
-  'reactions': instance.reactions,
-  'updated_at': instance.updatedAt,
-  'url': instance.url,
-  'user': instance.user,
-};
+Map<String, dynamic> _$EventCommentToJson(EventComment instance) =>
+    <String, dynamic>{
+      'author_association': instance.authorAssociation,
+      'body': instance.body,
+      'body_html': instance.bodyHtml,
+      'body_text': instance.bodyText,
+      'created_at': instance.createdAt,
+      'html_url': instance.htmlUrl,
+      'id': instance.id,
+      'issue_url': instance.issueUrl,
+      'node_id': instance.nodeId,
+      'performed_via_github_app': instance.performedViaGithubApp,
+      'reactions': instance.reactions,
+      'updated_at': instance.updatedAt,
+      'url': instance.url,
+      'user': instance.user,
+    };
 
 EventRepository _$EventRepositoryFromJson(Map<String, dynamic> json) =>
     EventRepository(
@@ -232,7 +233,7 @@ Map<String, dynamic> _$ReactionsToJson(Reactions instance) => <String, dynamic>{
   'url': instance.url,
 };
 
-Issue _$IssueFromJson(Map<String, dynamic> json) => Issue(
+EventIssue _$EventIssueFromJson(Map<String, dynamic> json) => EventIssue(
   activeLockReason: json['active_lock_reason'] as String?,
   assignee: json['assignee'] == null
       ? null
@@ -279,36 +280,37 @@ Issue _$IssueFromJson(Map<String, dynamic> json) => Issue(
       : EventUser.fromJson(json['user'] as Map<String, dynamic>),
 );
 
-Map<String, dynamic> _$IssueToJson(Issue instance) => <String, dynamic>{
-  'active_lock_reason': instance.activeLockReason,
-  'assignee': instance.assignee,
-  'assignees': instance.assignees,
-  'author_association': instance.authorAssociation,
-  'body': instance.body,
-  'body_html': instance.bodyHtml,
-  'body_text': instance.bodyText,
-  'closed_at': instance.closedAt,
-  'comments': instance.comments,
-  'comments_url': instance.commentsUrl,
-  'created_at': instance.createdAt,
-  'events_url': instance.eventsUrl,
-  'html_url': instance.htmlUrl,
-  'id': instance.id,
-  'labels': instance.labels,
-  'labels_url': instance.labelsUrl,
-  'locked': instance.locked,
-  'milestone': instance.milestone,
-  'node_id': instance.nodeId,
-  'number': instance.number,
-  'performed_via_github_app': instance.performedViaGithubApp,
-  'pull_request': instance.pullRequest,
-  'state': instance.state,
-  'timeline_url': instance.timelineUrl,
-  'title': instance.title,
-  'updated_at': instance.updatedAt,
-  'url': instance.url,
-  'user': instance.user,
-};
+Map<String, dynamic> _$EventIssueToJson(EventIssue instance) =>
+    <String, dynamic>{
+      'active_lock_reason': instance.activeLockReason,
+      'assignee': instance.assignee,
+      'assignees': instance.assignees,
+      'author_association': instance.authorAssociation,
+      'body': instance.body,
+      'body_html': instance.bodyHtml,
+      'body_text': instance.bodyText,
+      'closed_at': instance.closedAt,
+      'comments': instance.comments,
+      'comments_url': instance.commentsUrl,
+      'created_at': instance.createdAt,
+      'events_url': instance.eventsUrl,
+      'html_url': instance.htmlUrl,
+      'id': instance.id,
+      'labels': instance.labels,
+      'labels_url': instance.labelsUrl,
+      'locked': instance.locked,
+      'milestone': instance.milestone,
+      'node_id': instance.nodeId,
+      'number': instance.number,
+      'performed_via_github_app': instance.performedViaGithubApp,
+      'pull_request': instance.pullRequest,
+      'state': instance.state,
+      'timeline_url': instance.timelineUrl,
+      'title': instance.title,
+      'updated_at': instance.updatedAt,
+      'url': instance.url,
+      'user': instance.user,
+    };
 
 EventUser _$EventUserFromJson(Map<String, dynamic> json) => EventUser(
   avatarUrl: json['avatar_url'] as String,

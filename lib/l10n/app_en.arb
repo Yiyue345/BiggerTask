@@ -3,7 +3,9 @@
   "appTitle": "BiggerTask",
   "search": "Search",
   "repositories": "Repositories",
+  "commit": "Commit",
   "commits": "Commits",
+  "issue": "Issue",
   "issues": "Issues",
   "pullRequests": "Pull Requests",
   "code": "Code",
@@ -26,6 +28,11 @@
   "@details": {
     "description": "Label for details tab"
   },
+  "parents": "Parents",
+
+  "open": "Open",
+  "closed": "Closed",
+
 
   "howManyFilesChanged": "{count, plural, =1{1 file changed} other{{count} files changed}}",
   "@howManyFilesChanged": {
@@ -318,6 +325,7 @@
   "wheelColorLabel": "Wheel",
 
   "codePreviewSettings": "Code Preview Settings",
+  "preview": "Preview",
   "showLineNumber": "Show Line Numbers",
   "lineWrap": "Line Wrap"
 

@@ -3,7 +3,9 @@
   "appTitle": "更大的任务",
   "search": "搜索",
   "repositories": "仓库",
+  "commit": "提交",
   "commits": "提交",
+  "issue": "议题",
   "issues": "议题",
   "pullRequests": "拉取请求",
   "code": "代码",
@@ -20,6 +22,10 @@
 
   "changes": "更改",
   "details": "详细信息",
+  "parents": "父项",
+
+  "open": "打开",
+  "closed": "已关闭",
 
   "howManyFilesChanged": "{count} 个文件更改",
   "howManyAdditions": "{count} 个增加",
@@ -140,6 +146,7 @@
   "wheelColorLabel": "色轮",
 
   "codePreviewSettings": "代码预览设置",
+  "preview": "预览",
   "showLineNumber": "显示行号",
   "lineWrap": "自动换行"
 

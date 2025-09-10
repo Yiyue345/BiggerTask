@@ -94,8 +94,8 @@ class EventOrganization {
 @JsonSerializable()
 class Payload {
   final String? action;
-  final Comment? comment;
-  final Issue? issue;
+  final EventComment? comment;
+  final EventIssue? issue;
   final List<Page>? pages;
   final EventRepository? forkee;
   final String? ref;
@@ -127,7 +127,7 @@ class Payload {
 }
 
 @JsonSerializable()
-class Comment {
+class EventComment {
   @JsonKey(name: 'author_association')
   final String? authorAssociation;
   final String? body;
@@ -152,7 +152,7 @@ class Comment {
   final String? url;
   final EventUser? user;
 
-  Comment({
+  EventComment({
     this.authorAssociation,
     this.body,
     this.bodyHtml,
@@ -169,8 +169,8 @@ class Comment {
     this.user,
   });
 
-  factory Comment.fromJson(Map<String, dynamic> json) => _$CommentFromJson(json);
-  Map<String, dynamic> toJson() => _$CommentToJson(this);
+  factory EventComment.fromJson(Map<String, dynamic> json) => _$EventCommentFromJson(json);
+  Map<String, dynamic> toJson() => _$EventCommentToJson(this);
 }
 
 @JsonSerializable()
@@ -276,7 +276,7 @@ class Reactions {
 }
 
 @JsonSerializable()
-class Issue {
+class EventIssue {
   @JsonKey(name: 'active_lock_reason')
   final String? activeLockReason;
   final EventUser? assignee;
@@ -321,7 +321,7 @@ class Issue {
   final String? url;
   final EventUser? user;
 
-  Issue({
+  EventIssue({
     this.activeLockReason,
     this.assignee,
     this.assignees,
@@ -352,8 +352,8 @@ class Issue {
     this.user,
   });
 
-  factory Issue.fromJson(Map<String, dynamic> json) => _$IssueFromJson(json);
-  Map<String, dynamic> toJson() => _$IssueToJson(this);
+  factory EventIssue.fromJson(Map<String, dynamic> json) => _$EventIssueFromJson(json);
+  Map<String, dynamic> toJson() => _$EventIssueToJson(this);
 }
 
 @JsonSerializable()

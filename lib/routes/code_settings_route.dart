@@ -114,7 +114,7 @@ class _CodeSettingsRouteState extends State<CodeSettingsRoute> {
           ),
           ListTile(
             title: Text(
-              '预览',
+              AppLocalizations.of(context)!.preview,
             ),
             trailing: _isChoosing
                 ? IconButton(
