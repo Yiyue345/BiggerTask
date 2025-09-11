@@ -162,6 +162,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get noMore => 'No more data';
 
   @override
+  String get noIssues => 'No issues found';
+
+  @override
   String get settings => 'Settings';
 
   @override
@@ -320,6 +323,11 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get written => 'Written on';
+
+  @override
+  String commented(String timeAgo) {
+    return 'Commented $timeAgo';
+  }
 
   @override
   String get now => 'Just now';

@@ -257,7 +257,7 @@ class _RepositoryRouteState extends State<RepositoryRoute> {
                 }
               ),
 
-              if (widget.repository.hasIssues)
+              if (widget.repository.hasIssues!)
                 ListTile(
                   title: Text(AppLocalizations.of(context)!.issues),
                   leading: Icon(OctIcons.issue_opened),
@@ -266,9 +266,14 @@ class _RepositoryRouteState extends State<RepositoryRoute> {
                   }
                 ),
 
+              Divider(
+                height: 0,
+                color: Theme.of(context).colorScheme.secondary.withValues(alpha: 0.1),
+              ),
+
               if (readme != null && readme!.content.isNotEmpty)
                 Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 16),
+                  padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
                   child: MarkdownWidget(
                     data: utf8.decode(base64.decode(readme!.content.replaceAll('\n', ''))),
                     shrinkWrap: true,
@@ -356,10 +361,14 @@ class _RepositoryRouteState extends State<RepositoryRoute> {
               onPressed: () async {
                 if (_isStarred!) {
                   await Methods.unstarRepository(repoFullName: widget.repository.fullName, token: Global.token);
-                  widget.repository.stargazersCount--;
+                  if (widget.repository.stargazersCount != null) {
+                    widget.repository.stargazersCount = widget.repository.stargazersCount! - 1;
+                  }
                 } else {
                   await Methods.starRepository(repoFullName: widget.repository.fullName, token: Global.token);
-                  widget.repository.stargazersCount++;
+                  if (widget.repository.stargazersCount != null) {
+                    widget.repository.stargazersCount = widget.repository.stargazersCount! + 1;
+                  }
                 }
                 Navigator.of(context).pop();
                 await _checkStarredStatus();

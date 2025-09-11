@@ -91,10 +91,6 @@ class _MyInfoRouteState extends State<MyInfoRoute> {
                     (Global.gitHubUser!.publicRepos + (Global.gitHubUser!.privateRepos == null ? 0 : Global.gitHubUser!.privateRepos! + 1)).toString(),
                   )
               ),
-              Divider(
-                height: 0,
-                color: Theme.of(context).colorScheme.secondary.withValues(alpha: 0.1),
-              ),
               ListTile(
                 leading: Icon(OctIcons.star),
                 title: Text(AppLocalizations.of(context)!.stars),
@@ -112,20 +108,12 @@ class _MyInfoRouteState extends State<MyInfoRoute> {
                   Get.to(() => StarredReposRoute(user: Global.gitHubUser!));
                 },
               ),
-              Divider(
-                height: 0,
-                color: Theme.of(context).colorScheme.secondary.withValues(alpha: 0.1),
-              ),
               ListTile(
                 leading: Icon(OctIcons.organization),
                 title: Text(AppLocalizations.of(context)!.organizations),
                 onTap: () {
                   Get.to(() => OrganizationsRoute(username: Global.gitHubUser!.login,));
                 },
-              ),
-              Divider(
-                height: 0,
-                color: Theme.of(context).colorScheme.secondary.withValues(alpha: 0.1),
               ),
               ListTile(
                 leading: Icon(Icons.exit_to_app,),
@@ -159,10 +147,6 @@ class _MyInfoRouteState extends State<MyInfoRoute> {
                     _exit();
                   }
                 },
-              ),
-              Divider(
-                height: 0,
-                color: Theme.of(context).colorScheme.secondary.withValues(alpha: 0.1),
               ),
             ]
 

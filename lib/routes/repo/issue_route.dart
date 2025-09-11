@@ -2,6 +2,8 @@ import 'package:biggertask/common/methods.dart';
 import 'package:biggertask/common/static.dart';
 import 'package:biggertask/l10n/app_localizations.dart';
 import 'package:biggertask/models/issue.dart';
+import 'package:biggertask/models/repository.dart';
+import 'package:biggertask/routes/repo/repository_route.dart';
 import 'package:biggertask/routes/user_info_route.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -21,17 +23,23 @@ class _IssueRouteState extends State<IssueRoute> {
   Issue? _issue;
   bool _isLoaded = false;
   List<Comment> _comments = [];
+  late final Repository _repository;
   bool _commentsLoaded = false;
 
   Future<void> _loadIssue() async {
-    final issue = await Methods.getIssue(
-        token: Global.token,
-        repoFullName: widget.repoFullName,
-        issueNumber: widget.issueNumber
-    );
+    final futures = [
+      Methods.getRepository(fullName: widget.repoFullName, token: Global.token),
+      Methods.getIssue(
+          token: Global.token,
+          repoFullName: widget.repoFullName,
+          issueNumber: widget.issueNumber
+      )
+    ];
+    final results = await Future.wait(futures);
 
     setState(() {
-      _issue = issue;
+      _issue = results[1] as Issue;
+      _repository = results[0] as Repository;
       _isLoaded = true;
     });
   }
@@ -69,12 +77,73 @@ class _IssueRouteState extends State<IssueRoute> {
             child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
+                  // 头像，拥有者和仓库
                   Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 12, vertical: 4),
+                      padding: EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                    child: Row(
+                      children: [
+                        GestureDetector(
+                          child: CircleAvatar(
+                            backgroundImage: NetworkImage(_repository.owner.avatarUrl),
+                            radius: 12,
+                          ),
+                          onTap: () {
+                            Get.to(() => UserInfoRoute(username: _repository.owner.login));
+                          },
+                        ),
+                        SizedBox(width: 4,),
+                        GestureDetector(
+                          onTap: () {
+                            Get.to(() => UserInfoRoute(username: _repository.owner.login));
+                          },
+                          child: Text(
+                            _repository.owner.login, // 仓库拥有者
+                            style: TextStyle(
+                                color: Theme.of(context).colorScheme.primaryFixedDim,
+                                fontWeight: FontWeight.bold
+                            ),
+                          ),
+                        ),
+                        Text(
+                          ' / ',
+                          style: TextStyle(
+                              color: Theme.of(context).colorScheme.primaryFixedDim
+                          ),
+                        ),
+                        GestureDetector(
+                          onTap: () {
+                            Get.to(() => RepositoryRoute(repository: _repository));
+                          },
+                          child: Text(
+                            _repository.fullName.split('/')[1], // 仓库名称
+                            style: TextStyle(
+                                color: Theme.of(context).colorScheme.primaryFixedDim,
+                                fontWeight: FontWeight.bold
+                            ),
+                          ),
+                        ),
+                        SizedBox(width: 2,),
+                        Text(
+                          '#${widget.issueNumber}',
+                            style: TextStyle(
+                                color: Colors.grey,
+                                fontSize: 14
+                            )
+                        )
+                      ],
+                    ),
+                  ),
+                  Divider(
+                    height: 0,
+                    color: Theme.of(context).colorScheme.secondary.withValues(alpha: 0.1),
+                  ),
+                  Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 12, vertical: 8),
                     child: Row(
                       children: [
                         CircleAvatar(
                         backgroundImage: NetworkImage(_issue!.user.avatarUrl),
+                        radius: 16,
                         child: GestureDetector(
                           onTap: () {
                             Get.to(() => UserInfoRoute(username: _issue!.user.login));
@@ -106,7 +175,7 @@ class _IssueRouteState extends State<IssueRoute> {
                                       )
                                     ),
                                     child: Text(
-                                        getAutherAssociation(_issue!.authorAssociation),
+                                        getAuthorAssociation(_issue!.authorAssociation),
                                       style: TextStyle(
                                         fontSize: 12,
                                         color: Theme.of(context).colorScheme.secondary,
@@ -178,6 +247,25 @@ class _IssueRouteState extends State<IssueRoute> {
                           shrinkWrap: true,
                           itemBuilder: (context, index) {
                             final comment = _comments[index];
+                            final String relativeTime;
+                            final DateTime createdAt = DateTime.parse(comment.createdAt);
+                            final Duration timeAgo;
+                            timeAgo = DateTime.now().difference(createdAt);
+
+                            if (timeAgo.inSeconds < 60) {
+                              relativeTime = AppLocalizations.of(context)!.now;
+                            } else if (timeAgo.inMinutes < 60) {
+                              relativeTime = AppLocalizations.of(context)!.minuteAgo(timeAgo.inMinutes);
+                            } else if (timeAgo.inHours < 24) {
+                              relativeTime = AppLocalizations.of(context)!.hourAgo(timeAgo.inHours);
+                            } else if (timeAgo.inDays < 30) {
+                              relativeTime = AppLocalizations.of(context)!.dayAgo(timeAgo.inDays);
+                            } else if (timeAgo.inDays < 365) {
+                              relativeTime = AppLocalizations.of(context)!.monthAgo((timeAgo.inDays / 30).floor());
+                            } else {
+                              relativeTime = AppLocalizations.of(context)!.yearAgo((timeAgo.inDays / 365).floor());
+                            }
+
                             return Padding(
                               padding: EdgeInsets.symmetric(horizontal: 12, vertical: 8),
                               child: Column(
@@ -194,40 +282,56 @@ class _IssueRouteState extends State<IssueRoute> {
                                           },
                                         ),
                                       ),
-                                      const SizedBox(width: 8),
-                                      GestureDetector(
-                                        onTap: () {
-                                          Get.to(() => UserInfoRoute(username: comment.user.login));
-                                        },
-                                        child: Text(comment.user.login, style: const TextStyle(fontWeight: FontWeight.bold)),
-                                      ),
-                                      const SizedBox(width: 6,),
-                                      Container(
-                                        padding: EdgeInsets.symmetric(horizontal: 4),
-                                        decoration: BoxDecoration(
-                                            borderRadius: BorderRadius.circular(16),
-                                            border: BoxBorder.all(
-                                                color: Theme.of(context).colorScheme.secondary,
-                                                width: 1.5
-                                            )
-                                        ),
-                                        child: Text(
-                                          getAutherAssociation(comment.authorAssociation),
-                                          style: TextStyle(
-                                            fontSize: 12,
-                                            color: Theme.of(context).colorScheme.secondary,
+                                      SizedBox(width: 8,),
+                                      Column(
+                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        children: [
+                                          Row(
+                                            crossAxisAlignment: CrossAxisAlignment.start,
+                                            children: [
+                                              GestureDetector(
+                                                onTap: () {
+                                                  Get.to(() => UserInfoRoute(username: comment.user.login));
+                                                },
+                                                child: Text(comment.user.login, style: const TextStyle(fontWeight: FontWeight.bold)),
+                                              ),
+                                              const SizedBox(width: 6,),
+                                              Container(
+                                                padding: EdgeInsets.symmetric(horizontal: 4),
+                                                decoration: BoxDecoration(
+                                                    borderRadius: BorderRadius.circular(16),
+                                                    border: BoxBorder.all(
+                                                        color: Theme.of(context).colorScheme.secondary,
+                                                        width: 1.5
+                                                    )
+                                                ),
+                                                child: Text(
+                                                  getAuthorAssociation(comment.authorAssociation),
+                                                  style: TextStyle(
+                                                    fontSize: 12,
+                                                    color: Theme.of(context).colorScheme.secondary,
+                                                  ),
+                                                ),
+                                              ),
+                                            ],
                                           ),
-                                        ),
-                                      ),
-                                      const SizedBox(width: 8),
-                                      Text('commented on ${DateFormat('yyyy-MM-dd').format(DateTime.parse(comment.createdAt))}'),
+                                          Text(
+                                              AppLocalizations.of(context)!.commented(relativeTime),
+                                              style: TextStyle(
+                                                  color: Theme.of(context).colorScheme.secondary.withValues(alpha: 0.5),
+                                                  fontSize: 12
+                                              )
+                                          ),
+
+                                        ],
+                                      )
                                     ],
                                   ),
                                   const SizedBox(height: 8),
                                   Padding(
                                     padding: EdgeInsets.only(left: 32),
                                     child: MarkdownBlock(
-                                        data: comment.body ?? ''
+                                        data: comment.body
                                     ),
                                   )
                                 ],
@@ -249,7 +353,7 @@ class _IssueRouteState extends State<IssueRoute> {
     );
   }
 
-  String getAutherAssociation(String association) {
+  String getAuthorAssociation(String association) {
     // todo: 国际化
     switch (association) {
       case 'COLLABORATOR':

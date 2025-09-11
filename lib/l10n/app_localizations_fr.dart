@@ -24,7 +24,7 @@ class AppLocalizationsFr extends AppLocalizations {
   String get commits => 'Commits';
 
   @override
-  String get issue => 'Issue';
+  String get issue => 'Problème';
 
   @override
   String get issues => 'Problèmes';
@@ -75,10 +75,10 @@ class AppLocalizationsFr extends AppLocalizations {
   String get parents => 'Parents';
 
   @override
-  String get open => 'Open';
+  String get open => 'Ouvert';
 
   @override
-  String get closed => 'Closed';
+  String get closed => 'Fermé';
 
   @override
   String howManyFilesChanged(int count) {
@@ -160,6 +160,9 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get noMore => 'Plus de données';
+
+  @override
+  String get noIssues => 'Aucun problème trouvé';
 
   @override
   String get settings => 'Paramètres';
@@ -320,6 +323,11 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get written => 'Écrit le';
+
+  @override
+  String commented(String timeAgo) {
+    return 'Commenté $timeAgo';
+  }
 
   @override
   String get now => 'À l\'instant';
@@ -492,7 +500,7 @@ class AppLocalizationsFr extends AppLocalizations {
   String get codePreviewSettings => 'Paramètres d\'aperçu du code';
 
   @override
-  String get preview => 'Preview';
+  String get preview => 'Aperçu';
 
   @override
   String get showLineNumber => 'Afficher les numéros de ligne';

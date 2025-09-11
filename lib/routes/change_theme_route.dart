@@ -34,7 +34,7 @@ class _ThemeRouteState extends State<ThemeRoute> {
   late final SharedPreferences prefs;
   bool _isEdited = false;
 
-  Map<int, int> _indexToDbId = {};
+  final Map<int, int> _indexToDbId = {};
 
   Future<void> _initThemeDatabase() async {
     var databasesPath = await getDatabasesPath();
@@ -277,15 +277,6 @@ class _ThemeRouteState extends State<ThemeRoute> {
               child: Center(
                 child: Column(
                   children: [
-                    ListTile(
-                      title: Text(AppLocalizations.of(context)!.enableDarkMode),
-                      trailing: Switch(
-                          value: false,
-                          onChanged: (v) {
-
-                          }
-                      ),
-                    ),
                     SizedBox(
                       height: 24,
                       child: _colorSchemes.isEmpty ? null :

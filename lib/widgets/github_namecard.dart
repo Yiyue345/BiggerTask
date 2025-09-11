@@ -77,12 +77,15 @@ class GitHubNameCard extends StatelessWidget {
           ),
 
         ),
-        Column(
+        Expanded(
+            child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             if (user?.name != null)...[
               Text(
                 user?.name ?? '',
+                overflow: TextOverflow.ellipsis,
+                maxLines: 1,
                 style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
               ),
               Text(
@@ -133,7 +136,7 @@ class GitHubNameCard extends StatelessWidget {
                         fontSize: 14
                     ),
                   ),
-                  ),
+                ),
                 Text(' | ', style: TextStyle(color: Colors.grey, fontSize: 14),),
                 TextButton(
                   onPressed: () {
@@ -153,20 +156,20 @@ class GitHubNameCard extends StatelessWidget {
                       borderRadius: BorderRadius.zero, // 移除圆角
                     )),
                   ),
-                    child: Text(
-                      AppLocalizations.of(context)!.followingCount(user!.following),
-                      style: TextStyle(
+                  child: Text(
+                    AppLocalizations.of(context)!.followingCount(user!.following),
+                    style: TextStyle(
                         color: Colors.grey,
                         fontSize: 14
-                      ),
                     ),
+                  ),
                 ),
               ],
             ),
             if (user?.blog != null && user!.blog!.isNotEmpty)
               _buildBlogLink(context)
           ],
-        ),
+        )),
 
       ],
     );
@@ -266,12 +269,15 @@ class _GitHubUserTileState extends State<GitHubUserTile> with AutomaticKeepAlive
                       ? Icon(Icons.account_circle, size: 40)
                       : null,
                 ),
-                title: Text(
-                    user!.login,
-                  style: TextStyle(
-                      fontWeight: FontWeight.bold
-                  )
-                ),
+                title: Flexible(
+                    child: Text(
+                      user!.login,
+                      style: TextStyle(
+                          fontWeight: FontWeight.bold
+                      ),
+                      overflow: TextOverflow.ellipsis,
+                      maxLines: 1,
+                    )),
                 subtitle: Text(AppLocalizations.of(context)!.loading),
                 onTap: () {
                   Get.to(() => UserInfoRoute(username: user!.login,));
@@ -289,12 +295,16 @@ class _GitHubUserTileState extends State<GitHubUserTile> with AutomaticKeepAlive
                       ? Icon(Icons.account_circle, size: 40)
                       : null,
                 ),
-                title: Text(
-                    user!.login,
+                title: Flexible(
+                    child: Text(
+                  user!.login,
                   style: TextStyle(
-                    fontWeight: FontWeight.bold
+                      fontWeight: FontWeight.bold
                   ),
-                ),
+                  overflow: TextOverflow.ellipsis,
+                  maxLines: 1,
+                )),
+
                 subtitle: Text(AppLocalizations.of(context)!.loadFailed),
                 onTap: () {
                   Get.to(() => UserInfoRoute(username: user!.login,));
@@ -313,11 +323,13 @@ class _GitHubUserTileState extends State<GitHubUserTile> with AutomaticKeepAlive
               title: Row(
                 children: [
                   if (gitHubUser.name != null) ...[
-                    Text(
+                    Flexible(
+                        child: Text(
                       gitHubUser.name!,
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
                       style: TextStyle(fontWeight: FontWeight.bold),
+                    )
                     ),
                     SizedBox(width: 4),
                     Flexible(

@@ -6,6 +6,7 @@ import 'package:biggertask/pages/explore_route.dart';
 import 'package:biggertask/routes/search_page.dart';
 import 'package:biggertask/pages/my_info_route.dart';
 import 'package:biggertask/routes/settings_route.dart';
+import 'package:biggertask/widgets/keep_alive_wrapper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:get/get.dart';
@@ -25,7 +26,7 @@ class _HomepageBaseRouteState extends State<HomepageBaseRoute> {
 
   final List<Widget> _pages = [
     MyEventsRoute(),
-    MyInfoRoute()
+    KeepAliveWrapper(child: MyInfoRoute())
   ];
 
   late PageController _pageController;

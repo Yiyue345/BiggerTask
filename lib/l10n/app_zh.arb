@@ -1,6 +1,6 @@
 {
   "@@locale": "zh",
-  "appTitle": "更大的任务",
+  "appTitle": "GitHub Task",
   "search": "搜索",
   "repositories": "仓库",
   "commit": "提交",
@@ -39,6 +39,7 @@
   "members": "成员",
   "memberCount": "{members} 成员",
   "noMore": "没有更多数据了",
+  "noIssues": "未找到议题",
 
   "settings": "设置",
   "cancel": "取消",
@@ -96,6 +97,7 @@
   "releaseANewVersion": "发布了一个版本",
 
   "written": "撰写于",
+  "commented": "评论于 {timeAgo}",
   "now": "刚刚",
   "minuteAgo": "{minutes} 分钟前",
   "hourAgo": "{hours} 小时前",

@@ -4,7 +4,9 @@ import 'package:biggertask/common/methods.dart';
 import 'package:biggertask/common/static.dart';
 import 'package:biggertask/l10n/app_localizations.dart';
 import 'package:biggertask/models/commit.dart';
+import 'package:biggertask/models/repository.dart';
 import 'package:biggertask/routes/code_settings_route.dart';
+import 'package:biggertask/routes/repo/repository_route.dart';
 import 'package:biggertask/routes/user_info_route.dart';
 import 'package:biggertask/widgets/keep_alive_wrapper.dart';
 import 'package:flutter/material.dart';
@@ -32,6 +34,7 @@ with SingleTickerProviderStateMixin {
   bool _isLoading = true;
   String relativeTime = '';
   late final Commit? _commit;
+  late Repository? _repository;
   
   final CodeSettingsController controller = Get.put(CodeSettingsController());
   late TabController _tabController;
@@ -45,14 +48,23 @@ with SingleTickerProviderStateMixin {
 
   Future<void> _loadCommit() async {
     try {
-      final Commit? commit = await Methods.getCommit(
-        token: Global.token,
-        repoFullName: widget.repoFullName,
-        commitSha: widget.commitSha,
-      );
+      final futures = [
+        Methods.getRepository(
+            fullName: widget.repoFullName,
+            token: Global.token
+        ),
+        Methods.getCommit(
+          token: Global.token,
+          repoFullName: widget.repoFullName,
+          commitSha: widget.commitSha,
+        )
+      ];
 
+      final results = await Future.wait(futures);
+
+      _repository = results[0] as Repository?;
+      _commit = results[1] as Commit?;
       setState(() {
-        _commit = commit;
         _isLoading = false;
       });
 
@@ -131,6 +143,62 @@ with SingleTickerProviderStateMixin {
               : SingleChildScrollView(
             child: Column(
               children: [
+                Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                  child: Row(
+                    children: [
+                      if (_commit != null && _commit.author != null) ...[
+                        GestureDetector(
+                          child: CircleAvatar(
+                            backgroundImage: NetworkImage(_commit.author!.avatarUrl),
+                            radius: 12,
+                          ),
+                          onTap: () {
+                            Get.to(() => UserInfoRoute(username: _commit.author!.login));
+                          },
+                        ),
+                        SizedBox(width: 4,),
+                        GestureDetector(
+                          onTap: () {
+                            Get.to(() => UserInfoRoute(username: _commit.author!.login));
+                          },
+                          child: Text(
+                            _commit.author!.login, // 仓库拥有者
+                            style: TextStyle(
+                                color: Theme.of(context).colorScheme.primaryFixedDim,
+                                fontWeight: FontWeight.bold
+                            ),
+                          ),
+                        ),
+                        Text(
+                          ' / ',
+                          style: TextStyle(
+                              color: Theme.of(context).colorScheme.primaryFixedDim
+                          ),
+                        ),
+                        GestureDetector(
+                          onTap: () {
+                            if (_repository != null) {
+                              Get.to(() => RepositoryRoute(repository: _repository!));
+                            }
+                          },
+                          child: Text(
+                            widget.repoFullName.split('/')[1], // 仓库名称
+                            style: TextStyle(
+                                color: Theme.of(context).colorScheme.primaryFixedDim,
+                                fontWeight: FontWeight.bold
+                            ),
+                          ),
+                        ),
+                      ]
+
+                    ],
+                  ),
+                ),
+                Divider(
+                  height: 0,
+                  color: Theme.of(context).colorScheme.secondary.withValues(alpha: 0.1),
+                ),
                 if (_commit != null) ...[
                   if (_commit.commit != null && _commit.commit!.message != null && _commit.author != null )
                     CommitHeader(

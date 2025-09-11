@@ -18,13 +18,13 @@ class AppLocalizationsRu extends AppLocalizations {
   String get repositories => 'Репозитории';
 
   @override
-  String get commit => 'Commit';
+  String get commit => 'Коммит';
 
   @override
   String get commits => 'Коммиты';
 
   @override
-  String get issue => 'Issue';
+  String get issue => 'Задача';
 
   @override
   String get issues => 'Задачи';
@@ -72,13 +72,13 @@ class AppLocalizationsRu extends AppLocalizations {
   String get details => 'ДЕТАЛИ';
 
   @override
-  String get parents => 'Parents';
+  String get parents => 'Родители';
 
   @override
-  String get open => 'Open';
+  String get open => 'Открыто';
 
   @override
-  String get closed => 'Closed';
+  String get closed => 'Закрыто';
 
   @override
   String howManyFilesChanged(int count) {
@@ -166,6 +166,9 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get noMore => 'Больше нет данных';
+
+  @override
+  String get noIssues => 'Задачи не найдены';
 
   @override
   String get settings => 'Настройки';
@@ -327,6 +330,11 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get written => 'Написано';
+
+  @override
+  String commented(String timeAgo) {
+    return 'Прокомментировано $timeAgo';
+  }
 
   @override
   String get now => 'Только что';
@@ -501,7 +509,7 @@ class AppLocalizationsRu extends AppLocalizations {
   String get codePreviewSettings => 'Настройки предпросмотра кода';
 
   @override
-  String get preview => 'Preview';
+  String get preview => 'Предпросмотр';
 
   @override
   String get showLineNumber => 'Показать номера строк';

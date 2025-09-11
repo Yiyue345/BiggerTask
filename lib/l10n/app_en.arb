@@ -81,6 +81,7 @@
     }
   },
   "noMore": "No more data",
+  "noIssues": "No issues found",
 
 
 
@@ -205,6 +206,16 @@
   },
 
   "written": "Written on",
+  "commented": "Commented {timeAgo}",
+  "@commented": {
+    "description": "Text showing how long ago a comment was made",
+    "placeholders": {
+      "timeAgo": {
+        "type": "String",
+        "example": "5 minutes ago"
+      }
+    }
+  },
   "now": "Just now",
   "minuteAgo": "{minutes, plural, =1{1 minute ago} other{{minutes} minutes ago}}",
   "@minuteAgo": {

@@ -317,6 +317,12 @@ abstract class AppLocalizations {
   /// **'No more data'**
   String get noMore;
 
+  /// No description provided for @noIssues.
+  ///
+  /// In en, this message translates to:
+  /// **'No issues found'**
+  String get noIssues;
+
   /// No description provided for @settings.
   ///
   /// In en, this message translates to:
@@ -610,6 +616,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Written on'**
   String get written;
+
+  /// Text showing how long ago a comment was made
+  ///
+  /// In en, this message translates to:
+  /// **'Commented {timeAgo}'**
+  String commented(String timeAgo);
 
   /// No description provided for @now.
   ///

@@ -75,6 +75,10 @@ class _IssuesRouteState extends State<IssuesRoute> {
       body: RefreshIndicator(
           child: _issues.isEmpty && !_isLoaded
               ? Center(child: CircularProgressIndicator())
+              : _issues.isEmpty
+              ? Center(
+            child: Text(AppLocalizations.of(context)!.noIssues),
+          )
               : ListView.separated(
               itemBuilder: (context, index) {
                 if (index == _issues.length) {
@@ -189,10 +193,27 @@ class IssueItem extends StatelessWidget {
       ),
       subtitle: issue.comments > 0
           ? Row(
+        mainAxisSize: MainAxisSize.min,
         children: [
-          Icon(OctIcons.comment, size: 12, color: Theme.of(context).colorScheme.primary,),
-          SizedBox(width: 4,),
-          Text('${issue.comments}', style: TextStyle(color: Theme.of(context).colorScheme.primary),),
+          Container(
+            padding: EdgeInsets.symmetric(horizontal: 6),
+              decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(16),
+                  border: Border.all(
+                      color: Theme.of(context).colorScheme.primary,
+                      width: 1.5
+                  )
+              ),
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Icon(OctIcons.comment, size: 12, color: Theme.of(context).colorScheme.primary,),
+                  SizedBox(width: 4,),
+                  Text('${issue.comments}', style: TextStyle(color: Theme.of(context).colorScheme.primary),),
+                ],
+              )
+          ),
+          Spacer()
         ],
       )
           : null

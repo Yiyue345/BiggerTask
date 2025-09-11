@@ -402,6 +402,40 @@ class Methods {
     }
   }
 
+  static Future<SearchCommitsResponse?> searchCommits({required String? token, required String query, int page = 1, int perPage = 30}) async {
+    if (token == null || token.isEmpty) {
+      return null;
+    }
+
+    try {
+      _dioManager.setAuthToken(token);
+      final response = await _dioManager.dio.get(
+        'https://api.github.com/search/commits',
+        queryParameters: {
+          'q': query,
+          'page': page,
+          'per_page': perPage,
+        },
+        options: Options(
+          headers: {
+            'Accept': 'application/vnd.github+json',
+          },
+        ),
+      );
+
+      if (response.statusCode == 200) {
+        final SearchCommitsResponse searchResponse = SearchCommitsResponse.fromJson(response.data);
+        return searchResponse;
+      } else {
+        throw Exception('Failed to search commits: ${response.statusCode}');
+      }
+    } catch (e) {
+      Fluttertoast.showToast(msg: 'Error searching commits: $e');
+      print('Error searching commits: $e');
+      return null;
+    }
+  }
+
   static Future<List<Release>> getReleases({required String? token, required String repoFullName, int page = 1, int perPage = 30}) async {
     try {
       _dioManager.setAuthToken(token);

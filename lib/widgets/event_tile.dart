@@ -132,7 +132,7 @@ class RepositoryEventTile extends StatelessWidget {
       await starController.initializeRepo(
           repoName,
           Global.token!,
-          repository!.stargazersCount
+          repository!.stargazersCount!
       );
     }
     languages = results[1] as Map<String, int>;

@@ -6,6 +6,7 @@ import 'package:biggertask/l10n/app_localizations.dart';
 import 'package:biggertask/models/github_user.dart';
 import 'package:biggertask/models/repository.dart';
 import 'package:biggertask/models/search.dart';
+import 'package:biggertask/widgets/commit_tile.dart';
 import 'package:biggertask/widgets/event_tile.dart';
 import 'package:biggertask/widgets/github_namecard.dart';
 import 'package:biggertask/widgets/keep_alive_wrapper.dart';
@@ -29,10 +30,10 @@ class _SearchPageState extends State<SearchPage> {
     'repositories': <Repository>[],
     'users': <SimpleGitHubUser>[],
     'commits': [],
-    'issues': [],
-    'pull requests': [],
-    'code': [],
-    'topics': [],
+    // 'issues': [],
+    // 'pull requests': [],
+    // 'code': [],
+    // 'topics': [],
   };
   String _selectedType = 'repositories';
   bool _isLoading = false; bool _hasMore = true;
@@ -40,11 +41,11 @@ class _SearchPageState extends State<SearchPage> {
 
   final Map<String, bool> _selectedOptions = {
     'commits': false,
-    'issues': false,
-    'pull requests': false,
+    // 'issues': false,
+    // 'pull requests': false,
     'repositories': true,
-    'code': false,
-    'topics': false,
+    // 'code': false,
+    // 'topics': false,
     'users': false,
   };
 
@@ -160,6 +161,16 @@ class _SearchPageState extends State<SearchPage> {
               });
             });
             break;
+          case 'commits':
+            Methods.searchCommits(token: Global.token, query: currentText, page: _page).then((response) {
+              setState(() {
+                final items = response?.commits ?? [];
+                _items['commits']!.addAll(items);
+                _isLoading = false;
+                _hasMore = response?.commits.length == 30; // 假设每页最多30个结果
+              });
+            });
+            break;
         }
 
 
@@ -183,11 +194,11 @@ class _SearchPageState extends State<SearchPage> {
 
     _typeLabels = {
       'commits': AppLocalizations.of(context)!.commits,
-      'issues': AppLocalizations.of(context)!.issues,
-      'pull requests': AppLocalizations.of(context)!.pullRequests,
+      // 'issues': AppLocalizations.of(context)!.issues,
+      // 'pull requests': AppLocalizations.of(context)!.pullRequests,
       'repositories': AppLocalizations.of(context)!.repositories,
-      'code': AppLocalizations.of(context)!.code,
-      'topics': AppLocalizations.of(context)!.topics,
+      // 'code': AppLocalizations.of(context)!.code,
+      // 'topics': AppLocalizations.of(context)!.topics,
       'users': AppLocalizations.of(context)!.users,
     };
 
@@ -215,11 +226,11 @@ class _SearchPageState extends State<SearchPage> {
                 PopupMenuItem(
                     enabled: false,
                     child: CheckboxListTile(
-                        title: Text(AppLocalizations.of(context)!.commits),
-                        value: _selectedOptions['commits'],
+                        title: Text(AppLocalizations.of(context)!.repositories),
+                        value: _selectedOptions['repositories'],
                         onChanged: (v) {
                           setState(() {
-                            _selectedOptions['commits'] = !_selectedOptions['commits']!;
+                            _selectedOptions['repositories'] = !_selectedOptions['repositories']!;
                           });
                         }
 
@@ -239,80 +250,121 @@ class _SearchPageState extends State<SearchPage> {
           ),
         ],
       ),
-      body: _items[_selectedType]!.isEmpty
-      ? SizedBox()
+      body: _isLoading && _items[_selectedType]!.isEmpty
+          ? Center(
+        child: CircularProgressIndicator(),
+      )
+          : _items[_selectedType]!.isEmpty
+          ? SizedBox()
           : ListView.separated(
-        itemCount: _items[_selectedType]!.length + (_hasMore ? 1 : 0),
+          itemCount: _items[_selectedType]!.length + (_hasMore ? 1 : 0),
           separatorBuilder: (context, index) =>
               Divider(
                 height: 0,
                 color: Theme.of(context).colorScheme.secondary.withValues(alpha: 0.1),
               ),
           itemBuilder: (context, index) {
-          if (index == _items[_selectedType]!.length) {
-            if (_isLoading) {
-              return Center(
-                child: Padding(
-                  padding: EdgeInsets.symmetric(vertical: 8),
-                child: CircularProgressIndicator(),
-              ),
-              );
-            }
-            else {
-              // 加载更多
-              _page++;
-              _isLoading = true;
-              switch (_selectedType) {
-                case 'repositories':
-                  Methods.searchRepositories(token: Global.token, query: _searchText, page: _page).then((response) {
-                    setState(() {
-                      _items[_selectedType]!.addAll(response?.repositories ?? []);
-                      _hasMore = response?.repositories.length == 30; // 假设每页最多30个仓库
-                      _isLoading = false;
-                    });
-                  }).catchError((e) {
-                    setState(() {
-                      _isLoading = false;
-                    });
-                    print('Error loading more repositories: $e');
-                  });
-                case 'users':
-                  Methods.searchUsers(token: Global.token, query: _searchText, page: _page).then((response) {
-                    setState(() {
-                      final users = response?.users ?? <SimpleGitHubUser>[];
-                      _items[_selectedType]!.addAll(users);
-                      _hasMore = response?.users.length == 30; // 假设每页最多30个用户
-                      _isLoading = false;
-                    });
-                  }).catchError((e) {
-                    setState(() {
-                      _isLoading = false;
-                    });
-                    print('Error loading more users: $e');
-                  });
-                  break;
-                default:
-                  return SizedBox();
+            if (index == _items[_selectedType]!.length) {
+              if (_isLoading) {
+                return Center(
+                  child: Padding(
+                    padding: EdgeInsets.symmetric(vertical: 8),
+                    child: CircularProgressIndicator(),
+                  ),
+                );
               }
+              else {
+                // 加载更多
+                _page++;
+                _isLoading = true;
+                switch (_selectedType) {
+                  case 'repositories':
+                    Methods.searchRepositories(token: Global.token, query: _searchText, page: _page).then((response) {
+                      setState(() {
+                        _items[_selectedType]!.addAll(response?.repositories ?? []);
+                        _hasMore = response?.repositories.length == 30; // 假设每页最多30个仓库
+                        _isLoading = false;
+                      });
+                    }).catchError((e) {
+                      setState(() {
+                        _isLoading = false;
+                      });
+                      print('Error loading more repositories: $e');
+                    });
+                    break;
+                  case 'users':
+                    Methods.searchUsers(token: Global.token, query: _searchText, page: _page).then((response) {
+                      setState(() {
+                        final users = response?.users ?? <SimpleGitHubUser>[];
+                        _items[_selectedType]!.addAll(users);
+                        _hasMore = response?.users.length == 30; // 假设每页最多30个用户
+                        _isLoading = false;
+                      });
+                    }).catchError((e) {
+                      setState(() {
+                        _isLoading = false;
+                      });
+                      print('Error loading more users: $e');
+                    });
+                    break;
+                  case 'code':
+                    Methods.searchCode(token: Global.token, query: _searchText, page: _page).then((response) {
+                      setState(() {
+                        final items = response?.items ?? [];
+                        _items[_selectedType]!.addAll(items);
+                        _hasMore = response?.items.length == 30; // 假设每页最多30个结果
+                        _isLoading = false;
+                      });
+                    }).catchError((e) {
+                      setState(() {
+                        _isLoading = false;
+                      });
+                      print('Error loading more code: $e');
+                    });
+                    break;
+                  case 'commits':
+                    Methods.searchCommits(token: Global.token, query: _searchText, page: _page).then((response) {
+                      setState(() {
+                        final items = response?.commits ?? [];
+                        _items[_selectedType]!.addAll(items);
+                        _hasMore = response?.commits.length == 30; // 假设每页最多30个结果
+                        _isLoading = false;
+                      });
+                    }).catchError((e) {
+                      setState(() {
+                        _isLoading = false;
+                      });
+                      print('Error loading more commits: $e');
+                    });
+                    break;
+                  default:
+                    setState(() {
+                      _isLoading = false;
+                    });
+                    break;
+                }
 
-              return Center(
-                child: Padding(
-                  padding: EdgeInsets.symmetric(vertical: 8),
-                  child: CircularProgressIndicator(),
-                ),
-              );
+                return Center(
+                  child: Padding(
+                    padding: EdgeInsets.symmetric(vertical: 8),
+                    child: CircularProgressIndicator(),
+                  ),
+                );
+              }
+            }
+            switch (_selectedType) {
+              case 'repositories':
+                return KeepAliveWrapper(child: RepositoryEventTile(repoName: _items['repositories']![index].fullName));
+              case 'users':
+                return KeepAliveWrapper(child: GitHubUserTile(user: _items['users']![index]));
+              case 'commits':
+                return KeepAliveWrapper(child: CommitTile(commit: _items['commits']![index]));
+              default:
+                return SizedBox(); // 其他类型暂不处理
             }
           }
-          switch (_selectedType) {
-            case 'repositories':
-              return KeepAliveWrapper(child: RepositoryEventTile(repoName: _items['repositories']![index].fullName));
-            case 'users':
-              return KeepAliveWrapper(child: GitHubUserTile(user: _items['users']![index]));
-            default:
-              return SizedBox(); // 其他类型暂不处理
-          }
-          }
-      ),
+      )
+      ,
     );
   }
 }

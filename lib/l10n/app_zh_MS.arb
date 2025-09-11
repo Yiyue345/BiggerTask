@@ -39,6 +39,7 @@
   "members": "成员",
   "memberCount": "{members} 成员",
   "noMore": "没有更多了",
+  "noIssues": "没有问题",
 
   "settings": "设定",
   "cancel": "取消",
@@ -98,6 +99,7 @@
   "releaseANewVersion": "释出了一个版本",
 
   "written": "写在",
+  "commented": "评论于 {timeAgo}",
   "now": "现在",
   "minuteAgo": "{minutes} 分前",
   "hourAgo": "{hours} 时前",

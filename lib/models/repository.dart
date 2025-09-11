@@ -90,50 +90,50 @@ class Repository {
   @JsonKey(name: 'deployments_url')
   final String deploymentsUrl;
   @JsonKey(name: 'git_url')
-  final String gitUrl;
+  final String? gitUrl;
   @JsonKey(name: 'ssh_url')
-  final String sshUrl;
+  final String? sshUrl;
   @JsonKey(name: 'clone_url')
-  final String cloneUrl;
+  final String? cloneUrl;
   @JsonKey(name: 'svn_url')
-  final String svnUrl;
+  final String? svnUrl;
   final String? homepage;
   final String? language;
   @JsonKey(name: 'forks_count')
-  final int forksCount;
+  final int? forksCount;
   @JsonKey(name: 'stargazers_count')
-  int stargazersCount;
+  int? stargazersCount;
   @JsonKey(name: 'watchers_count')
-  final int watchersCount;
-  final int size;
+  final int? watchersCount;
+  final int? size;
   @JsonKey(name: 'default_branch')
-  final String defaultBranch;
+  final String? defaultBranch;
   @JsonKey(name: 'open_issues_count')
-  final int openIssuesCount;
+  final int? openIssuesCount;
   @JsonKey(name: 'is_template')
-  final bool isTemplate;
+  final bool? isTemplate;
   final List<String>? topics;
   @JsonKey(name: 'has_issues')
-  final bool hasIssues;
+  final bool? hasIssues;
   @JsonKey(name: 'has_projects')
-  final bool hasProjects;
+  final bool? hasProjects;
   @JsonKey(name: 'has_wiki')
-  final bool hasWiki;
+  final bool? hasWiki;
   @JsonKey(name: 'has_pages')
-  final bool hasPages;
+  final bool? hasPages;
   @JsonKey(name: 'has_downloads')
-  final bool hasDownloads;
+  final bool? hasDownloads;
   @JsonKey(name: 'has_discussions')
-  final bool hasDiscussions;
-  final bool archived;
-  final bool disabled;
-  final String visibility;
+  final bool? hasDiscussions;
+  final bool? archived;
+  final bool? disabled;
+  final String? visibility;
   @JsonKey(name: 'pushed_at')
-  final String pushedAt;
+  final String? pushedAt;
   @JsonKey(name: 'created_at')
-  final String createdAt;
+  final String? createdAt;
   @JsonKey(name: 'updated_at')
-  final String updatedAt;
+  final String? updatedAt;
   final Permissions? permissions;
   @JsonKey(name: 'security_and_analysis')
   final SecurityAndAnalysis? securityAndAnalysis;
@@ -188,32 +188,32 @@ class Repository {
     required this.labelsUrl,
     required this.releasesUrl,
     required this.deploymentsUrl,
-    required this.gitUrl,
-    required this.sshUrl,
-    required this.cloneUrl,
-    required this.svnUrl,
+    this.gitUrl,
+    this.sshUrl,
+    this.cloneUrl,
+    this.svnUrl,
     this.homepage,
     this.language,
-    required this.forksCount,
-    required this.stargazersCount,
-    required this.watchersCount,
-    required this.size,
-    required this.defaultBranch,
-    required this.openIssuesCount,
-    required this.isTemplate,
+    this.forksCount,
+    this.stargazersCount,
+    this.watchersCount,
+    this.size,
+    this.defaultBranch,
+    this.openIssuesCount,
+    this.isTemplate,
     this.topics,
-    required this.hasIssues,
-    required this.hasProjects,
-    required this.hasWiki,
-    required this.hasPages,
-    required this.hasDownloads,
-    required this.hasDiscussions,
-    required this.archived,
-    required this.disabled,
-    required this.visibility,
-    required this.pushedAt,
-    required this.createdAt,
-    required this.updatedAt,
+    this.hasIssues,
+    this.hasProjects,
+    this.hasWiki,
+    this.hasPages,
+    this.hasDownloads,
+    this.hasDiscussions,
+    this.archived,
+    this.disabled,
+    this.visibility,
+    this.pushedAt,
+    this.createdAt,
+    this.updatedAt,
     this.permissions,
     this.securityAndAnalysis,
     this.parent,
@@ -258,6 +258,8 @@ class Owner {
   final String type;
   @JsonKey(name: 'site_admin')
   final bool siteAdmin;
+  @JsonKey(name: 'user_view_type')
+  final String? userViewType;
 
   Owner({
     required this.login,
@@ -278,6 +280,7 @@ class Owner {
     required this.receivedEventsUrl,
     required this.type,
     required this.siteAdmin,
+    this.userViewType,
   });
 
   factory Owner.fromJson(Map<String, dynamic> json) => _$OwnerFromJson(json);

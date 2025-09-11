@@ -18,13 +18,13 @@ class AppLocalizationsJa extends AppLocalizations {
   String get repositories => 'リポジトリ';
 
   @override
-  String get commit => 'Commit';
+  String get commit => 'コミット';
 
   @override
-  String get commits => 'コミット';
+  String get commits => '���ミット';
 
   @override
-  String get issue => 'Issue';
+  String get issue => 'イシュー';
 
   @override
   String get issues => 'イシュー';
@@ -54,7 +54,7 @@ class AppLocalizationsJa extends AppLocalizations {
   String get userInfo => 'ユーザー情報';
 
   @override
-  String get contributors => 'コントリビューター';
+  String get contributors => 'コントリビュータ���';
 
   @override
   String get starRepositories => 'スター付きリポジトリ';
@@ -72,13 +72,13 @@ class AppLocalizationsJa extends AppLocalizations {
   String get details => '詳細';
 
   @override
-  String get parents => 'Parents';
+  String get parents => '親';
 
   @override
-  String get open => 'Open';
+  String get open => 'オープン';
 
   @override
-  String get closed => 'Closed';
+  String get closed => 'クローズ';
 
   @override
   String howManyFilesChanged(int count) {
@@ -124,6 +124,9 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get noMore => 'これ以上データはありません';
+
+  @override
+  String get noIssues => 'イシューが見つかりません';
 
   @override
   String get settings => '設定';
@@ -284,6 +287,11 @@ class AppLocalizationsJa extends AppLocalizations {
   String get written => '書かれた日時';
 
   @override
+  String commented(String timeAgo) {
+    return '$timeAgoにコメント';
+  }
+
+  @override
   String get now => 'たった今';
 
   @override
@@ -381,7 +389,7 @@ class AppLocalizationsJa extends AppLocalizations {
   String get unSavedThemeChangesTitle => '未保存の変更';
 
   @override
-  String get unSavedThemeChangesMessage => '未保存の変更があります。保存せずに終了しますか？';
+  String get unSavedThemeChangesMessage => '未保存の変更が��ります。保存せずに終了しますか？';
 
   @override
   String get cannotDeleteLastTheme => '最低1つのテーマを残しておく必要があります';
@@ -420,7 +428,7 @@ class AppLocalizationsJa extends AppLocalizations {
   String get codePreviewSettings => 'コードプレビュー設定';
 
   @override
-  String get preview => 'Preview';
+  String get preview => 'プレビュー';
 
   @override
   String get showLineNumber => '行番号を表示';

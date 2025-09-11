@@ -3,7 +3,9 @@
   "appTitle": "BiggerTask",
   "search": "Suchen",
   "repositories": "Repositories",
+  "commit": "Commit",
   "commits": "Commits",
+  "issue": "Issue",
   "issues": "Issues",
   "pullRequests": "Pull Requests",
   "code": "Code",
@@ -26,6 +28,10 @@
   "@details": {
     "description": "Label for details tab"
   },
+  "parents": "Eltern",
+
+  "open": "Offen",
+  "closed": "Geschlossen",
 
   "howManyFilesChanged": "{count, plural, =1{1 Datei geändert} other{{count} Dateien geändert}}",
   "@howManyFilesChanged": {
@@ -74,6 +80,7 @@
     }
   },
   "noMore": "Keine weiteren Daten",
+  "noIssues": "Keine Issues gefunden",
 
   "settings": "Einstellungen",
   "cancel": "Abbrechen",
@@ -192,6 +199,16 @@
   },
 
   "written": "Geschrieben am",
+  "commented": "Kommentiert {timeAgo}",
+  "@commented": {
+    "description": "Text showing how long ago a comment was made",
+    "placeholders": {
+      "timeAgo": {
+        "type": "String",
+        "example": "vor 5 Minuten"
+      }
+    }
+  },
   "now": "Gerade eben",
   "minuteAgo": "{minutes, plural, =1{vor 1 Minute} other{vor {minutes} Minuten}}",
   "@minuteAgo": {
@@ -310,6 +327,7 @@
   "wheelColorLabel": "Rad",
 
   "codePreviewSettings": "Code-Vorschau-Einstellungen",
+  "preview": "Vorschau",
   "showLineNumber": "Zeilennummern anzeigen",
   "lineWrap": "Zeilenumbruch"
 }

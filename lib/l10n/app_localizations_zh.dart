@@ -9,7 +9,7 @@ class AppLocalizationsZh extends AppLocalizations {
   AppLocalizationsZh([String locale = 'zh']) : super(locale);
 
   @override
-  String get appTitle => '更大的任务';
+  String get appTitle => 'GitHub Task';
 
   @override
   String get search => '搜索';
@@ -124,6 +124,9 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get noMore => '没有更多数据了';
+
+  @override
+  String get noIssues => '未找到议题';
 
   @override
   String get settings => '设置';
@@ -281,6 +284,11 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get written => '撰写于';
+
+  @override
+  String commented(String timeAgo) {
+    return '评论于 $timeAgo';
+  }
 
   @override
   String get now => '刚刚';
@@ -550,6 +558,9 @@ class AppLocalizationsZhMs extends AppLocalizationsZh {
   String get noMore => '没有更多了';
 
   @override
+  String get noIssues => '没有问题';
+
+  @override
   String get settings => '设定';
 
   @override
@@ -705,6 +716,11 @@ class AppLocalizationsZhMs extends AppLocalizationsZh {
 
   @override
   String get written => '写在';
+
+  @override
+  String commented(String timeAgo) {
+    return '评论于 $timeAgo';
+  }
 
   @override
   String get now => '现在';
